@@ -1,0 +1,41 @@
+{
+  "name": "roughViz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretestt": "eslint --ignore-path .gitignore .",
+    "start": "parcel examples/index.html",
+    "test": "jest --env=jsdom"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwilber/roughViz.git"
+  },
+  "keywords": [],
+  "author": "jwilber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwilber/roughViz/issues"
+  },
+  "homepage": "https://github.com/jwilber/roughVizs#readme",
+  "dependencies": {
+    "d3-array": "^2.3.1",
+    "d3-axis": "^1.0.12",
+    "d3-color": "^1.3.0",
+    "d3-fetch": "^1.1.2",
+    "d3-scale": "^3.0.1",
+    "d3-scale-chromatic": "^1.5.0",
+    "d3-selection": "^1.4.0",
+    "d3-shape": "^1.3.5",
+    "roughjs": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.3.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "jest": "^24.9.0",
+    "parcel-bundler": "^1.12.3"
+  }
+}
