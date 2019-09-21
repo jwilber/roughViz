@@ -1,2 +1,5 @@
 dist/
 node_modules
+tests/
+jest.config.js
+examples/
