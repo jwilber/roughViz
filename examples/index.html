@@ -79,6 +79,7 @@
 		    overflow-x: auto;
 		    font-size: 0.8rem;
 		    max-width: 100%;
+		    border: 1px solid tan;
 		}
 
 		.start {
@@ -136,11 +137,11 @@
 	<center>
 	<p>Step 1: Load Library</p>
 	<pre><code class="start">
-&lt;!-- Step 1) Load D3.js --&gt;<br/>&lt;script src=&quot;https://d3js.org/d3.v5.min.js&quot;&gt;&lt;/script&gt;<br/><br/>&lt;!-- Step 2) Load billboard.js with style --&gt;<br/>&lt;script src=&quot;$YOUR_PATH/billboard.js&quot;&gt;&lt;/script&gt;<br/><br/>&lt;!-- Load with base style --&gt;<br/>&lt;link rel=&quot;stylesheet&quot; href=&quot;$YOUR_PATH/billboard.css&quot;&gt;<br/><br/>&lt;!-- Or load different theme style --&gt;<br/>&lt;link rel=&quot;stylesheet&quot; href=&quot;$YOUR_PATH/theme/insight.css&quot;&gt;<br/>             
+&lt;script src=&quot;https://d3js.org/d3.v5.min.js&quot;&gt;&lt;/script&gt;
 	</code></pre>
 	<p>Step 2: Setup chart container</p>	
 	<pre><code class="start">
-	&lt;div id=&quot;chart&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;chart&quot;&gt;&lt;/div&gt;
 	</code></pre>
 	<p>Step 3: Create chart</p>	
 	<pre><code class="start">
@@ -161,6 +162,10 @@ new roughBars.Bar(
 );
 	</code></pre>
 	<p>That's it!</p>
+	<p>With npm:</p>
+	<pre><code class="start">
+	npm install roughviz
+</code></pre>
 </center>
 
 

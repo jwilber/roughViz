@@ -448,6 +448,8 @@ new roughCharts.Bar(
     color: 'pink',
     fillWeight: 1,
     strokeWidth: 0.5,
+    fillStyle: 'cross-hatch',
+    roughness: 0,
     stroke: 'black',
   }
 );
