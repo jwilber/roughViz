@@ -1,9 +1,8 @@
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
-import { addFontGaegu, addFontIndieFlower } from '../utils/addFonts';
+import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
-// import {  } from 'd3-color';
 import { mouse, select, selectAll } from 'd3-selection';
 import rough from 'roughjs/dist/rough.umd';
 
@@ -12,8 +11,8 @@ const roughCeiling = (roughness) => {
   return roughVal;
 };
 
-const defaultColors = ["pink", "skyblue", "coral", "gold", "teal", "grey",
-        "darkgreen", "pink", "brown", "slateblue", "grey1", "orange"];
+const defaultColors = ['pink', 'skyblue', 'coral', 'gold', 'teal', 'grey',
+  'darkgreen', 'pink', 'brown', 'slateblue', 'grey1', 'orange'];
 
 class Scatter {
   constructor(opts) {
@@ -23,7 +22,7 @@ class Scatter {
     this.element = opts.element;
     this.margin = opts.margin || {top: 50, right: 20, bottom: 50, left: 100};
     this.title = opts.title;
-    this.colorVar = opts.colorVar
+    this.colorVar = opts.colorVar;
     this.roughness = roughCeiling(opts.roughness) || 1;
     this.highlight = opts.highlight;
     this.highlightLabel = opts.highlightLabel || 'xy';
@@ -45,8 +44,8 @@ class Scatter {
     this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
-    this.x = (this.dataFormat == 'object') ? 'x' : opts.x;
-    this.y = (this.dataFormat == 'object') ? 'y' : opts.y;
+    this.x = (this.dataFormat === 'object') ? 'x' : opts.x;
+    this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -62,17 +61,17 @@ class Scatter {
       this.font === 0 ||
       this.font === undefined ||
       this.font.toString().toLowerCase() === 'gaegu'
-      ) {
-        addFontGaegu(this.svg);
-        this.fontFamily = 'gaeguregular';
+    ) {
+      addFontGaegu(this.svg);
+      this.fontFamily = 'gaeguregular';
     } else if (
-        this.font === 1 ||
+      this.font === 1 ||
         this.font.toString().toLowerCase() === 'indie flower'
-      ){
-        addFontIndieFlower(this.svg);
-        this.fontFamily = 'indie_flowerregular';
+    ){
+      addFontIndieFlower(this.svg);
+      this.fontFamily = 'indie_flowerregular';
     } else {
-      this.fontFamily = this.font
+      this.fontFamily = this.font;
     }
   }
 
@@ -136,17 +135,12 @@ class Scatter {
       extent(this.data[this.y]);
     const yRange = yExtent[1] - yExtent[0];
 
-    // const radiusExtent = this.dataFormat === 'file' ?
-    //   extent(this.data, d => +d[this.radius]) :
-    //   [1,1];
-      // extent(this.data[this.radius]);
     const colorExtent = this.dataFormat === 'file' ?
       extent(this.data, d => d[this.colorVar]) :
       [1, 1];
-    console.log('ce', colorExtent)
 
     if (this.dataFormat === 'file') {
-      const radiusExtent = extent(this.data, d => +d[this.radius])
+      const radiusExtent = extent(this.data, d => +d[this.radius]);
       const radiusMax = (Math.min(this.width, this.height) / 2) / 2;
       this.radiusScale = scaleLinear()
         .range([8, radiusMax])
@@ -161,16 +155,11 @@ class Scatter {
 
     this.xScale = scaleLinear()
       .range([0, this.width])
-      .domain([xExtent[0] - (xRange * .05), xExtent[1] + (xRange * .05)]);
+      .domain([xExtent[0] - (xRange * 0.05), xExtent[1] + (xRange * 0.05)]);
 
     this.yScale = scaleLinear()
       .range([this.height, 0])
-      .domain([yExtent[0] - (yRange * .05), yExtent[1] + (yRange * .05)]);
-
-    // const radiusMax = (Math.min(this.width, this.height) / 2) / 2;
-    // this.radiusScale = scaleLinear()
-    //   .range([8, radiusMax])
-    //   .domain(radiusExtent);
+      .domain([yExtent[0] - (yRange * 0.05), yExtent[1] + (yRange * 0.05)]);
 
     this.colorScale = scaleOrdinal()
       .range(this.colors)
@@ -189,7 +178,7 @@ class Scatter {
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
       .style('font-size', (this.axesFontSize === undefined) ?
-        `${Math.min(.95, Math.min(this.width, this.height) / 140)}rem` :
+        `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
         this.axesFontSize);
 
     // y-axis
@@ -199,7 +188,7 @@ class Scatter {
       .selectAll('text')
       .style('font-family', this.fontFamily)
       .style('font-size', (this.axesFontSize === undefined) ?
-        `${Math.min(.95, Math.min(this.width, this.height) / 140)}rem` :
+        `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
         this.axesFontSize);
 
     // hide original axes
@@ -207,7 +196,7 @@ class Scatter {
       .attr('stroke', 'transparent');
 
     selectAll('g.tick')
-      .style('opacity', 1)
+      .style('opacity', 1);
   }
 
 
@@ -248,10 +237,10 @@ class Scatter {
       .attr('y', 0 - (this.margin.top / 2))
       .attr('text-anchor', 'middle')
       .style('font-size', (this.titleFontSize === undefined) ?
-        `${Math.min(20, Math.min(this.width, this.height) / 4)  }px` :
+        `${Math.min(20, Math.min(this.width, this.height) / 4)}px` :
         this.titleFontSize)
       .style('font-family', this.fontFamily)
-      .style('opacity', .8)
+      .style('opacity', 0.8)
       .text(title);
   }
 
@@ -259,7 +248,7 @@ class Scatter {
 
     // add highlight helper dom nodes
     const circles = selectAll(this.interactionG)
-      .data((this.dataFormat === 'file') ? 
+      .data((this.dataFormat === 'file') ?
         this.data :
         this.data.x
       )
@@ -267,23 +256,23 @@ class Scatter {
       .attr('cx', (d, i) => {
         return this.dataFormat === 'file' ?
           this.xScale(+d[this.x]) :
-          this.xScale(+this.data[this.x][i])
+          this.xScale(+this.data[this.x][i]);
       })
       .attr('cy', (d, i) => {
         return this.dataFormat === 'file' ?
           this.yScale(+d[this.y]) :
-          this.yScale(+this.data[this.y][i])
+          this.yScale(+this.data[this.y][i]);
       });
 
-      if (this.dataFormat === 'file') {
-        circles.attr('r', d => (typeof this.radius === 'number') ? this.radius * 0.7 :
-          this.radiusScale(+d[this.radius]) * 0.6)
-          .attr('fill', 'transparent');
-      } else {
-        circles.attr('r', (d, i) => (typeof this.radius === 'number') ? this.radius * 0.7 :
-          this.radius[i] * 0.6)
+    if (this.dataFormat === 'file') {
+      circles.attr('r', d => (typeof this.radius === 'number') ? this.radius * 0.7 :
+        this.radiusScale(+d[this.radius]) * 0.6)
         .attr('fill', 'transparent');
-      };
+    } else {
+      circles.attr('r', (d, i) => (typeof this.radius === 'number') ? this.radius * 0.7 :
+        this.radius[i] * 0.6)
+        .attr('fill', 'transparent');
+    };
 
     // create tooltip
     var Tooltip = select(this.el)
@@ -316,7 +305,7 @@ class Scatter {
       let mousePos = mouse(this);
       // get size of enclosing div
       Tooltip
-        .html(that.highlightLabel === 'xy' ? ` <b>x</b>: ${attrX} <br>  <b>y</b>: ${attrY}` :
+        .html(that.highlightLabel === 'xy' ? `<b>x</b>: ${attrX} <br><b>y</b>: ${attrY}` :
           `<b>${attrHighlightLabel}</b>`)
         .attr('class', function(d) {
         })
@@ -336,7 +325,8 @@ class Scatter {
         (that.highlight === undefined) ?
           select(this).selectAll('path:nth-child(1)').style('opacity', 0.4) :
           select(this).selectAll('path:nth-child(1)').style('stroke', that.highlight);
-        select(this).selectAll('path:nth-child(2)').style('stroke-width', that.strokeWidth + 1.2)
+        select(this).selectAll('path:nth-child(2)')
+          .style('stroke-width', that.strokeWidth + 1.2);
       });
 
     selectAll(this.interactionG)
@@ -347,7 +337,8 @@ class Scatter {
         select(this).selectAll('path:nth-child(1)').style('stroke', thisColor);
         // highlight stroke back to its color
         select(this).selectAll('path:nth-child(2)').style('stroke', that.stroke);
-        select(this).selectAll('path:nth-child(2)').style('stroke-width', that.strokeWidth)
+        select(this).selectAll('path:nth-child(2)')
+          .style('stroke-width', that.strokeWidth);
       });
 
     selectAll(this.interactionG)
@@ -359,7 +350,7 @@ class Scatter {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axisStrokeWidth,
-        roughness: this.axisRoughness
+        roughness: this.axisRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {
@@ -377,7 +368,7 @@ class Scatter {
   drawFromObject() {
 
     // set default color
-    if (this.colors === undefined)  this.colors = defaultColors[0];
+    if (this.colors === undefined) this.colors = defaultColors[0];
 
     this.initRoughObjects();
     this.addScales();
@@ -391,7 +382,7 @@ class Scatter {
         this.yScale(+this.data[this.y][i]),
         typeof this.radius === 'number' ? this.radius :
           this.radius[i], {
-          fill : typeof this.colors === 'string' ?
+          fill: typeof this.colors === 'string' ?
             this.colors :
             this.colors.length === 1 ? this.colors[0] : this.colors[i],
           simplification: this.simplification,
@@ -401,7 +392,7 @@ class Scatter {
       roughNode.setAttribute('class', this.graphClass);
       roughNode.setAttribute('attrX', d);
       roughNode.setAttribute('attrY', this.data[this.y][i]);
-      roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel])
+      roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel]);
     });
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
@@ -416,7 +407,7 @@ class Scatter {
   drawFromFile() {
 
     // set default colors
-    if (this.colors === undefined)  this.colors = defaultColors;
+    if (this.colors === undefined) this.colors = defaultColors;
 
     this.initRoughObjects();
     this.addScales();
@@ -429,7 +420,7 @@ class Scatter {
         this.yScale(+d[this.y]),
         (typeof this.radius === 'number') ? this.radius :
           this.radiusScale(+d[this.radius]), {
-          fill : this.colorVar === undefined ? 
+          fill: this.colorVar === undefined ?
             this.colors[0] :
             this.colorScale(d[this.colorVar]),
           simplification: this.simplification,
@@ -439,7 +430,7 @@ class Scatter {
       roughNode.setAttribute('class', this.graphClass);
       roughNode.setAttribute('attrX', d[this.x]);
       roughNode.setAttribute('attrY', d[this.y]);
-      roughNode.setAttribute('attrHighlightLabel', d[this.highlightLabel])
+      roughNode.setAttribute('attrHighlightLabel', d[this.highlightLabel]);
     });
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
@@ -448,12 +439,6 @@ class Scatter {
     if (this.interactive === true) {
       this.addInteraction();
     }
-
-    // this.colorVar === undefined ? 
-    //  this.colors[0] :
-    //  this.colorScale(d[this.color])
-    // if you feed in a colorVar, it will use that color to color values according to the values in color.
-    // otherwise, values will be colored the value of colors[0], which defaults to pink.
   }
 }
 

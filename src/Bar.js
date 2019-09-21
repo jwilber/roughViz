@@ -1,4 +1,4 @@
-import { addFontGaegu, addFontIndieFlower } from '../utils/addFonts';
+import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
@@ -38,8 +38,8 @@ class Bar {
     this.tooltipFontSize = opts.tooltipFontSize || '.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
-    this.labels = (this.dataFormat == 'object') ? 'labels' : opts.labels;
-    this.values = (this.dataFormat == 'object') ? 'values' : opts.values;
+    this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
+    this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
     this.padding = opts.padding || 0.1;
     // new width
     this.initChartValues(opts);
@@ -78,17 +78,17 @@ class Bar {
       this.font === 0 ||
       this.font === undefined ||
       this.font.toString().toLowerCase() === 'gaegu'
-      ) {
-        addFontGaegu(this.svg);
-        this.fontFamily = 'gaeguregular';
+    ) {
+      addFontGaegu(this.svg);
+      this.fontFamily = 'gaeguregular';
     } else if (
-        this.font === 1 ||
+      this.font === 1 ||
         this.font.toString().toLowerCase() === 'indie flower'
-      ){
-        addFontIndieFlower(this.svg);
-        this.fontFamily = 'indie_flowerregular';
+    ){
+      addFontIndieFlower(this.svg);
+      this.fontFamily = 'indie_flowerregular';
     } else {
-      this.fontFamily = this.font
+      this.fontFamily = this.font;
     }
   }
 
@@ -125,7 +125,7 @@ class Bar {
     this.xScale = scaleBand()
       .rangeRound([0, this.width])
       .padding(this.padding)
-      .domain(this.dataFormat === 'file' ? 
+      .domain(this.dataFormat === 'file' ?
         this.data.map((d) => d[that.labels]) :
         this.data[that.labels]
       );
@@ -133,18 +133,18 @@ class Bar {
     this.yScale = scaleLinear()
       .rangeRound([this.height, 0])
       .domain(this.dataFormat === 'file' ?
-        [0, max(this.data, d => +d[that.values] )] :
+        [0, max(this.data, d => +d[that.values])] :
         [0, max(this.data[that.values])]
-      );  
+      );
   }
 
 
   addAxes() {
     const xAxis = axisBottom(this.xScale)
-      .tickSize(0)
+      .tickSize(0);
 
     const yAxis = axisLeft(this.yScale)
-      .tickSize(0)
+      .tickSize(0);
 
     // x-axis
     this.svg.append('g')
@@ -156,7 +156,7 @@ class Bar {
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
       .style('font-size', (this.axesFontSize === undefined) ?
-        `${Math.min(.8, Math.min(this.width, this.height) / 140)}rem` :
+        `${Math.min(0.8, Math.min(this.width, this.height) / 140)}rem` :
         this.axesFontSize)
       .style('opacity', 0.9);
 
@@ -167,7 +167,7 @@ class Bar {
       .selectAll('text')
       .style('font-family', this.fontFamily)
       .style('font-size', (this.axesFontSize === undefined) ?
-        `${Math.min(.95, Math.min(this.width, this.height) / 140)}rem` :
+        `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
         this.axesFontSize)
       .style('opacity', 0.9);
 
@@ -213,7 +213,7 @@ class Bar {
       .attr('class', 'title')
       .attr('text-anchor', 'middle')
       .style('font-size', (this.titleFontSize === undefined) ?
-        `${Math.min(40, Math.min(this.width, this.height) / 5)  }px` :
+        `${Math.min(40, Math.min(this.width, this.height) / 5)}px` :
         this.titleFontSize)
       .style('font-family', this.fontFamily)
       .style('opacity', 0.8)
@@ -223,7 +223,7 @@ class Bar {
   addInteraction() {
 
     selectAll(this.interactionG)
-      .data((this.dataFormat === 'file') ? 
+      .data((this.dataFormat === 'file') ?
         this.data :
         this.data.values
       )
@@ -231,18 +231,18 @@ class Bar {
       .attr('x', (d, i) => {
         return this.dataFormat === 'file' ?
           this.xScale(d[this.labels]) :
-          this.xScale(this.data[this.labels][i])
+          this.xScale(this.data[this.labels][i]);
       })
       .attr('y', (d, i) => {
         return this.dataFormat === 'file' ?
           this.yScale(+d[this.values]) :
-          this.yScale(this.data[this.values][i])
+          this.yScale(this.data[this.values][i]);
       })
       .attr('width', this.xScale.bandwidth())
       .attr('height', (d, i) => {
         return this.dataFormat === 'file' ?
           this.height - this.yScale(+d[this.values]) :
-          this.height - this.yScale(this.data[this.values][i])
+          this.height - this.yScale(this.data[this.values][i]);
       })
       .attr('fill', 'transparent');
 
@@ -292,14 +292,16 @@ class Bar {
       .on('mouseover', function() {
         mouseover();
         select(this).select('path').style('stroke', that.highlight);
-        select(this).selectAll('path:nth-child(2)').style('stroke-width', that.strokeWidth + 1.2)
+        select(this).selectAll('path:nth-child(2)')
+          .style('stroke-width', that.strokeWidth + 1.2);
       });
 
     selectAll(this.interactionG)
       .on('mouseout', function() {
         mouseleave();
         select(this).select('path').style('stroke', that.color);
-        select(this).selectAll('path:nth-child(2)').style('stroke-width', that.strokeWidth)
+        select(this).selectAll('path:nth-child(2)')
+          .style('stroke-width', that.strokeWidth);
       });
 
     selectAll(this.interactionG)
@@ -311,9 +313,9 @@ class Bar {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axisStrokeW,
-        roughness: this.axisRoughness
+        roughness: this.axisRoughness,
       },
-      })
+      });
     this.rc = rough.svg(this.roughSvg, {
       options: {
         fill: this.color,
@@ -330,7 +332,7 @@ class Bar {
     this.initRoughObjects();
     this.addScales();
     this.addAxes();
-    this.makeAxesRough(this.roughSvg, this.rcAxis)
+    this.makeAxesRough(this.roughSvg, this.rcAxis);
 
     // Add barplot
     this.data.values.forEach((d, i) => {
@@ -361,7 +363,7 @@ class Bar {
     this.initRoughObjects();
     this.addScales();
     this.addAxes();
-    this.makeAxesRough(this.roughSvg, this.rcAxis)
+    this.makeAxesRough(this.roughSvg, this.rcAxis);
 
     // Add barplot
     this.data.forEach((d) => {

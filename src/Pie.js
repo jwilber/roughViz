@@ -1,6 +1,4 @@
-
-// import { formatRgb, rgb } from 'd3-color';
-import { addFontGaegu, addFontIndieFlower } from '../utils/addFonts';
+import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { csv, tsv, json } from 'd3-fetch';
 import { mouse, select, selectAll } from 'd3-selection';
 import { arc, pie } from 'd3-shape';
@@ -34,11 +32,11 @@ class Pie {
     this.simplification = opts.simplification || 0.2;
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem'; 
+    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
-    this.labels = (this.dataFormat == 'object') ? 'labels' : opts.labels;
-    this.values = (this.dataFormat == 'object') ? 'values' : opts.values; 
+    this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
+    this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
     if (this.labels === undefined || this.values === undefined) {
       console.log(`Error for ${this.el}: Must include labels and values when \
        instantiating Donut chart. Skipping chart.`);
@@ -82,17 +80,17 @@ class Pie {
       this.font === 0 ||
       this.font === undefined ||
       this.font.toString().toLowerCase() === 'gaegu'
-      ) {
-        addFontGaegu(this.svg);
-        this.fontFamily = 'gaeguregular';
+    ) {
+      addFontGaegu(this.svg);
+      this.fontFamily = 'gaeguregular';
     } else if (
-        this.font === 1 ||
-        this.font.toString().toLowerCase() === 'indie flower'
-      ){
-        addFontIndieFlower(this.svg);
-        this.fontFamily = 'indie_flowerregular';
+      this.font === 1 ||
+      this.font.toString().toLowerCase() === 'indie flower'
+    ){
+      addFontIndieFlower(this.svg);
+      this.fontFamily = 'indie_flowerregular';
     } else {
-      this.fontFamily = this.font
+      this.fontFamily = this.font;
     }
   }
 
@@ -141,7 +139,7 @@ class Pie {
       .attr('class', 'title')
       .attr('text-anchor', 'middle')
       .style('font-size', (this.titleFontSize === undefined) ?
-        `${Math.min(40, Math.min(this.width, this.height) / 4)  }px` :
+        `${Math.min(40, Math.min(this.width, this.height) / 4)}px` :
         this.titleFontSize)
       .style('font-family', this.fontFamily)
       .style('opacity', 0.8)
@@ -153,7 +151,7 @@ class Pie {
     selectAll(this.interactionG)
       .append('g')
       .attr('transform', `translate(${this.width / 2}, ${this.height / 2})`)
-      .data((this.dataFormat === 'object') ? 
+      .data((this.dataFormat === 'object') ?
         this.makePie(this.data[this.values]) :
         this.makePie(this.data)
       )
@@ -218,8 +216,8 @@ class Pie {
     selectAll(this.interactionG)
       .on('mouseout', function() {
         mouseleave();
-          select(this).selectAll('path').style('stroke', thisColor);
-          select(this).selectAll('path').style('opacity', 1);
+        select(this).selectAll('path').style('stroke', thisColor);
+        select(this).selectAll('path').style('opacity', 1);
       });
 
     selectAll(this.interactionG)
@@ -245,7 +243,7 @@ class Pie {
   drawFromObject() {
     this.initRoughObjects();
 
-    this.makePie = pie()
+    this.makePie = pie();
 
     this.makeArc = arc()
       .innerRadius(0)
@@ -254,7 +252,6 @@ class Pie {
     this.arcs = this.makePie(this.data[this.values]);
 
     this.arcs.forEach((d, i) => {
-      console.log('d', d)
       let node = this.rc.arc(
         this.width / 2, // x
         this.height / 2, // y
@@ -277,8 +274,7 @@ class Pie {
 
     // Add interactivity
     this.addInteraction();
-
-  } 
+  }
 
   drawFromFile() {
     this.initRoughObjects();
