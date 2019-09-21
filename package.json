@@ -1,28 +1,32 @@
 {
-  "name": "roughViz",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "iamjared",
+  "version": "1.0.3",
+  "description": "hey",
+  "jsdelivr": "dist/roughviz.min.js",
+  "unpkg": "dist/roughviz.min.js",
+  "main": "dist/index.js",
   "scripts": {
+    "buildUmd": "parcel build src/index.js --target browser --out-file roughviz.min.js --no-source-maps --experimental-scope-hoisting --global roughViz",
+    "build": "parcel build src/index.js --target node --bundle-node-modules --no-source-maps --experimental-scope-hoisting",
     "pretestt": "eslint --ignore-path .gitignore .",
+    "lint": "eslint --ignore-path .gitignore .",
     "start": "parcel examples/index.html",
     "test": "jest --env=jsdom"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jwilber/roughViz.git"
+    "url": "git+https://github.com/jwilber/roughCharts.git"
   },
   "keywords": [],
   "author": "jwilber",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jwilber/roughViz/issues"
+    "url": "https://github.com/jwilber/roughCharts/issues"
   },
-  "homepage": "https://github.com/jwilber/roughVizs#readme",
+  "homepage": "https://github.com/jwilber/roughChartss#readme",
   "dependencies": {
     "d3-array": "^2.3.1",
     "d3-axis": "^1.0.12",
-    "d3-color": "^1.3.0",
     "d3-fetch": "^1.1.2",
     "d3-scale": "^3.0.1",
     "d3-scale-chromatic": "^1.5.0",
