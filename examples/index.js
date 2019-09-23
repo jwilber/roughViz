@@ -1,28 +1,90 @@
-/* eslint max-len: ["error", { "code": 150 }]*/
-/* eslint-disable no-new */
-import roughCharts from '../src';
+// /* eslint max-len: ["error", { "code": 150 }]*/
+// /* eslint-disable no-new */
+import roughViz from '../src';
 
 
-new roughCharts.Scatter(
-  {
-    element: '#vis0',
-    data: 'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
-    title: 'Hans Rosling (Gapminder 2007)',
-    x: 'gdpPercap',
-    y: 'lifeExp',
-    radius: 'pop',
-    colorVar: 'continent',
-    highlightLabel: 'country',
-    highlight: 'red',
-    fillWeight: 2,
-    roughness: 3.5,
-    width: window.innerWidth / 2,
-    height: 500,
-  }
-);
+
+// new roughViz.Line(
+//   {
+//     element: '#vis0',
+//     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/tweets.csv',
+//     title: 'Line Chart',
+//     // x: 'gdpPercap',
+//     y: 'favorites',
+//     colorVar: 'continent',
+//     highlightLabel: 'country',
+//     highlight: 'red',
+//     fillWeight: 2,
+//     roughness: 3.5,
+//     width: window.innerWidth / 1.2,
+//     height: 500,
+//   }
+// );
 
 
-// new roughCharts.Scatter(
+// new roughViz.Line(
+//   {
+//     element: '#vis0',
+//     data: 'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
+//     title: 'Line Chart',
+//     x: 'gdpPercap',
+//     y: 'lifeExp',
+//     radius: 'pop',
+//     colorVar: 'continent',
+//     highlightLabel: 'country',
+//     highlight: 'red',
+//     fillWeight: 2,
+//     roughness: 3.5,
+//     width: window.innerWidth / 2,
+//     height: 500,
+//   }
+// );
+
+// ERROR WHEN x undefined
+// new roughViz.Line(
+//   {
+//     element: '#vis1',
+//     data: {
+//       // y: [100, 200, 300, 200, 500, 300],
+//       // z: [100, 300, 100, 300, 100, 30, 30, 400, 500, 500, 500, 500],
+//       // q: [10, 20, 10, 20, 10, 20, 45, 45, 45],
+//       // q2: [50, 50, 50, 600, 50, 50, 50]
+//       dan: [200, 2, 200, 5000]
+//       // r: [0, 0, 0, 350, 450, 550, 1000, 2000, 5000]
+//     },
+//     // x: ['day1', 'day2', 'day3', '444444'],
+//     width: 800,
+//     strokeWidth: 3 ,
+//     roughness: 2,
+//     axesFontSize: '25px',
+//     colors: ['orange', 'red', 'coral', 'tan']
+//   }
+// );
+
+
+
+// new roughViz.Line(
+//   {
+//     element: '#vis0',
+//     data: {
+//         dan: [10, 50, 500],
+//         jared: [10, 50, 250]
+//     },
+//     // width: 500,
+//     // height: 500,
+//     // roughness: 2,
+//     // colors: ['pink', 'orange'],
+//     // font: 1,
+//     // axesFontSize: '30px',
+//     // title: 'Jared vs Dan',
+//     // titleFontSize: '30px',
+//     // strokeWidth: 40
+//   }
+// );
+
+
+
+// new roughViz.Scatter(
 //   {
 //     element: '#vis1',
 //     data: {
@@ -55,7 +117,7 @@ new roughCharts.Scatter(
 
 
 
-// new roughCharts.Bar(
+// new roughViz.Bar(
 //   {
 //     element: '#lucasPractice',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/owTanks.csv',
@@ -78,7 +140,7 @@ new roughCharts.Scatter(
 //   }
 // );
 
-new roughCharts.BarH(
+new roughViz.BarH(
   {
     element: '#vis3',
     data: {
@@ -102,7 +164,7 @@ new roughCharts.BarH(
   }
 );
 
-// new roughCharts.Bar(
+// new roughViz.Bar(
 //   {
 //     element: '#vis3',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/owTanks.csv',
@@ -122,7 +184,7 @@ new roughCharts.BarH(
 // );
 
 
-// new roughCharts.Bar(
+// new roughViz.Bar(
 //   {
 //     element: '#vis4',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/owTanks.csv',
@@ -142,7 +204,7 @@ new roughCharts.BarH(
 // );
 
 
-// new roughCharts.Bar(
+// new roughViz.Bar(
 //   {
 //     element: '#vis5',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/owTanks.csv',
@@ -161,7 +223,7 @@ new roughCharts.BarH(
 //   }
 // );
 
-// new roughCharts.Scatter(
+// new roughViz.Scatter(
 //   {
 //     element: '#vis0',
 //     data: 'https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv',
@@ -189,7 +251,7 @@ new roughCharts.BarH(
 //     // highlight: 'blue'
 // })
 
-new roughCharts.Donut(
+new roughViz.Donut(
   {
     element: '#vis1',
     data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
@@ -209,11 +271,11 @@ new roughCharts.Donut(
 );
 
 
-// new roughCharts.Donut(
+// new roughViz.Donut(
 //   {
 //     element: '#vis0',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
-//     title: 'roughCharts.js',
+//     title: 'roughViz.js',
 //     labels: 'flavor',
 //     values: 'price',
 //     // titleFontSize: '55px',
@@ -234,7 +296,7 @@ new roughCharts.Donut(
 // );
 
 
-new roughCharts.Pie(
+new roughViz.Pie(
   {
     element: '#vis2',
     data: {
@@ -258,11 +320,11 @@ new roughCharts.Pie(
 );
 
 
-// new roughCharts.Donut(
+// new roughViz.Donut(
 //   {
 //     element: '#vis2',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
-//     title: 'roughCharts.js',
+//     title: 'roughViz.js',
 //     labels: 'flavor',
 //     values: 'price',
 //     // titleFontSize: '55px',
@@ -283,7 +345,7 @@ new roughCharts.Pie(
 // );
 
 
-// new roughCharts.Donut(
+// new roughViz.Donut(
 //   {
 //     element: '#vis3',
 //     data: {
@@ -308,7 +370,7 @@ new roughCharts.Pie(
 // );
 
 
-// new roughCharts.Pie(
+// new roughViz.Pie(
 //   {
 //     element: '#vis11',
 //     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
@@ -330,7 +392,7 @@ new roughCharts.Pie(
 //   }
 // );
 
-// new roughCharts.Pie(
+// new roughViz.Pie(
 //     {
 //       element: '#vis2',
 //         data: "https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json",
@@ -354,7 +416,7 @@ new roughCharts.Pie(
 //     }
 //   );
 
-// new roughCharts.BarH(
+// new roughViz.BarH(
 //   {
 //     element: '#vis5',
 //     // data: [[1,2], [5, 6], [8,8], [5, 100], [200, 10], [50, 50]],
@@ -374,7 +436,7 @@ new roughCharts.Pie(
 //   }
 // );
 
-// new roughCharts.Bar(
+// new roughViz.Bar(
 //   {
 //     element: '#vis3',
 //     data: 'https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv',
@@ -397,7 +459,7 @@ new roughCharts.Pie(
 // );
 
 
-// new roughCharts.BarH(
+// new roughViz.BarH(
 //   {
 //     element: '#vis4',
 //     // data: [[1,2], [5, 6], [8,8], [5, 100], [200, 10], [50, 50]],
@@ -413,7 +475,7 @@ new roughCharts.Pie(
 // );
 
 
-// new roughCharts.Scatter(
+// new roughViz.Scatter(
 //   {
 //     element: '#vis5',
 //     data: 'https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv',
@@ -436,7 +498,7 @@ new roughCharts.Pie(
 // );
 
 
-new roughCharts.Bar(
+new roughViz.Bar(
   {
     element: '#example',
     data: 'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv',
@@ -455,7 +517,7 @@ new roughCharts.Bar(
 );
 
 
-// new roughCharts.BarH(
+// new roughViz.BarH(
 //   {
 //     element: '#vis7',
 //     // data: [[1,2], [5, 6], [8,8], [5, 100], [200, 10], [50, 50]],
