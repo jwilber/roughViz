@@ -1,4 +1,4 @@
-import { extent } from 'd3-array';
+ import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
@@ -30,7 +30,7 @@ class Scatter {
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
     this.axisStrokeWidth = opts.axisStrokeWidth || 0.4;
-    this.axisRoughness = opts.axisRoughness || 0.9;
+    this.axesRoughness = opts.axesRoughness || 0.9;
     this.interactive = opts.interactive !== false;
     this.curbZero = opts.curbZero === true;
     this.innerStrokeWidth = opts.innerStrokeWidth || 1;
@@ -350,7 +350,7 @@ class Scatter {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axisStrokeWidth,
-        roughness: this.axisRoughness,
+        roughness: this.axesRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {

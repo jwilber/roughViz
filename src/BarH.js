@@ -26,7 +26,7 @@ class BarH {
     this.stroke = opts.stroke || 'black';
     this.strokeWidth = opts.strokeWidth || 1;
     this.axesStrokeWidth = opts.axesStrokeWidth || 0.5;
-    this.axisRoughness = opts.axisRoughness || 1;
+    this.axesRoughness = opts.axesRoughness || 1;
     this.innerStrokeWidth = opts.innerStrokeWidth || 1;
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
@@ -310,7 +310,7 @@ class BarH {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axesStrokeWidth,
-        roughness: this.axisRoughness,
+        roughness: this.axesRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {

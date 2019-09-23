@@ -26,7 +26,7 @@ class Bar {
     this.stroke = opts.stroke || 'black';
     this.strokeWidth = opts.strokeWidth || 1;
     this.axisStrokeW = opts.axisStrokeW || 0.5;
-    this.axisRoughness = opts.axisRoughness || 0.5;
+    this.axesRoughness = opts.axesRoughness || 0.5;
     this.innerStrokeWidth = opts.innerStrokeWidth || 1;
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
@@ -313,7 +313,7 @@ class Bar {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axisStrokeW,
-        roughness: this.axisRoughness,
+        roughness: this.axesRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {
