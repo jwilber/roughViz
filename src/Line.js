@@ -37,7 +37,7 @@ class Line {
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
     this.axisStrokeWidth = opts.axisStrokeWidth || 0.4;
-    this.axesRoughness = opts.axesRoughness || 0.9;
+    this.axisRoughness = opts.axisRoughness || 0.9;
     this.interactive = opts.interactive !== false;
     this.stroke = opts.stroke || 'black';
     this.fillWeight = opts.fillWeight || 0.85;
@@ -45,7 +45,7 @@ class Line {
     this.colors = opts.colors;
     this.strokeWidth = opts.strokeWidth || 8;
     this.titleFontSize = opts.titleFontSize;
-    this.axesFontSize = opts.axesFontSize;
+    this.axisFontSize = opts.axisFontSize;
     this.hoverFontSize = opts.hoverFontSize || '0.9rem';
     this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
@@ -227,9 +227,9 @@ class Line {
       .attr('transform', 'translate(-10, 0)rotate(-45)')
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axesFontSize === undefined) ?
+      .style('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axesFontSize);
+        this.axisFontSize);
 
     // y-axis
     this.svg.append('g')
@@ -237,9 +237,9 @@ class Line {
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axesFontSize === undefined) ?
+      .style('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axesFontSize);
+        this.axisFontSize);
 
     // hide original axes
     selectAll('path.domain')
@@ -388,7 +388,7 @@ class Line {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axisStrokeWidth,
-        roughness: this.axesRoughness,
+        roughness: this.axisRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {

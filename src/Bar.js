@@ -25,8 +25,8 @@ class Bar {
     this.roughness = roughCeiling(opts.roughness) || 1;
     this.stroke = opts.stroke || 'black';
     this.strokeWidth = opts.strokeWidth || 1;
-    this.axisStrokeW = opts.axisStrokeW || 0.5;
-    this.axesRoughness = opts.axesRoughness || 0.5;
+    this.axisStrokeWidth = opts.axisStrokeWidth || 0.5;
+    this.axisRoughness = opts.axisRoughness || 0.5;
     this.innerStrokeWidth = opts.innerStrokeWidth || 1;
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
@@ -34,7 +34,7 @@ class Bar {
     this.simplification = opts.simplification || 0.2;
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
-    this.axesFontSize = opts.axesFontSize;
+    this.axisFontSize = opts.axisFontSize;
     this.tooltipFontSize = opts.tooltipFontSize || '.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
@@ -158,7 +158,7 @@ class Bar {
     if (this.yLabel !== '') {
       this.svg.append('text')
         .attr('transform', 'rotate(-90)')
-        .attr('y', 0 - this.margin.left / 2)
+        .attr('y', 0 - this.margin.left / 1.4)
         .attr('x', 0 - (this.height / 2))
         .attr('dy', '1em')
         .attr('class', 'labelText')
@@ -186,9 +186,9 @@ class Bar {
       .attr('transform', 'translate(-10,0)rotate(-45)')
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axesFontSize === undefined) ?
+      .style('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.8, Math.min(this.width, this.height) / 140)}rem` :
-        this.axesFontSize)
+        this.axisFontSize)
       .style('opacity', 0.9);
 
     // y-axis
@@ -197,9 +197,9 @@ class Bar {
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axesFontSize === undefined) ?
+      .style('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axesFontSize)
+        this.axisFontSize)
       .style('opacity', 0.9);
 
     // hide original axes
@@ -343,8 +343,8 @@ class Bar {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
-        strokeWidth: this.axisStrokeW,
-        roughness: this.axesRoughness,
+        strokeWidth: this.axisStrokeWidth,
+        roughness: this.axisRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {

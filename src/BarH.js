@@ -25,8 +25,8 @@ class BarH {
     this.roughness = roughCeiling(opts.roughness) || 1;
     this.stroke = opts.stroke || 'black';
     this.strokeWidth = opts.strokeWidth || 1;
-    this.axesStrokeWidth = opts.axesStrokeWidth || 0.5;
-    this.axesRoughness = opts.axesRoughness || 1;
+    this.axisStrokeWidth = opts.axisStrokeWidth || 0.5;
+    this.axisRoughness = opts.axisRoughness || 1;
     this.innerStrokeWidth = opts.innerStrokeWidth || 1;
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
@@ -34,7 +34,7 @@ class BarH {
     this.simplification = opts.simplification || 0.2;
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
-    this.axesFontSize = opts.axesFontSize;
+    this.axisFontSize = opts.axisFontSize;
     this.tooltipFontSize = opts.tooltipFontSize || '.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
@@ -183,9 +183,9 @@ class BarH {
       .attr('transform', 'translate(-10,0)rotate(-45)')
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axesFontSize === undefined) ?
+      .style('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axesFontSize)
+        this.axisFontSize)
       .style('opacity', 0.85);
 
     // y-axis
@@ -194,9 +194,9 @@ class BarH {
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axesFontSize === undefined) ?
+      .style('font-size', (this.axisFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axesFontSize)
+        this.axisFontSize)
       .style('opacity', 0.85);
 
 
@@ -340,8 +340,8 @@ class BarH {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
-        strokeWidth: this.axesStrokeWidth,
-        roughness: this.axesRoughness,
+        strokeWidth: this.axisStrokeWidth,
+        roughness: this.axisRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {
