@@ -1,4 +1,4 @@
-import { bisect, bisector, extent, max, min, range } from 'd3-array';
+import { bisect, extent, max, min, range } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
@@ -9,22 +9,10 @@ import { line } from 'd3-shape';
 import rough from 'roughjs/dist/rough.umd';
 import { colors } from './utils/colors';
 
-// linechart will use index for x, value for label
-console.log('range', range(0, 5))
 const roughCeiling = (roughness) => {
   let roughVal = roughness > 20 ? 20 : roughness;
   return roughVal;
 };
-
-function scalePointPosition(it) {
-    var xPos = mouse(it)[0];
-    var domain = this.xScale.domain(); 
-    var range = this.xScale.range();
-    var rangePoints = range(range[0], range[1], it.xScale.step())
-    var yPos = domain[bisect(rangePoints, xPos) -1];
-    console.log(yPos);
-    return yPos
-}
 
 const allDataExtent = (data) => {
   // get extend for all keys in data
@@ -39,7 +27,6 @@ class Line {
   constructor(opts) {
     // load in arguments from config object
     this.el = opts.element;
-    // this.data = opts.data;
     this.element = opts.element;
     this.margin = opts.margin || {top: 50, right: 20, bottom: 50, left: 100};
     this.title = opts.title;
@@ -59,6 +46,7 @@ class Line {
     this.strokeWidth = opts.strokeWidth || 8;
     this.titleFontSize = opts.titleFontSize;
     this.axesFontSize = opts.axesFontSize;
+    this.hoverFontSize = opts.hoverFontSize || '0.9rem';
     this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
@@ -66,12 +54,18 @@ class Line {
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
     this.legend = opts.legend !== false;
     this.legendPosition = opts.legendPosition || 'right';
+    this.circle = opts.circle !== false;
+    this.circleSize = opts.circleSize || 10;
+    this.circleRoughness = roughCeiling(opts.circleRoughness) || 2;
+    this.xLabel = opts.xLabel || '';
+    this.yLabel = opts.yLabel || '';
+    this.labelFontSize = opts.labelFontSize || '1rem';
     if (this.dataFormat === 'file') {
       this.dataSources = [];
       this.yKeys = Object.keys(opts).filter((name) => /y/.test(name));
       this.yKeys.map((key, i) => {
-        this.dataSources.push(opts[key]);
-      })
+        if (key !== 'yLabel') this.dataSources.push(opts[key]);
+      });
     };
     // new width
     this.initChartValues(opts);
@@ -155,9 +149,9 @@ class Line {
     if (this.dataFormat !== 'file') {
       dataExtent = allDataExtent(this.data);
     } else {
-      const extents= this.dataSources.map(key => extent(this.data, d => +d[key]))
-      const dataMin = min(extents, d=> d[0]);
-      const dataMax = max(extents, d=> d[1]);
+      const extents = this.dataSources.map(key => extent(this.data, d => +d[key]));
+      const dataMin = min(extents, d => d[0]);
+      const dataMax = max(extents, d => d[1]);
       dataExtent = [dataMin, dataMax];
     }
     // get value domains and pad axes by 5%
@@ -195,6 +189,31 @@ class Line {
       .domain([0, yExtent[1] + (yRange * 0.05)]);
   }
 
+  addLabels() {
+    // xLabel
+    if (this.xLabel !== '') {
+      this.svg.append('text')
+        .attr('x', this.width / 2)
+        .attr('y', this.height + this.margin.bottom / 1.3)
+        .attr('dx', '1em')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.labelFontSize)
+        .text(this.xLabel);
+    };
+    // yLabel
+    if (this.yLabel !== '') {
+      this.svg.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - this.margin.left / 2)
+        .attr('x', 0 - (this.height / 2))
+        .attr('dy', '1em')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.labelFontSize)
+        .text(this.yLabel);
+    };
+  }
 
   addAxes() {
     // x-axis
@@ -275,14 +294,8 @@ class Line {
 
   addInteraction() {
     const that = this;
-    this.graphPart = this.svg.append('g')
+    this.chartScreen = this.svg.append('g')
       .attr('pointer-events', 'all');
-
-    let dataPoints = this.dataFormat === 'file' ?
-      this.dataSources :
-      Object.keys(this.data);
-
-    console.log('dataPoints', dataPoints)
 
     this.dataSources.map((key, idx) => {
       let currData = this.dataFormat === 'file' ?
@@ -291,109 +304,80 @@ class Line {
       const points = currData.map((d, i) => {
         return [this.xScale(i), this.yScale(d[key])];
       });
-      var line2 = line()
-        .x(function(d, i) { 
-          return d[0]; 
-        }) // set the x values for the line generator
-        .y(function(d) { return d[1] }); // set the y values for the line generator 
+      const lineGen = line()
+        .x(d => d[0])
+        .y(d => d[1]);
 
-        // create lines
-        this.svg
-          .append("path")
-          .datum(points)
-          .attr('fill', 'none')
-          .attr("stroke", "blue")
-          .attr("stroke-width", 1.5)
-          .attr("d", line2)
-          .attr('visibility', 'hidden');
+      // create lines
+      this.svg
+        .append('path')
+        .datum(points)
+        .attr('fill', 'none')
+        .attr('stroke', 'blue')
+        .attr('stroke-width', 1.5)
+        .attr('d', lineGen)
+        .attr('visibility', 'hidden');
 
-        // create tracking class (for interaction)
-        const iClass = key + 'class';
+      // create tracking class (for interaction)
+      const iClass = key + 'class';
 
-        // create hover circle
-        this.svg
-          .append('g')
-          .attr('class', iClass)
-          .append('circle')
-            .attr("fill", "red")
-            // .attr("stroke", "black")
-            .attr('r', 2.5)
-            .style("opacity", 0)
-
-        // create hover text
-        this.svg
-          .append('g')
-          .attr('class', iClass + 'text')
-          .append('text') 
-            .style('font-size', '.8rem')
-            .style("opacity", 0)
-            .style('font-family', this.fontFamily)
-            .attr("text-anchor", "middle")
-            .attr("alignment-baseline", "middle")
-
+      // create hover text
+      this.svg.append('g')
+        .attr('class', iClass + 'text')
+        .append('text')
+        .style('font-size', this.hoverFontSize)
+        .style('opacity', 0)
+        .style('font-family', this.fontFamily)
+        .attr('text-anchor', 'middle')
+        .attr('alignment-baseline', 'middle');
     });
 
-    var mousemove = function(d) {
+    const mousemove = function(d) {
 
-    // recover coordinate we need
-      var xPos = mouse(this)[0];
-      var domain = that.xScale.domain(); 
-      var xRange = that.xScale.range();
-      var rangePoints = range(xRange[0], xRange[1] + 1, that.xScale.step())
-      var xSpot = bisect(rangePoints, xPos) - 1;
-      var yPos = domain[xSpot];
-      // var ddata = that.data[yPos];
+      // recover coordinate we need
+      const xPos = mouse(this)[0];
+      const domain = that.xScale.domain();
+      const xRange = that.xScale.range();
+      const rangePoints = range(xRange[0], xRange[1] + 1, that.xScale.step());
+      const xSpot = bisect(rangePoints, xPos) - 1;
+      const yPos = domain[xSpot];
 
-      let mousePos = mouse(this);
       that.dataSources.map((key, i) => {
-        var ddata = that.dataFormat === 'file' ?
+        const hoverData = that.dataFormat === 'file' ?
           that.data[yPos] :
           that.data[key][xSpot];
         // resolve select classes for hover effects
         const thatClass = '.' + key + 'class';
         const textClass = thatClass + 'text';
 
-
-        select(thatClass).selectAll('circle')
-          .style('opacity', 1)
-          .attr("cx", that.xScale(xSpot))
-          .attr("cy", that.dataFormat === 'file' ?
-            that.yScale(ddata[key]) :
-            that.yScale(ddata));
-
         select(textClass).selectAll('text')
           .style('opacity', 1)
           .html(that.dataFormat === 'file' ?
-            `(${xSpot},${ddata[key]})` :
-            `(${xSpot},${ddata})`)
-          .attr("x", that.dataFormat === 'file' ?
+            `(${xSpot},${hoverData[key]})` :
+            `(${xSpot},${hoverData})`)
+          .attr('x', that.dataFormat === 'file' ?
             that.xScale(xSpot) :
             that.xScale(that.x[xSpot]))
-          .attr("y", that.dataFormat === 'file' ?
-            that.yScale(ddata[key]) - 5 :
-            that.yScale(ddata));
-      })
+          .attr('y', that.dataFormat === 'file' ?
+            that.yScale(hoverData[key]) - 5 :
+            that.yScale(hoverData));
+      });
     };
 
 
-    this.graphPart.append('rect')
+    this.chartScreen.append('rect')
       .attr('width', this.width)
       .attr('height', this.height)
       .attr('fill', 'none')
-      // .attr('stroke', 'black')
-      .on('mouseover', () => {
-      })
       .on('mousemove', mousemove)
       .on('mouseout', () => {
         that.dataSources.map((key) => {
           const thatClass = '.' + key + 'class';
           const textClass = thatClass + 'text';
-          select(thatClass).selectAll('circle')
-            .style('opacity', 0);
           select(textClass).selectAll('text')
             .style('opacity', 0);
         });
-      })
+      });
 
   }
 
@@ -424,35 +408,40 @@ class Line {
     this.dataSources = Object.keys(this.data);
     this.initRoughObjects();
     this.addScales();
-
-    this.dataSources.map((key, i) => {
-      const points = this.data[key].map((d, idx) => {
+    this.dataSources.map((key, idx) => {
+      const points = this.data[key].map((d, i) => {
         return this.x === undefined ?
-          [this.xScale(idx), this.yScale(+d)] :
-          [this.xScale(this.x[idx]), this.yScale(d)];
+          [this.xScale(i), this.yScale(+d)] :
+          [this.xScale(this.x[i]), this.yScale(d)];
       });
 
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter(d => d[0] !== undefined);
 
       let node = this.rc.curve(drawPoints, {
-        stroke: this.colors.length === 1 ? this.colors[0] : this.colors[i],
+        stroke: this.colors.length === 1 ? this.colors[0] : this.colors[idx],
         roughness: this.roughness,
         bowing: this.bowing,
-        fillStyle: 'hachure',
       });
 
       let roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
-      // roughNode.setAttribute('attrX', d[this.x]);
-      // roughNode.setAttribute('attrY', d[this.y]);
-      // roughNode.setAttribute('attrHighlightLabel', d[this.highlightLabel]);
+      if (this.circle === true) {
+        points.forEach((d, i) => {
+          let node = this.rc.circle(
+            d[0],
+            d[1],
+            this.circleSize, {
+              stroke: this.colors[idx],
+              fill: this.colors[idx],
+              fillStyle: 'solid',
+              strokeWidth: 1,
+              roughness: this.circleRoughness,
+            });
+          this.roughSvg.appendChild(node);
+        });
+      };
     });
-    // // If desired, add interactivity
-    // if (this.interactive === true) {
-    //   this.addInteraction();
-    // }
-
     // ADD LEGEND
     const legendItems = this.dataSources.map((key, i) => ({
       color: this.colors[i],
@@ -468,30 +457,23 @@ class Line {
     if (this.legend === true) {
       addLegend(this, legendItems, legendWidth, legendHeight, 2);
     };
-    // END ADD LEGEND
-    this.addAxes();
-    this.makeAxesRough(this.roughSvg, this.rcAxis);
 
-    this.addInteraction()
+    if (this.interactive === true) {
+      this.addInteraction();
+    };
   }
 
   drawFromFile() {
-
-    // this.graphPart = this.svg.append('g')
-    //   .attr('pointer-events', 'all');
 
     // set default colors
     if (this.colors === undefined) this.colors = colors;
 
     this.initRoughObjects();
     this.addScales();
-    this.addAxes();
-    this.makeAxesRough(this.roughSvg, this.rcAxis);
 
     // Add scatterplot
     this.dataSources.map((key, idx) => {
       const points = this.data.map((d, i) => {
-        // console.log('d', d)
         return [this.xScale(i), this.yScale(d[key])];
       });
       let node = this.rc.curve(points, {
@@ -499,36 +481,25 @@ class Line {
         strokeWidth: this.strokeWidth,
         roughness: 1,
         bowing: 10,
-        fillStyle: 'hachure',
       });
 
-      let roughNode = this.roughSvg.appendChild(node);
-      // roughNode.setAttribute('class', this.graphClass);
-      // roughNode.setAttribute('attrX', this.data[this.x]);
-      // roughNode.setAttribute('attrY', this.data[this['y']]);
-      // roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel]);
-      // add scatter plots for hover
-      points.forEach((d,i) => {
-        let node = this.rc.circle(
-          d[0],
-          d[1],
-          10, {
-            stroke: this.colors[idx],
-            fill: this.colors[idx],
-            fillStyle: 'solid',
-            strokeWidth: 1,
-            roughness: 3,
-          });
-        this.roughSvg.appendChild(node);
-        })
-    })
-
-    // let roughNode = this.roughSvg.appendChild(node);
-    // roughNode.setAttribute('class', this.graphClass);
-    // roughNode.setAttribute('attrX', this.data[this.x]);
-    // roughNode.setAttribute('attrY', this.data[this['y']]);
-    // roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel]);
-
+      this.roughSvg.appendChild(node);
+      if (this.circle === true) {
+        points.forEach((d, i) => {
+          let node = this.rc.circle(
+            d[0],
+            d[1],
+            this.circleSize, {
+              stroke: this.colors[idx],
+              fill: this.colors[idx],
+              fillStyle: 'solid',
+              strokeWidth: 1,
+              roughness: this.circleRoughness,
+            });
+          this.roughSvg.appendChild(node);
+        });
+      };
+    });
 
     // ADD LEGEND
     const legendItems = this.dataSources.map((key, i) => ({
@@ -545,22 +516,15 @@ class Line {
       addLegend(this, legendItems, legendWidth, legendHeight, 2);
     };
 
-    this.addInteraction()
+    this.addAxes();
+    this.addLabels();
+    this.makeAxesRough(this.roughSvg, this.rcAxis);
+
+    if (this.interactive === true) {
+      this.addInteraction();
+    };
   }
 
 }
 
 export default Line;
-
-// give xScale
-// if x not supplied, default to indices
-// if supplied, only go as far as the x domain
-
-// allow multiple for file inputs
-
-// if multiple entries, get the max from all of them
-
-// apply color to multiple
-
-// get all y names with regex
-// create legend using them
