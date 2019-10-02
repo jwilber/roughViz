@@ -41,6 +41,9 @@ class Bar {
     this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
     this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
     this.padding = opts.padding || 0.1;
+    this.xLabel = opts.xLabel || '';
+    this.yLabel = opts.yLabel || '';
+    this.labelFontSize = opts.labelFontSize || '1rem';
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -100,14 +103,14 @@ class Bar {
           csv(data).then(d => {
             // console.log(d);
             this.data = d;
-            this.draw();
+            this.drawFromFile();
           });
         };
       } else if (data.includes('.tsv')) {
         return () => {
           tsv(data).then(d => {
             this.data = d;
-            this.draw();
+            this.drawFromFile();
           });
         };
       }
@@ -136,6 +139,34 @@ class Bar {
         [0, max(this.data, d => +d[that.values])] :
         [0, max(this.data[that.values])]
       );
+  }
+
+  addLabels() {
+    // xLabel
+    if (this.xLabel !== '') {
+      this.svg.append('text')
+        .attr('x', this.width / 2)
+        .attr('y', this.height + this.margin.bottom / 2)
+        .attr('dx', '1em')
+        .attr('class', 'labelText')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.labelFontSize)
+        .text(this.xLabel);
+    };
+    // yLabel
+    if (this.yLabel !== '') {
+      this.svg.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - this.margin.left / 2)
+        .attr('x', 0 - (this.height / 2))
+        .attr('dy', '1em')
+        .attr('class', 'labelText')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.labelFontSize)
+        .text(this.yLabel);
+    };
   }
 
 
@@ -333,6 +364,7 @@ class Bar {
     this.addScales();
     this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
+    this.addLabels();
 
     // Add barplot
     this.data.values.forEach((d, i) => {
@@ -359,11 +391,12 @@ class Bar {
 
   } // draw
 
-  draw() {
+  drawFromFile() {
     this.initRoughObjects();
     this.addScales();
     this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
+    this.addLabels();
 
     // Add barplot
     this.data.forEach((d) => {

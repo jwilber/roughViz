@@ -1,4 +1,4 @@
- import { extent } from 'd3-array';
+import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
@@ -46,6 +46,9 @@ class Scatter {
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.x = (this.dataFormat === 'object') ? 'x' : opts.x;
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
+    this.xLabel = opts.xLabel || '';
+    this.yLabel = opts.yLabel || '';
+    this.labelFontSize = opts.labelFontSize || '1rem';
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -165,6 +168,35 @@ class Scatter {
       .range(this.colors)
       .domain(colorExtent);
   }
+
+    addLabels() {
+    // xLabel
+    if (this.xLabel !== '') {
+      this.svg.append('text')
+        .attr('x', this.width / 2)
+        .attr('y', this.height + this.margin.bottom / 1.3)
+        .attr('dx', '1em')
+        .attr('class', 'labelText')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.labelFontSize)
+        .text(this.xLabel);
+    };
+    // yLabel
+    if (this.yLabel !== '') {
+      this.svg.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 0 - this.margin.left / 2)
+        .attr('x', 0 - (this.height / 2))
+        .attr('dy', '1em')
+        .attr('class', 'labelText')
+        .style('text-anchor', 'middle')
+        .style('font-family', this.fontFamily)
+        .style('font-size', this.labelFontSize)
+        .text(this.yLabel);
+    };
+  }
+
 
 
   addAxes() {
@@ -374,6 +406,7 @@ class Scatter {
     this.addScales();
     this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
+    this.addLabels();
 
     // Add scatterplot
     this.data.x.forEach((d, i) => {
@@ -413,6 +446,8 @@ class Scatter {
     this.addScales();
     this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
+    this.addLabels();
+
     // Add scatterplot
     this.data.forEach((d, i) => {
       let node = this.rc.circle(
