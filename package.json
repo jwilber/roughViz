@@ -10,6 +10,7 @@
     "build": "parcel build src/index.js --target node --bundle-node-modules --no-source-maps --experimental-scope-hoisting",
     "pretestt": "eslint --ignore-path .gitignore .",
     "lint": "eslint --ignore-path .gitignore .",
+    "lintFix": "eslint --ignore-path .gitignore . --fix",
     "start": "parcel examples/index.html",
     "test": "jest --env=jsdom"
   },
