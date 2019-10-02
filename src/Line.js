@@ -1,22 +1,33 @@
-import { extent, max, min } from 'd3-array';
+import { bisect, bisector, extent, max, min, range } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
+import { addLegend } from './utils/addLegend';
 import { scaleLinear, scalePoint } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
+import { line } from 'd3-shape';
 import rough from 'roughjs/dist/rough.umd';
+import { colors } from './utils/colors';
 
 // linechart will use index for x, value for label
-
+console.log('range', range(0, 5))
 const roughCeiling = (roughness) => {
   let roughVal = roughness > 20 ? 20 : roughness;
   return roughVal;
 };
 
-const defaultColors = ['pink', 'skyblue', 'coral', 'gold', 'teal', 'grey',
-  'darkgreen', 'pink', 'brown', 'slateblue', 'grey1', 'orange'];
+function scalePointPosition(it) {
+    var xPos = mouse(it)[0];
+    var domain = this.xScale.domain(); 
+    var range = this.xScale.range();
+    var rangePoints = range(range[0], range[1], it.xScale.step())
+    var yPos = domain[bisect(rangePoints, xPos) -1];
+    console.log(yPos);
+    return yPos
+}
 
 const allDataExtent = (data) => {
+  // get extend for all keys in data
   const keys = Object.keys(data);
   const extents = keys.map(key => extent(data[key]));
   const dataMin = min(extents, d => d[0]);
@@ -33,7 +44,7 @@ class Line {
     this.margin = opts.margin || {top: 50, right: 20, bottom: 50, left: 100};
     this.title = opts.title;
     this.colorVar = opts.colorVar;
-    this.roughness = roughCeiling(opts.roughness) || 1.5;
+    this.roughness = roughCeiling(opts.roughness) || 2.2;
     this.highlight = opts.highlight;
     this.highlightLabel = opts.highlightLabel || 'xy';
     this.fillStyle = opts.fillStyle;
@@ -45,7 +56,7 @@ class Line {
     this.fillWeight = opts.fillWeight || 0.85;
     this.simplification = opts.simplification || 0.2;
     this.colors = opts.colors;
-    this.strokeWidth = opts.strokeWidth || 2;
+    this.strokeWidth = opts.strokeWidth || 8;
     this.titleFontSize = opts.titleFontSize;
     this.axesFontSize = opts.axesFontSize;
     this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
@@ -53,6 +64,15 @@ class Line {
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.x = opts.x;
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
+    this.legend = opts.legend !== false;
+    this.legendPosition = opts.legendPosition || 'right';
+    if (this.dataFormat === 'file') {
+      this.dataSources = [];
+      this.yKeys = Object.keys(opts).filter((name) => /y/.test(name));
+      this.yKeys.map((key, i) => {
+        this.dataSources.push(opts[key]);
+      })
+    };
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -110,7 +130,6 @@ class Line {
       if (data.includes('.csv')) {
         return () => {
           csv(data).then(d => {
-            console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -132,8 +151,15 @@ class Line {
   }
 
   addScales() {
-    const dataExtent = allDataExtent(this.data);
-
+    let dataExtent;
+    if (this.dataFormat !== 'file') {
+      dataExtent = allDataExtent(this.data);
+    } else {
+      const extents= this.dataSources.map(key => extent(this.data, d => +d[key]))
+      const dataMin = min(extents, d=> d[0]);
+      const dataMax = max(extents, d=> d[1]);
+      dataExtent = [dataMin, dataMax];
+    }
     // get value domains and pad axes by 5%
     // if this.x is undefined, use index for x
     let xExtent;
@@ -142,45 +168,27 @@ class Line {
       const keys = Object.keys(this.data);
       const lengths = keys.map(key => this.data[key].length);
       const maxLen = max(lengths);
-      console.log('maxlen', maxLen);
       // Need to make xScale, when this.x is given, ordinal.
       xExtent = this.dataFormat === 'file' ?
         [0, this.data.length] :
         [0, maxLen];
-      console.log('thisone here', xExtent)
     } else {
       xExtent = this.dataFormat === 'file' ?
         extent(this.data, d => +d[this.x]) :
         extent(this.x);
-      // console.log('this.x', this.x)
-      // console.log('xExtent', xExtent)
     }
-    // console.log('xx', xExtent)
-    // const yExtent = this.dataFormat === 'file' ?
-    //   extent(this.data, d => +d[this.y]) :
-    //   extent(this.data[this.y]);
+
     const yExtent = dataExtent;
 
     const yRange = yExtent[1] - yExtent[0];
 
-    // this.xScale = scaleLinear()
-    //   .range([0, this.width])
-    //   .domain(xExtent);
-
-    this.xScale = this.x === undefined ? 
+    this.xScale = this.x === undefined ?
       scalePoint()
         .range([0, this.width])
         .domain([...Array(xExtent[1]).keys()]) :
       scalePoint()
         .range([0, this.width])
         .domain(this.x);
-
-      console.log('domain', this.x)
-
-      console.log('this.xscale', this.xScale.domain())
-
-    // console.log('1', this.xScale(1))
-    const t = this.x === undefined ? 3 : 4;
 
     this.yScale = scaleLinear()
       .range([this.height, 0])
@@ -266,79 +274,127 @@ class Line {
   }
 
   addInteraction() {
+    const that = this;
+    this.graphPart = this.svg.append('g')
+      .attr('pointer-events', 'all');
 
-    // add highlight helper dom nodes
+    let dataPoints = this.dataFormat === 'file' ?
+      this.dataSources :
+      Object.keys(this.data);
 
+    console.log('dataPoints', dataPoints)
 
-    // create tooltip
-    var Tooltip = select(this.el)
-      .append('div')
-      .style('opacity', 0)
-      .attr('class', 'tooltip')
-      .style('position', 'absolute')
-      .style('background-color', 'white')
-      .style('border', 'solid')
-      .style('border-width', '1px')
-      .style('border-radius', '5px')
-      .style('padding', '3px')
-      .style('font-family', this.fontFamily)
-      .style('font-size', this.tooltipFontSize)
-      .style('pointer-events', 'none');
+    this.dataSources.map((key, idx) => {
+      let currData = this.dataFormat === 'file' ?
+        this.data :
+        this.data[key];
+      const points = currData.map((d, i) => {
+        return [this.xScale(i), this.yScale(d[key])];
+      });
+      var line2 = line()
+        .x(function(d, i) { 
+          return d[0]; 
+        }) // set the x values for the line generator
+        .y(function(d) { return d[1] }); // set the y values for the line generator 
 
-    // event functions
-    var mouseover = function(d) {
-      Tooltip
-        .style('opacity', 1);
-    };
+        // create lines
+        this.svg
+          .append("path")
+          .datum(points)
+          .attr('fill', 'none')
+          .attr("stroke", "blue")
+          .attr("stroke-width", 1.5)
+          .attr("d", line2)
+          .attr('visibility', 'hidden');
 
-    let that = this;
-    let thisColor;
+        // create tracking class (for interaction)
+        const iClass = key + 'class';
+
+        // create hover circle
+        this.svg
+          .append('g')
+          .attr('class', iClass)
+          .append('circle')
+            .attr("fill", "red")
+            // .attr("stroke", "black")
+            .attr('r', 2.5)
+            .style("opacity", 0)
+
+        // create hover text
+        this.svg
+          .append('g')
+          .attr('class', iClass + 'text')
+          .append('text') 
+            .style('font-size', '.8rem')
+            .style("opacity", 0)
+            .style('font-family', this.fontFamily)
+            .attr("text-anchor", "middle")
+            .attr("alignment-baseline", "middle")
+
+    });
 
     var mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let attrHighlightLabel = select(this).attr('attrHighlightLabel');
+
+    // recover coordinate we need
+      var xPos = mouse(this)[0];
+      var domain = that.xScale.domain(); 
+      var xRange = that.xScale.range();
+      var rangePoints = range(xRange[0], xRange[1] + 1, that.xScale.step())
+      var xSpot = bisect(rangePoints, xPos) - 1;
+      var yPos = domain[xSpot];
+      // var ddata = that.data[yPos];
+
       let mousePos = mouse(this);
-      // get size of enclosing div
-      Tooltip
-        .html(that.highlightLabel === 'xy' ? `<b>x</b>: ${attrX} <br><b>y</b>: ${attrY}` :
-          `<b>${attrHighlightLabel}</b>`)
-        .attr('class', function(d) {
-        })
-        .style('transform', `translate(${mousePos[0] + that.margin.left}px, 
-          ${mousePos[1] - (that.height + that.margin.top + that.margin.bottom)}px)`);
+      that.dataSources.map((key, i) => {
+        var ddata = that.dataFormat === 'file' ?
+          that.data[yPos] :
+          that.data[key][xSpot];
+        // resolve select classes for hover effects
+        const thatClass = '.' + key + 'class';
+        const textClass = thatClass + 'text';
+
+
+        select(thatClass).selectAll('circle')
+          .style('opacity', 1)
+          .attr("cx", that.xScale(xSpot))
+          .attr("cy", that.dataFormat === 'file' ?
+            that.yScale(ddata[key]) :
+            that.yScale(ddata));
+
+        select(textClass).selectAll('text')
+          .style('opacity', 1)
+          .html(that.dataFormat === 'file' ?
+            `(${xSpot},${ddata[key]})` :
+            `(${xSpot},${ddata})`)
+          .attr("x", that.dataFormat === 'file' ?
+            that.xScale(xSpot) :
+            that.xScale(that.x[xSpot]))
+          .attr("y", that.dataFormat === 'file' ?
+            that.yScale(ddata[key]) - 5 :
+            that.yScale(ddata));
+      })
     };
-    var mouseleave = function(d) {
-      Tooltip
-        .style('opacity', 0);
-    };
 
-    // d3 event handlers
-    selectAll(this.interactionG)
-      .on('mouseover', function() {
-        mouseover();
-        thisColor = select(this).selectAll('path').style('stroke');
-        (that.highlight === undefined) ?
-          select(this).selectAll('path:nth-child(1)').style('opacity', 0.4) :
-          select(this).selectAll('path:nth-child(1)').style('stroke', that.highlight);
-        select(this).selectAll('path:nth-child(2)')
-          .style('stroke-width', that.strokeWidth + 1.2);
-      });
 
-    selectAll(this.interactionG)
-      .on('mouseout', function() {
-        mouseleave();
-        select(this).selectAll('path').style('opacity', 1);
+    this.graphPart.append('rect')
+      .attr('width', this.width)
+      .attr('height', this.height)
+      .attr('fill', 'none')
+      // .attr('stroke', 'black')
+      .on('mouseover', () => {
+      })
+      .on('mousemove', mousemove)
+      .on('mouseout', () => {
+        that.dataSources.map((key) => {
+          const thatClass = '.' + key + 'class';
+          const textClass = thatClass + 'text';
+          select(thatClass).selectAll('circle')
+            .style('opacity', 0);
+          select(textClass).selectAll('text')
+            .style('opacity', 0);
+        });
+      })
 
-        select(this).selectAll('path:nth-child(1)').style('stroke', thisColor);
-        // highlight stroke back to its color
-        select(this).selectAll('path:nth-child(2)').style('stroke', that.stroke);
-        select(this).selectAll('path:nth-child(2)')
-          .style('stroke-width', that.strokeWidth);
-      });
-
-    selectAll(this.interactionG)
-      .on('mousemove', mousemove);
   }
 
   initRoughObjects() {
@@ -363,83 +419,135 @@ class Line {
 
   drawFromObject() {
     // set default color
-    if (this.colors === undefined) this.colors = defaultColors;
+    if (this.colors === undefined) this.colors = colors;
 
-    const dataSources = Object.keys(this.data);
-    // const dataExtent = allDataExtent(this.data);
-    // console.log('de', dataExtent);
-    
+    this.dataSources = Object.keys(this.data);
     this.initRoughObjects();
     this.addScales();
-    this.addAxes();
-    this.makeAxesRough(this.roughSvg, this.rcAxis);
 
-    dataSources.map((key, i) => {
-      const points = this.data[key].map((d, idx)=> {
-        // console.log('d', d)
-        // console.log('currentkey', key)
-        // console.log('idx', idx)
-        // console.log('this.x[idx]', this.x[idx])
+    this.dataSources.map((key, i) => {
+      const points = this.data[key].map((d, idx) => {
         return this.x === undefined ?
           [this.xScale(idx), this.yScale(+d)] :
-          [this.xScale(this.x[idx]), this.yScale(d)] 
+          [this.xScale(this.x[idx]), this.yScale(d)];
       });
 
-      // console.log('points', points)
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter(d => d[0] !== undefined);
 
-      let node = this.rc.curve(drawPoints,{
+      let node = this.rc.curve(drawPoints, {
         stroke: this.colors.length === 1 ? this.colors[0] : this.colors[i],
-        // strokeWidth: this.strokeWidth,
-          roughness: this.roughness,
-          bowing: this.bowing,
-          fillStyle: 'hachure'
+        roughness: this.roughness,
+        bowing: this.bowing,
+        fillStyle: 'hachure',
       });
 
-        let roughNode = this.roughSvg.appendChild(node);
-        roughNode.setAttribute('class', this.graphClass);
-        // roughNode.setAttribute('attrX', d[this.x]);
-        // roughNode.setAttribute('attrY', d[this.y]);
-        // roughNode.setAttribute('attrHighlightLabel', d[this.highlightLabel]);
+      let roughNode = this.roughSvg.appendChild(node);
+      roughNode.setAttribute('class', this.graphClass);
+      // roughNode.setAttribute('attrX', d[this.x]);
+      // roughNode.setAttribute('attrY', d[this.y]);
+      // roughNode.setAttribute('attrHighlightLabel', d[this.highlightLabel]);
     });
     // // If desired, add interactivity
     // if (this.interactive === true) {
     //   this.addInteraction();
     // }
 
+    // ADD LEGEND
+    const legendItems = this.dataSources.map((key, i) => ({
+      color: this.colors[i],
+      text: key,
+    }));
+    // find length of longest text item
+    const legendWidth = legendItems.reduce(
+      (pre, cur) => (pre > cur.text.length ? pre : cur.text.length),
+      0,
+    ) * 6 + 35;
+    const legendHeight = legendItems.length * 11 + 8;
+
+    if (this.legend === true) {
+      addLegend(this, legendItems, legendWidth, legendHeight, 2);
+    };
+    // END ADD LEGEND
+    this.addAxes();
+    this.makeAxesRough(this.roughSvg, this.rcAxis);
+
+    this.addInteraction()
   }
 
   drawFromFile() {
 
+    // this.graphPart = this.svg.append('g')
+    //   .attr('pointer-events', 'all');
+
     // set default colors
-    if (this.colors === undefined) this.colors = defaultColors;
+    if (this.colors === undefined) this.colors = colors;
 
     this.initRoughObjects();
     this.addScales();
     this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
 
-    const points = this.data.map((d,i)=>{
-      return [this.xScale(i), this.yScale(+d[this.y])] 
-    });
+    // Add scatterplot
+    this.dataSources.map((key, idx) => {
+      const points = this.data.map((d, i) => {
+        // console.log('d', d)
+        return [this.xScale(i), this.yScale(d[key])];
+      });
+      let node = this.rc.curve(points, {
+        stroke: this.colors[idx],
+        strokeWidth: this.strokeWidth,
+        roughness: 1,
+        bowing: 10,
+        fillStyle: 'hachure',
+      });
 
-    console.log('points', points)
+      let roughNode = this.roughSvg.appendChild(node);
+      // roughNode.setAttribute('class', this.graphClass);
+      // roughNode.setAttribute('attrX', this.data[this.x]);
+      // roughNode.setAttribute('attrY', this.data[this['y']]);
+      // roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel]);
+      // add scatter plots for hover
+      points.forEach((d,i) => {
+        let node = this.rc.circle(
+          d[0],
+          d[1],
+          10, {
+            stroke: this.colors[idx],
+            fill: this.colors[idx],
+            fillStyle: 'solid',
+            strokeWidth: 1,
+            roughness: 3,
+          });
+        this.roughSvg.appendChild(node);
+        })
+    })
 
-    let node = this.rc.curve(points,{
-    stroke:'teal',
-    // strokeWidth: 1,
-      roughness: 1,
-      bowing: 10,
-      fillStyle: 'hachure'
-  });
+    // let roughNode = this.roughSvg.appendChild(node);
+    // roughNode.setAttribute('class', this.graphClass);
+    // roughNode.setAttribute('attrX', this.data[this.x]);
+    // roughNode.setAttribute('attrY', this.data[this['y']]);
+    // roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel]);
 
-    let roughNode = this.roughSvg.appendChild(node);
-    roughNode.setAttribute('class', this.graphClass);
-    roughNode.setAttribute('attrX', this.data[this.x]);
-    roughNode.setAttribute('attrY', this.data[this.y]);
-    roughNode.setAttribute('attrHighlightLabel', this.data[this.highlightLabel]);
+
+    // ADD LEGEND
+    const legendItems = this.dataSources.map((key, i) => ({
+      color: this.colors[i],
+      text: key,
+    }));
+    // find length of longest text item
+    const legendWidth = legendItems.reduce(
+      (pre, cur) => (pre > cur.text.length ? pre : cur.text.length),
+      0,
+    ) * 6 + 35;
+    const legendHeight = legendItems.length * 11 + 8;
+    if (this.legend === true) {
+      addLegend(this, legendItems, legendWidth, legendHeight, 2);
+    };
+
+    this.addInteraction()
   }
+
 }
 
 export default Line;
@@ -453,3 +561,6 @@ export default Line;
 // if multiple entries, get the max from all of them
 
 // apply color to multiple
+
+// get all y names with regex
+// create legend using them
