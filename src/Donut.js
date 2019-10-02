@@ -3,15 +3,14 @@ import { csv, tsv, json } from 'd3-fetch';
 import { mouse, select, selectAll } from 'd3-selection';
 import { arc, pie } from 'd3-shape';
 import rough from 'roughjs/dist/rough.umd';
+import { colors } from './utils/colors';
+import { addLegend } from './utils/addLegend';
+
 
 const roughCeiling = (roughness) => {
   let roughVal = roughness > 30 ? 30 : roughness;
   return roughVal;
 };
-
-const colors = ['coral', 'skyblue', '#66c2a5', 'tan', '#8da0cb',
-  '#e78ac3', '#a6d854', '#ffd92f', 'coral', 'skyblue', 'tan',
-  'orange'];
 
 class Donut {
 
@@ -43,6 +42,8 @@ class Donut {
        instantiating Donut chart. Skipping chart.`);
       return;
     }
+    this.legend = opts.legend !== false;
+    this.legendPosition = opts.legendPosition || 'right';
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -282,8 +283,28 @@ class Donut {
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
       .style('stroke-width', this.strokeWidth);
-    // Add interactivity
-    this.addInteraction();
+
+    // ADD LEGEND
+    const dataSources = this.data.labels;
+    const legendItems = dataSources.map((key, i) => ({
+      color: this.colors[i],
+      text: key,
+    }));
+    // find length of longest text item
+    const legendWidth = legendItems.reduce(
+      (pre, cur) => (pre > cur.text.length ? pre : cur.text.length),
+      0,
+    ) * 6 + 35;
+    const legendHeight = legendItems.length * 11 + 8;
+
+    if (this.legend === true) {
+      addLegend(this, legendItems, legendWidth, legendHeight);
+    };
+
+    // If desired, add interactivity
+    if (this.interactive === true) {
+      this.addInteraction();
+    }
   }
 
   drawFromFile() {
@@ -293,6 +314,7 @@ class Donut {
       .value(d => d[this.values])
       .sort(null);
 
+    const valueArr = [];
     this.makeArc = arc()
       .innerRadius(0)
       .outerRadius(this.radius);
@@ -315,7 +337,10 @@ class Donut {
       let roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('attrY', d.data[this.values]);
       roughNode.setAttribute('attrX', d.data[this.labels]);
+      valueArr.push(d.data[this.labels]);
     });
+
+    console.log('yeet', valueArr);
 
     let donutNode = this.rc.circle(
       this.width / 2,
@@ -331,6 +356,24 @@ class Donut {
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
       .style('stroke-width', this.strokeWidth);
+
+    // ADD LEGEND
+    const dataSources = valueArr;
+    const legendItems = dataSources.map((key, i) => ({
+      color: this.colors[i],
+      text: key,
+    }));
+    // find length of longest text item
+    const legendWidth = legendItems.reduce(
+      (pre, cur) => (pre > cur.text.length ? pre : cur.text.length),
+      0,
+    ) * 6 + 35;
+    const legendHeight = legendItems.length * 11 + 8;
+
+    if (this.legend === true) {
+      addLegend(this, legendItems, legendWidth, legendHeight);
+    };
+
     // If desired, add interactivity
     if (this.interactive === true) {
       this.addInteraction();
