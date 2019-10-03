@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="200" alt="roughViz.js"><br>
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="250" alt="roughViz.js"><br>
 **roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5 and roughjs.
 
 ### Why?
