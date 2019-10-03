@@ -1,21 +1,82 @@
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png" width="350" alt="roughViz.js"><br>
-**roughViz** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5 and rough.js.
+**roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5 and roughjs.
 
 ### Why?
+Use these charts where the communication goal is to show intent or generality, and not absolute precision. Or just because they're fun and look weird. 
 
 
+### Features
 
-### Examples
+##### Make Rougher
 
+##### Play with fillStyles
 
-
-## Installation
-
-
-### How To Use
+##### Customize (same data, different charts)
 
 
-#### API
+### Installation
+
+Traditional (expose the `roughViz` global in `html`):
+
+```html
+<script src="https://unpkg.com/rough-viz@1.0.1"></script>
+```
+
+With `npm`:
+
+```sh
+npm install rough-viz
+```
+
+And then import/require it:
+
+```js
+import roughViz from 'rough-viz'; // or...
+const roughViz = require('rough-viz');
+```
+
+### How to use
+
+Create some container elements, one for each chart:
+
+```html
+<!--you can name each id whatever you want -->
+<div id="viz0"></div>
+<div id="viz1"></div>
+<div id="bar"></div>
+```
+In the javascript, just create charts, referencing the desired container:
+```js
+// create donut chart from csv file, using default options
+ new roughViz.Bar({
+    element: '#vis0', // container selection
+    data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
+    title: 'Ice Cream',
+    labels: 'flavor',
+    values: 'price',
+});
+
+// create Donut chart using inline object & customize plot
+new roughViz.Donut(
+  {
+    element: '#vis1',
+    data: {
+      labels: ['North', 'South', 'East', 'West'],
+      values: [10, 5, 8, 3]
+    },
+    title: "'Yarn' Plot (Pie)",
+    width: window.innerWidth / 4,
+    roughness: 8,
+    colors: ['red', 'orange', 'blue', 'skyblue'],
+    stroke: 'black',
+    strokeWidth: 3,
+    fillStyle: 'cross-hatch',
+    fillWeight: 3.5,
+  }
+);
+```
+
+### API
 
 
 
