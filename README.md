@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png" width="350" alt="roughViz.js"><br>
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  alt="roughViz.js"><br>
 **roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5 and roughjs.
 
 ### Why?
@@ -7,9 +7,21 @@ Use these charts where the communication goal is to show intent or generality, a
 
 ### Features
 
-##### Make Rougher
+Apply the features of `roughjs` to each chart:
 
-##### Play with fillStyles
+**roughness**:
+
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_roughnessbars.png"  alt="roughness examples">
+
+**fillStyle**
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/rough_fillStyles.png"  alt="fillStyle examples">
+
+
+**fillWeight**
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_fillweight.png"  alt="fillStyle examples">
+
+
+As well as additional chart-specific options ([see API below]())
 
 ##### Customize (same data, different charts)
 
@@ -51,7 +63,7 @@ In the javascript, just create charts, referencing the desired container:
     element: '#vis0', // container selection
     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
     labels: 'flavor',
-    values: 'price',
+    values: 'price'
 });
 
 // create Donut chart using defined data & customize plot options
