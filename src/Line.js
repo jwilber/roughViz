@@ -37,7 +37,7 @@ class Line {
     this.fillStyle = opts.fillStyle;
     this.bowing = opts.bowing || 0;
     this.axisStrokeWidth = opts.axisStrokeWidth || 0.4;
-    this.axisRoughness = opts.axisRoughness || 0.9;
+    this.axesRoughness = opts.axesRoughness || 0.9;
     this.interactive = opts.interactive !== false;
     this.stroke = opts.stroke || 'black';
     this.fillWeight = opts.fillWeight || 0.85;
@@ -45,7 +45,7 @@ class Line {
     this.colors = opts.colors;
     this.strokeWidth = opts.strokeWidth || 8;
     this.titleFontSize = opts.titleFontSize;
-    this.axisFontSize = opts.axisFontSize;
+    this.axesFontSize = opts.axesFontSize;
     this.hoverFontSize = opts.hoverFontSize || '0.9rem';
     this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
@@ -227,9 +227,9 @@ class Line {
       .attr('transform', 'translate(-10, 0)rotate(-45)')
       .style('text-anchor', 'end')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axisFontSize === undefined) ?
+      .style('font-size', (this.axesFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axisFontSize);
+        this.axesFontSize);
 
     // y-axis
     this.svg.append('g')
@@ -237,9 +237,9 @@ class Line {
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
       .style('font-family', this.fontFamily)
-      .style('font-size', (this.axisFontSize === undefined) ?
+      .style('font-size', (this.axesFontSize === undefined) ?
         `${Math.min(0.95, Math.min(this.width, this.height) / 140)}rem` :
-        this.axisFontSize);
+        this.axesFontSize);
 
     // hide original axes
     selectAll('path.domain')
@@ -352,17 +352,23 @@ class Line {
         const thatClass = '.' + key + 'class';
         const textClass = thatClass + 'text';
 
-        select(textClass).selectAll('text')
-          .style('opacity', 1)
-          .html(that.dataFormat === 'file' ?
-            `(${xSpot},${hoverData[key]})` :
-            `(${xSpot},${hoverData})`)
-          .attr('x', that.dataFormat === 'file' ?
-            that.xScale(xSpot) :
-            that.xScale(that.x[xSpot]))
-          .attr('y', that.dataFormat === 'file' ?
-            that.yScale(hoverData[key]) - 5 :
-            that.yScale(hoverData));
+        if (that.dataFormat === 'file') {
+          select(textClass).selectAll('text')
+            .style('opacity', 1)
+            .html(`(${xSpot},${hoverData[key]})`)
+            .attr('x', that.xScale(xSpot))
+            .attr('y', that.yScale(hoverData[key]) - 5);
+        } else {
+          select(textClass).selectAll('text')
+            .style('opacity', 1)
+            .html(that.x === undefined ?
+              `(${xSpot}, ${hoverData})` :
+              `(${that.x[xSpot]}, ${hoverData})`)
+            .attr('x', that.x === undefined ?
+              that.xScale(xSpot) :
+              that.xScale(that.x[xSpot]))
+            .attr('y', that.yScale(hoverData));
+        }
       });
     };
 
@@ -388,7 +394,7 @@ class Line {
     this.rcAxis = rough.svg(this.roughSvg,
       {options: {
         strokeWidth: this.axisStrokeWidth,
-        roughness: this.axisRoughness,
+        roughness: this.axesRoughness,
       },
       });
     this.rc = rough.svg(this.roughSvg, {
@@ -459,6 +465,10 @@ class Line {
     if (this.legend === true) {
       addLegend(this, legendItems, legendWidth, legendHeight, 2);
     };
+
+    this.addAxes();
+    this.addLabels();
+    this.makeAxesRough(this.roughSvg, this.rcAxis);
 
     if (this.interactive === true) {
       this.addInteraction();
