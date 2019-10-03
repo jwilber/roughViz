@@ -43,7 +43,6 @@ Create some container elements, one for each chart:
 <!--you can name each id whatever you want -->
 <div id="viz0"></div>
 <div id="viz1"></div>
-<div id="bar"></div>
 ```
 In the javascript, just create charts, referencing the desired container:
 ```js
@@ -51,12 +50,11 @@ In the javascript, just create charts, referencing the desired container:
  new roughViz.Bar({
     element: '#vis0', // container selection
     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
-    title: 'Ice Cream',
     labels: 'flavor',
     values: 'price',
 });
 
-// create Donut chart using inline object & customize plot
+// create Donut chart using defined data & customize plot options
 new roughViz.Donut(
   {
     element: '#vis1',
@@ -64,7 +62,7 @@ new roughViz.Donut(
       labels: ['North', 'South', 'East', 'West'],
       values: [10, 5, 8, 3]
     },
-    title: "'Yarn' Plot (Pie)",
+    title: "Regions",
     width: window.innerWidth / 4,
     roughness: 8,
     colors: ['red', 'orange', 'blue', 'skyblue'],
@@ -81,7 +79,7 @@ new roughViz.Donut(
 
 
 ### Contributors
-
+- [Jared Wilber](https://twitter.com/jdwlbr)
 
 ### License
 MIT License
