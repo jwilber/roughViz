@@ -44,7 +44,7 @@ As well as additional chart-specific options ([see API below](#API))
 Via CDN (expose the `roughViz` global in `html`):
 
 ```html
-<script src="https://unpkg.com/rough-viz@1.0.1"></script>
+<script src="https://unpkg.com/rough-viz@1.0.2"></script>
 ```
 
 Via `npm`:
