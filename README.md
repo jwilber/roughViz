@@ -10,6 +10,17 @@ Use these charts where the communication goal is to show intent or generality, a
 
 ### Features
 
+**Chart Types**
+
+- Scatter (`roughViz.Scatter`)
+- Bar (`roughViz.Bar`)
+- Horizontal Bar (`roughViz.BarH`)
+- Donut (`roughViz.Donut`)
+- Pie (`roughViz.Pie`)
+- Line (`roughViz.Line`)
+
+more to come...
+
 Apply the features of `roughjs` to each chart:
 
 **roughness**:
