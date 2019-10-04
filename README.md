@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="250" alt="roughViz.js"><br>
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="350" alt="roughViz.js"><br>
 **roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5 and roughjs.
 
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz.gif" alt="roughViz.js">
@@ -19,7 +19,7 @@ Use these charts where the communication goal is to show intent or generality, a
 - Pie (`roughViz.Pie`)
 - Line (`roughViz.Line`)
 
-more to come...
+More to come...
 
 Apply the features of `roughjs` to each chart:
 
@@ -35,7 +35,7 @@ Apply the features of `roughjs` to each chart:
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_fillweight.png"  alt="fillStyle examples">
 
 
-As well as additional chart-specific options ([see API below]())
+As well as additional chart-specific options ([see API below](#API))
 
 ##### Customize (same data, different charts)
 
@@ -100,12 +100,67 @@ new roughViz.Donut(
 );
 ```
 
-### API
+<h3 id="API">API</h3>
 
+### `roughViz.Bar`
+
+-
+-
+-
+-
+-
+
+### `roughViz.BarH`
+
+-
+-
+-
+-
+-
+
+
+### `roughViz.Donut`
+
+-
+-
+-
+-
+-
+
+
+### `roughViz.Line`
+
+-
+-
+-
+-
+-
+
+
+### `roughViz.Pie`
+
+-
+-
+-
+-
+-
+
+
+### `roughViz.Scatter`
+
+-
+-
+-
+-
+-
 
 
 ### Contributors
 - [Jared Wilber](https://twitter.com/jdwlbr)
+
+
+### Acknowledgements
+This library wouldn't be possible without the awesome work from [Mike Bostock](https://twitter.com/mbostock) and [Preet Shihn](https://twitter.com/preetster) on D3.js and rough.js, respectively. Thanks!
 
 ### License
 MIT License
