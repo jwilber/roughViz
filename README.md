@@ -1,6 +1,9 @@
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="250" alt="roughViz.js"><br>
 **roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5 and roughjs.
 
+<img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz.gif" alt="roughViz.js">
+
+
 ### Why?
 Use these charts where the communication goal is to show intent or generality, and not absolute precision. Or just because they're fun and look weird. 
 
