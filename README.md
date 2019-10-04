@@ -12,12 +12,12 @@ Use these charts where the communication goal is to show intent or generality, a
 
 **Chart Types**
 <ul>
- <li>Scatter (<code>roughViz.Bar</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Bar (<code>roughViz.BarH</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Horizontal Bar (<code>roughViz.Donut</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Donut (<code>roughViz.Line</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Pie (<code>roughViz.Pie</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Line (<code>roughViz.Scatter</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
+ <li>Bar (<code>roughViz.Bar</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
+<li> Horizontal Bar (<code>roughViz.BarH</code>) <a href="#BarH">API</a>. <a href="#Bar">Example</a>.</li>
+<li> Donut (<code>roughViz.Donut</code>) <a href="#Donut">API</a>. <a href="#Bar">Example</a>.</li>
+<li> Line (<code>roughViz.Line</code>) <a href="#Line">API</a>. <a href="#Bar">Example</a>.</li>
+<li> Pie (<code>roughViz.Pie</code>) <a href="#Pie">API</a>. <a href="#Bar">Example</a>.</li>
+<li> Scatter (<code>roughViz.Scatter</code>) <a href="#Scatter">API</a>. <a href="#Bar">Example</a>.</li>
  </ul>
 
 More to come...
