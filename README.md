@@ -26,7 +26,7 @@ Apply the features of `roughjs` to each chart:
 
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_roughnessbars.png"  alt="roughness examples">
 
-**fillStyle**
+<b id="fillStyle">fillStyle</b>
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/rough_fillStyles.png"  alt="fillStyle examples">
 
 
@@ -95,20 +95,105 @@ new roughViz.Donut(
 <h3 id="API">API</h3>
 
 ### <code id="Bar">roughViz.Bar</code>
+Required
+- `element` [string]: Id or class of container element.
+- `data`: Data with which to constuct chart.
+Can be either an object or string.
 
--
--
--
--
--
+   - If object: must contain `labels` and `values` keys:
+
+    ```
+    new roughViz.Bar({
+       element: '.viz',
+       data: {labels: ['a', 'b'], values: [10, 20]}
+     })
+     ```
+    
+   - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
+   ```
+   new roughViz.Bar({
+     element: '#viz0',
+     data: 'stringToDataUrl.csv',
+     labels: 'nameOfLabelsColumn',
+     values: 'nameOfValuesColumn',
+   })
+   ```
+
+Optional
+- `axisFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `axisRoughness` [number]: Roughness for x & y axes. Default: `0.5`.
+- `axisStrokeWidth` [number]: Stroke-width for x & y axes. Default: `0.5`.
+- `bowing` [number]: Chart bowing. Default: `0`.
+- `color` [string]: Color for each bar. Default: `'skyblue'`.
+- `fillStyle` [string]: Bar fill-style. Should be one of [fillStyles](#fillStyle) shown above.
+- `fillWeight` [number]: Weight of inner paths' color. Default: `0.5`.
+- `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
+- `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
+- `innerStrokeWidth` [number]: Stroke-width for paths inside bars. Default: `1`.
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
+- `padding` [number]: Padding between bars. Default: `0.1`.
+- `roughness` [number]: Roughness level of chart. Default: `1`.
+- `simplification` [number]: Chart simplification. Default `0.2`.
+- `stroke` [string]: Color of bars' stroke. Default: `black`.
+- `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
+- `title` [string]: Chart title. Optional.
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
+- `xLabel` [string]: Label for x-axis.
+- `yLabel` [string]: Label for y-axis.
+
 
 ### <code id="BarH">roughViz.BarH</code>
+Required
+- `element` [string]: Id or class of container element.
+- `data`: Data with which to constuct chart.
+Can be either an object or string.
 
--
--
--
--
--
+   - If object: must contain `labels` and `values` keys:
+
+    ```
+    new roughViz.Bar({
+       element: '.viz',
+       data: {labels: ['a', 'b'], values: [10, 20]}
+     })
+     ```
+    
+   - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
+   ```
+   new roughViz.Bar({
+     element: '#viz0',
+     data: 'stringToDataUrl.csv',
+     labels: 'nameOfLabelsColumn',
+     values: 'nameOfValuesColumn',
+   })
+   ```
+
+Optional
+- `axisFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `axisRoughness` [number]: Roughness for x & y axes. Default: `0.5`.
+- `axisStrokeWidth` [number]: Stroke-width for x & y axes. Default: `0.5`.
+- `bowing` [number]: Chart bowing. Default: `0`.
+- `color` [string]: Color for each bar. Default: `'skyblue'`.
+- `fillStyle` [string]: Bar fill-style. Should be one of [fillStyles](#fillStyle) shown above.
+- `fillWeight` [number]: Weight of inner paths' color. Default: `0.5`.
+- `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
+- `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
+- `innerStrokeWidth` [number]: Stroke-width for paths inside bars. Default: `1`.
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
+- `padding` [number]: Padding between bars. Default: `0.1`.
+- `roughness` [number]: Roughness level of chart. Default: `1`.
+- `simplification` [number]: Chart simplification. Default `0.2`.
+- `stroke` [string]: Color of bars' stroke. Default: `black`.
+- `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
+- `title` [string]: Chart title. Optional.
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
+- `xLabel` [string]: Label for x-axis.
+- `yLabel` [string]: Label for y-axis.
 
 
 ### <code id="Donut">roughViz.Donut</code>
