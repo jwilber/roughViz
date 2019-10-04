@@ -10,7 +10,7 @@ Use these charts where the communication goal is to show intent or generality, a
 
 ### Features
 
-**Chart Types**
+**Chart Types** (more to come!)
 <ul>
  <li>Bar (<code>roughViz.Bar</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
 <li> Horizontal Bar (<code>roughViz.BarH</code>) <a href="#BarH">API</a>. <a href="#Bar">Example</a>.</li>
@@ -19,8 +19,6 @@ Use these charts where the communication goal is to show intent or generality, a
 <li> Pie (<code>roughViz.Pie</code>) <a href="#Pie">API</a>. <a href="#Bar">Example</a>.</li>
 <li> Scatter (<code>roughViz.Scatter</code>) <a href="#Scatter">API</a>. <a href="#Bar">Example</a>.</li>
  </ul>
-
-More to come...
 
 Apply the features of `roughjs` to each chart:
 
