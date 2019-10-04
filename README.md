@@ -11,13 +11,14 @@ Use these charts where the communication goal is to show intent or generality, a
 ### Features
 
 **Chart Types**
-
-- Scatter (`roughViz.Scatter`)
-- Bar (`roughViz.Bar`)
-- Horizontal Bar (`roughViz.BarH`)
-- Donut (`roughViz.Donut`)
-- Pie (`roughViz.Pie`)
-- Line (`roughViz.Line`)
+<ul>
+ <li>Scatter (<a href="#Bar"><code>roughViz.Bar</code></a>)</li>
+<li> Bar (<a href="#BarH"><code>roughViz.BarH</code></a>)</li>
+<li> Horizontal Bar (<a href="#Donut"><code>roughViz.Donut</code></a>)</li>
+<li> Donut (<a href="#Line"><code>roughViz.Line</code></a>)</li>
+<li> Pie (<a href="#Pie"><code>roughViz.Pie</code></a>)</li>
+<li> Line (<a href="#Scatter"><code>roughViz.Scatter</code></a>)</li>
+ </ul>
 
 More to come...
 
@@ -102,7 +103,7 @@ new roughViz.Donut(
 
 <h3 id="API">API</h3>
 
-### `roughViz.Bar`
+### <code id="Bar">roughViz.Bar</code>
 
 -
 -
@@ -110,16 +111,7 @@ new roughViz.Donut(
 -
 -
 
-### `roughViz.BarH`
-
--
--
--
--
--
-
-
-### `roughViz.Donut`
+### <code id="BarH">roughViz.BarH</code>
 
 -
 -
@@ -128,7 +120,7 @@ new roughViz.Donut(
 -
 
 
-### `roughViz.Line`
+### <code id="Donut">roughViz.Donut</code>
 
 -
 -
@@ -137,7 +129,7 @@ new roughViz.Donut(
 -
 
 
-### `roughViz.Pie`
+### <code id="Line">roughViz.Line</code>
 
 -
 -
@@ -146,7 +138,16 @@ new roughViz.Donut(
 -
 
 
-### `roughViz.Scatter`
+### <code id="Pie">roughViz.Pie</code>
+
+-
+-
+-
+-
+-
+
+
+### <code id="Scatter">roughViz.Scatter</code>
 
 -
 -
