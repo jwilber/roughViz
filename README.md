@@ -242,11 +242,6 @@ Optional
 
 ### <code id="Line">roughViz.Line</code>
 
--
--
--
--
--
 
 
 ### <code id="Pie">roughViz.Pie</code>
@@ -294,12 +289,57 @@ Optional
 
 
 ### <code id="Scatter">roughViz.Scatter</code>
+Required
+- `element` [string]: Id or class of container element.
+- `data`: Data with which to constuct chart.
+Can be either an object or string.
 
--
--
--
--
--
+   - If object: must contain `x` and `y` keys:
+
+    ```
+    new roughViz.BarH({
+       element: '.viz',
+       data: {x: ['a', 'b'], y: [10, 20]}
+     })
+     ```
+    
+   - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `x` and `y` as separate attributes that represent columns in said file:
+   ```
+   new roughViz.BarH({
+     element: '#viz0',
+     data: 'stringToDataUrl.csv',
+     x: 'nameOfLabelsColumn',
+     y: 'nameOfValuesColumn',
+   })
+   ```
+
+Optional
+- `axisFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `axisRoughness` [number]: Roughness for x & y axes. Default: `0.5`.
+- `axisStrokeWidth` [number]: Stroke-width for x & y axes. Default: `0.5`.
+- `bowing` [number]: Chart bowing. Default: `0`.
+- `colors` [array or string]: Array of colors for each arc. Default: `['coral', 'skyblue', '#66c2a5', 'tan', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', 'tan', 'orange']`. If string (e.g. `'blue'`), all circles will take that color.
+- `colorVar` [string]: If input data is `csv` or `tsv`, this should be an ordinal column with which to color points by.
+`curbZero` [boolean]: Whether or not to force (x, y) axes to (0, 0). Default: `false`.
+- `fillStyle` [string]: Bar fill-style. Should be one of [fillStyles](#fillStyle) shown above.
+- `fillWeight` [number]: Weight of inner paths' color. Default: `0.5`.
+- `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
+- `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
+- `highlightLabel` [string]: If input data is `csv` or `tsv`, this should be a column representing what value to display on hover. Otherwise, `(x, y)` values will be shown on hover.
+- `innerStrokeWidth` [number]: Stroke-width for paths inside circles. Default: `1`.
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
+- `radius` [number]: Circle radius. Default: `8`.
+- `roughness` [number]: Roughness level of chart. Default: `1`.
+- `simplification` [number]: Chart simplification. Default `0.2`.
+- `stroke` [string]: Color of circles' stroke. Default: `black`.
+- `strokeWidth` [number]: Size of circles' stroke. Default: `1`.
+- `title` [string]: Chart title. Optional.
+- `titleFontSize` [string]: Font-size for chart title. Default: `'0.95rem'`. 
+- `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
+- `xLabel` [string]: Label for x-axis.
+- `yLabel` [string]: Label for y-axis.
 
 
 ### Contributors
