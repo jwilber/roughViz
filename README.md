@@ -92,7 +92,7 @@ new roughViz.Donut(
 );
 ```
 
-<h3 id="API">API</h3>
+<h2 id="API">API</h2>
 
 ### <code id="Bar">roughViz.Bar</code>
 Required
@@ -230,6 +230,8 @@ Optional
 - `highlight` [string]: Color for each arc on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside arcs. Default: `0.75`.
 - `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `legend` [boolean]: Whether or not to add legend. Default: `'true'`.
+- `legendPosition` [string]: Position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
 - `padding` [number]: Padding between bars. Default: `0.1`.
 - `roughness` [number]: Roughness level of chart. Default: `1`.
@@ -241,7 +243,62 @@ Optional
 
 
 ### <code id="Line">roughViz.Line</code>
+Required
+- `element` [string]: Id or class of container element.
+- `data`: Data with which to constuct chart.
+Can be either an object or string.
 
+   - If object: every key supplied in `data` must be an array. Each key will receive its own line. You may provide a separate array to the `x` attribute for the x-axis values. If no `x` attribute is provided, the chart will default to the indices.
+
+    ```
+    new roughViz.Line({
+       element: '.viz',
+       data: {
+         profit: [100, 200, 100, 200],
+         revenue: [50, 500, 1500, 20],
+         tax: [10, 20, 30, 40],
+       },
+       x: ['day1', 'day2', 'day3', 'day3']
+     })
+     ```
+    
+   - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the each `y` as separate attributes that represent columns in said file. Each attribute prefaced with `y` (except `yLabel`) will receive its own line:
+   ```
+   new roughViz.Line({
+     element: '#viz0',
+     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/profits.csv',
+     y1: 'revenue',
+     y2: 'cost',
+     y3: 'profit'
+   })
+   ```
+
+Optional
+- `axisFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `axisRoughness` [number]: Roughness for x & y axes. Default: `0.5`.
+- `axisStrokeWidth` [number]: Stroke-width for x & y axes. Default: `0.5`.
+- `bowing` [number]: Chart bowing. Default: `0`.
+- `circle` [boolean]: Whether or not to add circles to chart. Default: `true`.
+- `circleRadius` [number]: Radius of circles. Default: `10`.
+- `circleRoughness` [number]: Roughness of circles. Default: `2`.
+- `colors` [array or string]: Array of colors for each arc. Default: `['coral', 'skyblue', '#66c2a5', 'tan', '#8da0cb', '#e78ac3', '#a6d854', '#ffd92f', 'tan', 'orange']`. If string (e.g. `'blue'`), all circles will take that color.
+- `fillStyle` [string]: Bar fill-style. Should be one of [fillStyles](#fillStyle) shown above.
+- `fillWeight` [number]: Weight of inner paths' color. Default: `0.5`.
+- `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `legend` [boolean]: Whether or not to add legend. Default: `true`.
+- `legendPosition` [string]: Position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
+- `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
+- `roughness` [number]: Roughness level of chart. Default: `1`.
+- `simplification` [number]: Chart simplification. Default `0.2`.
+- `stroke` [string]: Color of lines' stroke. Default: `this.colors`.
+- `strokeWidth` [number]: Size of lines' stroke. Default: `1`.
+- `title` [string]: Chart title. Optional.
+- `titleFontSize` [string]: Font-size for chart title. Default: `'0.95rem'`. 
+- `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
+- `xLabel` [string]: Label for x-axis.
+- `yLabel` [string]: Label for y-axis.
 
 
 ### <code id="Pie">roughViz.Pie</code>
@@ -278,6 +335,8 @@ Optional
 - `highlight` [string]: Color for each arc on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside arcs. Default: `0.75`.
 - `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `legend` [boolean]: Whether or not to add legend. Default: `true`.
+- `legendPosition` [string]: Position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
 - `padding` [number]: Padding between bars. Default: `0.1`.
 - `roughness` [number]: Roughness level of chart. Default: `1`.
@@ -297,15 +356,15 @@ Can be either an object or string.
    - If object: must contain `x` and `y` keys:
 
     ```
-    new roughViz.BarH({
+    new roughViz.Scatter({
        element: '.viz',
-       data: {x: ['a', 'b'], y: [10, 20]}
+       data: {x: [1, 2, 35], y: [10, 20, 8]}
      })
      ```
     
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `x` and `y` as separate attributes that represent columns in said file:
    ```
-   new roughViz.BarH({
+   new roughViz.Scatter({
      element: '#viz0',
      data: 'stringToDataUrl.csv',
      x: 'nameOfLabelsColumn',
