@@ -41,23 +41,16 @@ As well as additional chart-specific options ([see API below](#API))
 
 ### Installation
 
-Traditional (expose the `roughViz` global in `html`):
+Via CDN (expose the `roughViz` global in `html`):
 
 ```html
 <script src="https://unpkg.com/rough-viz@1.0.1"></script>
 ```
 
-With `npm`:
+Via `npm`:
 
 ```sh
 npm install rough-viz
-```
-
-And then import/require it:
-
-```js
-import roughViz from 'rough-viz'; // or...
-const roughViz = require('rough-viz');
 ```
 
 ### How to use
