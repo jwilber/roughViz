@@ -35,7 +35,7 @@ class Bar {
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '.95rem';
+    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;

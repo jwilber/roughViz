@@ -169,7 +169,7 @@ class Scatter {
       .domain(colorExtent);
   }
 
-    addLabels() {
+  addLabels() {
     // xLabel
     if (this.xLabel !== '') {
       this.svg.append('text')
