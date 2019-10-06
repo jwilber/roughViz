@@ -1,7 +1,7 @@
 {
-  "name": "iamjared",
+  "name": "rough-viz",
   "version": "1.0.3",
-  "description": "hey",
+  "description": "Hand drawn, rough, sketchy data visualization in svg.",
   "jsdelivr": "dist/roughviz.min.js",
   "unpkg": "dist/roughviz.min.js",
   "main": "dist/index.js",
@@ -14,17 +14,26 @@
     "start": "parcel examples/index.html",
     "test": "jest --env=jsdom"
   },
-  "repository": {
+  "repository": { 
     "type": "git",
-    "url": "git+https://github.com/jwilber/roughCharts.git"
+    "url": "git+https://github.com/jwilber/roughViz.git"
   },
-  "keywords": [],
+  "keywords": [
+    "chart",
+    "graph",
+    "rough",
+    "hand-drawn",
+    "sketchy",
+    "dataviz",
+    "data visualization"
+  ],
+  
   "author": "jwilber",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jwilber/roughCharts/issues"
+    "url": "https://github.com/jwilber/roughViz/issues"
   },
-  "homepage": "https://github.com/jwilber/roughChartss#readme",
+  "homepage": "https://github.com/jwilber/roughViz#readme",
   "dependencies": {
     "d3-array": "^2.3.1",
     "d3-axis": "^1.0.12",
