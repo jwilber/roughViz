@@ -16,12 +16,12 @@ Use these charts where the communication goal is to show intent or generality, a
 
 **Chart Types** (more to come!)
 <ul>
- <li>Bar (<code>roughViz.Bar</code>) <a href="#Bar">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Horizontal Bar (<code>roughViz.BarH</code>) <a href="#BarH">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Donut (<code>roughViz.Donut</code>) <a href="#Donut">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Line (<code>roughViz.Line</code>) <a href="#Line">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Pie (<code>roughViz.Pie</code>) <a href="#Pie">API</a>. <a href="#Bar">Example</a>.</li>
-<li> Scatter (<code>roughViz.Scatter</code>) <a href="#Scatter">API</a>. <a href="#Bar">Example</a>.</li>
+ <li>Bar (<code>roughViz.Bar</code>) <a href="#Bar">API</a>. <a href="https://blockbuilder.org/jwilber/4dc5235f7ea5e51ac1219b3605f5af6a">Example</a>.</li>
+<li> Horizontal Bar (<code>roughViz.BarH</code>) <a href="#BarH">API</a>. <a href="https://blockbuilder.org/jwilber/419fa6d878fe6c0f79a28f9fc72d7ec6">Example</a>.</li>
+<li> Donut (<code>roughViz.Donut</code>) <a href="#Donut">API</a>. <a href="https://blockbuilder.org/jwilber/e713c03097950d53a8cfde4c23aa292f">Example</a>.</li>
+<li> Line (<code>roughViz.Line</code>) <a href="#Line">API</a>. <a href="https://blockbuilder.org/jwilber/ec7cbc374c2dc61b255494511e7d7ac6">Example</a>.</li>
+<li> Pie (<code>roughViz.Pie</code>) <a href="#Pie">API</a>. <a href="https://blockbuilder.org/jwilber/d117e0b0864a161bec2d914013ed69da">Example</a>.</li>
+<li> Scatter (<code>roughViz.Scatter</code>) <a href="#Scatter">API</a>. <a href="https://blockbuilder.org/jwilber/d02e4381d776fb9a7bcb126d3b32c85b">Example</a>.</li>
  </ul>
 
 Apply the features of `roughjs` to each chart:
@@ -39,8 +39,6 @@ Apply the features of `roughjs` to each chart:
 
 
 As well as additional chart-specific options ([see API below](#API))
-
-##### Customize (same data, different charts)
 
 
 ### Installation
@@ -249,24 +247,7 @@ Optional
 ### <code id="Line">roughViz.Line</code>
 Required
 - `element` [string]: Id or class of container element.
-- `data`: Data with which to constuct chart.
-Can be either an object or string.
-
-   - If object: every key supplied in `data` must be an array. Each key will receive its own line. You may provide a separate array to the `x` attribute for the x-axis values. If no `x` attribute is provided, the chart will default to the indices.
-
-    ```
-    new roughViz.Line({
-       element: '.viz',
-       data: {
-         profit: [100, 200, 100, 200],
-         revenue: [50, 500, 1500, 20],
-         tax: [10, 20, 30, 40],
-       },
-       x: ['day1', 'day2', 'day3', 'day3']
-     })
-     ```
-    
-   - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the each `y` as separate attributes that represent columns in said file. Each attribute prefaced with `y` (except `yLabel`) will receive its own line:
+- `data`: Must be a path/url to a `csv` or `tsv`, and you must also specify the each `y` as separate attributes that represent columns in said file. Each attribute prefaced with `y` (except `yLabel`) will receive its own line:
    ```
    new roughViz.Line({
      element: '#viz0',
