@@ -99,12 +99,12 @@ new roughViz.Donut(
 ### <code id="Bar">roughViz.Bar</code>
 Required
 - `element` [string]: Id or class of container element.
-- `data`: Data with which to constuct chart.
+- `data`: Data with which to construct chart.
 Can be either an object or string.
 
    - If object: must contain `labels` and `values` keys:
 
-    ```
+    ```js
     new roughViz.Bar({
        element: '.viz',
        data: {labels: ['a', 'b'], values: [10, 20]}
@@ -112,7 +112,7 @@ Can be either an object or string.
      ```
     
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
-   ```
+   ```js
    new roughViz.Bar({
      element: '#viz0',
      data: 'stringToDataUrl.csv',
@@ -150,12 +150,12 @@ Optional
 ### <code id="BarH">roughViz.BarH</code>
 Required
 - `element` [string]: Id or class of container element.
-- `data`: Data with which to constuct chart.
+- `data`: Data with which to construct chart.
 Can be either an object or string.
 
    - If object: must contain `labels` and `values` keys:
 
-    ```
+    ```js
     new roughViz.BarH({
        element: '.viz',
        data: {labels: ['a', 'b'], values: [10, 20]}
@@ -163,7 +163,7 @@ Can be either an object or string.
      ```
     
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
-   ```
+   ```js
    new roughViz.BarH({
      element: '#viz0',
      data: 'stringToDataUrl.csv',
@@ -201,12 +201,12 @@ Optional
 ### <code id="Donut">roughViz.Donut</code>
 Required
 - `element` [string]: Id or class of container element.
-- `data`: Data with which to constuct chart.
+- `data`: Data with which to construct chart.
 Can be either an object or string.
 
    - If object: must contain `labels` and `values` keys:
 
-    ```
+    ```js
     new roughViz.Donut({
        element: '.viz',
        data: {labels: ['a', 'b'], values: [10, 20]}
@@ -214,7 +214,7 @@ Can be either an object or string.
      ```
     
    - If string: must be a path/url to a `csv`, `json`, or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
-   ```
+   ```js
    new roughViz.Donut({
      element: '#viz0',
      data: 'stringToDataUrl.csv',
@@ -248,7 +248,7 @@ Optional
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Must be a path/url to a `csv` or `tsv`, and you must also specify the each `y` as separate attributes that represent columns in said file. Each attribute prefaced with `y` (except `yLabel`) will receive its own line:
-   ```
+   ```js
    new roughViz.Line({
      element: '#viz0',
      data: 'https://raw.githubusercontent.com/jwilber/random_data/master/profits.csv',
@@ -289,12 +289,12 @@ Optional
 ### <code id="Pie">roughViz.Pie</code>
 Required
 - `element` [string]: Id or class of container element.
-- `data`: Data with which to constuct chart.
+- `data`: Data with which to construct chart.
 Can be either an object or string.
 
    - If object: must contain `labels` and `values` keys:
 
-    ```
+    ```js
     new roughViz.Pie({
        element: '.viz',
        data: {labels: ['a', 'b'], values: [10, 20]}
@@ -302,7 +302,7 @@ Can be either an object or string.
      ```
     
    - If string: must be a path/url to a `csv`, `json`, or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
-   ```
+   ```js
    new roughViz.Pie({
      element: '#viz0',
      data: 'stringToDataUrl.csv',
@@ -335,12 +335,12 @@ Optional
 ### <code id="Scatter">roughViz.Scatter</code>
 Required
 - `element` [string]: Id or class of container element.
-- `data`: Data with which to constuct chart.
+- `data`: Data with which to construct chart.
 Can be either an object or string.
 
    - If object: must contain `x` and `y` keys:
 
-    ```
+    ```js
     new roughViz.Scatter({
        element: '.viz',
        data: {x: [1, 2, 35], y: [10, 20, 8]}
@@ -348,7 +348,7 @@ Can be either an object or string.
      ```
     
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `x` and `y` as separate attributes that represent columns in said file:
-   ```
+   ```js
    new roughViz.Scatter({
      element: '#viz0',
      data: 'stringToDataUrl.csv',
