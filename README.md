@@ -55,6 +55,12 @@ Via `npm`:
 npm install rough-viz
 ```
 
+Want to use with `React`? [There's a wrapper!](https://github.com/Chris927/react-roughviz):
+
+```sh
+npm install react-roughviz
+```
+
 ### How to use
 
 Create some container elements, one for each chart:
