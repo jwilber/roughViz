@@ -1,8 +1,6 @@
-// /* eslint max-len: ["error", { "code": 150 }]*/
+// /* eslint max-len: ['error', { 'code': 150 }]*/
 // /* eslint-disable no-new */
 import roughViz from '../src';
-
-
 
 // new roughViz.Line(
 //   {
@@ -20,7 +18,6 @@ import roughViz from '../src';
 //     height: 500,
 //   }
 // );
-
 
 // new roughViz.Line(
 //   {
@@ -61,8 +58,6 @@ import roughViz from '../src';
 //   }
 // );
 
-
-
 // new roughViz.Line(
 //   {
 //     element: '#vis0',
@@ -82,8 +77,6 @@ import roughViz from '../src';
 //   }
 // );
 
-
-
 // new roughViz.Scatter(
 //   {
 //     element: '#vis1',
@@ -102,7 +95,7 @@ import roughViz from '../src';
 //     // // axesFontSize: 20,
 //     axisRoughness: 1,
 //     // // stroke: 'black',
-//     // // fillWeight: 1.2, 
+//     // // fillWeight: 1.2,
 //     // // strokeWidth: 1,
 //     // // // fillStyle: 'cross-hatch',
 //     // // highlight: 'skyblue',
@@ -112,10 +105,6 @@ import roughViz from '../src';
 //     colors: ['green', 'red', 'blue', 'black']
 //   }
 // );
-
-
-
-
 
 // new roughViz.Bar(
 //   {
@@ -140,29 +129,36 @@ import roughViz from '../src';
 //   }
 // );
 
-new roughViz.BarH(
-  {
-    element: '#vis3',
-    data: {
-      labels: ['Reggae', 'Rap', 'R&B', 'Dance House', 'Hip Hop', 'Trap', 'tre', 'eifj'],
-      values: [240, 40, 400, 90, 75, 315, 43, 1500]
-    },
-    width: window.innerWidth / 2,
-    // height: 600,
-    title: 'Genres',
-    roughness: 1,
-    highlight: 'chocolate',
-    stroke: 'grey',
-    // axesFontSize: '20px'
-    padding: .15,
-    bowing: 6,
-    innerStrokeWidth: 0.5,
-    color: 'white',
-    // margin: {top: 50, right: 20, bottom: 150, left: 100},
-    highlight: 'white',
-    fillStyle: 'dashed',
-  }
-);
+new roughViz.BarH({
+  element: '#vis3',
+  data: {
+    labels: [
+      'Reggae',
+      'Rap',
+      'R&B',
+      'Dance House',
+      'Hip Hop',
+      'Trap',
+      'tre',
+      'eifj',
+    ],
+    values: [240, 40, 400, 90, 75, 315, 43, 1500],
+  },
+  width: window.innerWidth / 2,
+  // height: 600,
+  title: 'Genres',
+  roughness: 1,
+  highlight: 'chocolate',
+  stroke: 'grey',
+  // axesFontSize: '20px'
+  padding: 0.15,
+  bowing: 6,
+  innerStrokeWidth: 0.5,
+  color: 'white',
+  // margin: {top: 50, right: 20, bottom: 150, left: 100},
+  // highlight: 'white',
+  fillStyle: 'dashed',
+});
 
 // new roughViz.Bar(
 //   {
@@ -183,7 +179,6 @@ new roughViz.BarH(
 //   }
 // );
 
-
 // new roughViz.Bar(
 //   {
 //     element: '#vis4',
@@ -202,7 +197,6 @@ new roughViz.BarH(
 //     fillStyle: 'cross-hatch',
 //   }
 // );
-
 
 // new roughViz.Bar(
 //   {
@@ -251,25 +245,23 @@ new roughViz.BarH(
 //     // highlight: 'blue'
 // })
 
-new roughViz.Donut(
-  {
-    element: '#vis1',
-    data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
-    title: 'Regions',
-    labels: 'region',
-    values: 'count',
-    roughness: 0,
-    colors: ['pink', 'coral', 'teal', 'skyblue'],
-    highlight: 'gold',
-    strokeWidth: 2,
-    titleFontSize: '25px',
-    fillWeight: 1.5,
-    fillStyle: 'zigzag-line',
-    width: window.innerWidth / 2,
-    height: 450,
-  }
-);
-
+new roughViz.Donut({
+  element: '#vis1',
+  data:
+    'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
+  title: 'Regions',
+  labels: 'region',
+  values: 'count',
+  roughness: 0,
+  colors: ['pink', 'coral', 'teal', 'skyblue'],
+  highlight: 'gold',
+  strokeWidth: 2,
+  titleFontSize: '25px',
+  fillWeight: 1.5,
+  fillStyle: 'zigzag-line',
+  width: window.innerWidth / 2,
+  height: 450,
+});
 
 // new roughViz.Donut(
 //   {
@@ -295,30 +287,26 @@ new roughViz.Donut(
 //   }
 // );
 
-
-new roughViz.Pie(
-  {
-    element: '#vis2',
-    data: {
-      labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h'],
-      values: [13, 10, 4, 5, 6, 4, 5]
-    },
-    title: "'Yarn' Plot (Pie)",
-    // titleFontSize: '55px',
-    width: window.innerWidth / 4,
-    roughness: 20,
-    // radius: 'petal_width',
-    colors: ['red', 'orange', 'blue', 'skyblue', 'red', 'green', 'black', 'grey'],
-    // bowing: 0.1,
-    stroke: 'black',
-    strokeWidth: 3,
-    fillStyle: 'cross-hatch',
-    // height: 300,
-    // font: 0,
-    fillWeight: 3.5,
-  }
-);
-
+new roughViz.Pie({
+  element: '#vis2',
+  data: {
+    labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h'],
+    values: [13, 10, 4, 5, 6, 4, 5],
+  },
+  title: '"Yarn" Plot (Pie)',
+  // titleFontSize: '55px',
+  width: window.innerWidth / 4,
+  roughness: 20,
+  // radius: 'petal_width',
+  colors: ['red', 'orange', 'blue', 'skyblue', 'red', 'green', 'black', 'grey'],
+  // bowing: 0.1,
+  stroke: 'black',
+  strokeWidth: 3,
+  fillStyle: 'cross-hatch',
+  // height: 300,
+  // font: 0,
+  fillWeight: 3.5,
+});
 
 // new roughViz.Donut(
 //   {
@@ -344,7 +332,6 @@ new roughViz.Pie(
 //   }
 // );
 
-
 // new roughViz.Donut(
 //   {
 //     element: '#vis3',
@@ -368,7 +355,6 @@ new roughViz.Pie(
 //     fillWeight: 0.5,
 //   }
 // );
-
 
 // new roughViz.Pie(
 //   {
@@ -395,7 +381,7 @@ new roughViz.Pie(
 // new roughViz.Pie(
 //     {
 //       element: '#vis2',
-//         data: "https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json",
+//         data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
 //         title: `Pie Chart`,
 //         labels: 'region',
 //         values: 'count',
@@ -458,7 +444,6 @@ new roughViz.Pie(
 //   }
 // );
 
-
 // new roughViz.BarH(
 //   {
 //     element: '#vis4',
@@ -473,7 +458,6 @@ new roughViz.Pie(
 //     roughness: 1.75,
 //   }
 // );
-
 
 // new roughViz.Scatter(
 //   {
@@ -497,25 +481,22 @@ new roughViz.Pie(
 //   }
 // );
 
-
-new roughViz.Bar(
-  {
-    element: '#example',
-    data: 'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv',
-    labels: 'letter',
-    values: 'frequency',
-    height:window.innerHeight * 0.7,
-    width: window.innerWidth * 0.8,
-    roughness: 3,
-    color: 'pink',
-    fillWeight: 1,
-    strokeWidth: 0.5,
-    fillStyle: 'cross-hatch',
-    roughness: 0,
-    stroke: 'black',
-  }
-);
-
+new roughViz.Bar({
+  element: '#example',
+  data:
+    'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv',
+  labels: 'letter',
+  values: 'frequency',
+  height: window.innerHeight * 0.7,
+  width: window.innerWidth * 0.8,
+  roughness: 3,
+  color: 'pink',
+  fillWeight: 1,
+  strokeWidth: 0.5,
+  fillStyle: 'cross-hatch',
+  // roughness: 0,
+  stroke: 'black',
+});
 
 // new roughViz.BarH(
 //   {
@@ -539,3 +520,19 @@ new roughViz.Bar(
 //   }
 // );
 
+new roughViz.StackedBar({
+  element: '#vis8',
+  data:
+    'https://gist.githubusercontent.com/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0/raw/2bcb1c06ece164086e556b6e7b5140cab0512bc0/age-groups.csv',
+  labels: 'State',
+  // values: 'frequency',
+  height: window.innerHeight * 0.7,
+  width: window.innerWidth * 0.8,
+  roughness: 3,
+  color: 'pink',
+  fillWeight: 1,
+  strokeWidth: 0.5,
+  fillStyle: 'cross-hatch',
+  // roughness: 0,
+  stroke: 'black',
+});

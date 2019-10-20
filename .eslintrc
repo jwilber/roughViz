@@ -1,11 +1,15 @@
 {
-  "extends": "strongloop",
-  "parser": "babel-eslint",
-  "env": {
+    "extends": "strongloop",
+    "parser": "babel-eslint",
+    "env": {
         "browser": true,
         "node": true
     },
-   "rules": {
-        max-len: ["error", { "code": 90 }]
+    "rules": {
+        "max-len": ["error", {
+            "code": 145
+        }],
+        "no-new": 0
+        // "quotes": ["error", "double"]
     }
 }
