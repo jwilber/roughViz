@@ -102,6 +102,13 @@ class StackedBar {
       if (data.includes('.csv')) {
         return () => {
           csv(data).then(d => {
+            let t = 0;
+            for (let i = 1; i < d.columns.length; ++i) {
+              if (d[i][d.columns[i]] !== this.labels) {
+                t += d[i][d.columns[i]] = +d[i][d.columns[i]];
+                d[i].total = t;
+              }
+            }
             this.data = d;
             this.drawFromFile();
           });
@@ -109,6 +116,13 @@ class StackedBar {
       } else if (data.includes('.tsv')) {
         return () => {
           tsv(data).then(d => {
+            let t = 0;
+            for (let i = 1; i < d.columns.length; ++i) {
+              if (d[i][d.columns[i]] !== this.labels) {
+                t += d[i][d.columns[i]] = +d[i][d.columns[i]];
+                d[i].total = t;
+              }
+            }
             this.data = d;
             this.drawFromFile();
           });
@@ -131,12 +145,16 @@ class StackedBar {
           ? this.data.map(d => d[this.labels])
           : this.data[this.labels]
       );
+
+    this.data.sort(function(a, b) {
+      return b.total - a.total;
+    });
     this.yScale = scaleLinear()
       .rangeRound([this.height, 0])
       .domain([
         0,
         max(this.data, d => {
-          d.total;
+          return d.total;
         }),
       ])
       .nice();
@@ -186,7 +204,7 @@ class StackedBar {
     }
   }
 
-  addAxes(y) {
+  addAxes() {
     const xAxis = axisBottom(this.xScale).tickSize(0);
 
     // x-axis
@@ -208,8 +226,7 @@ class StackedBar {
       .style('opacity', 0.9);
 
     // y-axis
-    const yAxis = axisLeft(y).tickSize(0);
-    console.log(y);
+    const yAxis = axisLeft(this.yScale).tickSize(0);
     this.svg
       .append('g')
       .call(yAxis)
@@ -426,22 +443,19 @@ class StackedBar {
   drawFromFile() {
     this.initRoughObjects();
     this.addScales();
-
+    this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
     this.addLabels();
     // Add Stackedbarplot
     this.data.forEach(d => {
-      // console.log(d);
       var keys = Object.keys(d);
       keys.forEach(y => {
         if (y !== this.labels) {
-          console.log(this.xScale);
-          this.addAxes(this.yScale);
           let node = this.rc.rectangle(
             this.xScale(d[this.labels]),
-            10,
+            this.yScale(+d[y]),
             this.xScale.bandwidth(),
-            this.height - 10,
+            this.height - this.yScale(+d[y]),
             {
               simplification: this.simplification,
               fillWeight: this.fillWeight,
@@ -455,13 +469,13 @@ class StackedBar {
       });
     });
 
-    // selectAll(this.interactionG)
-    //   .selectAll("path:nth-child(2)")
-    //   .style("stroke-width", this.strokeWidth);
-    // // If desired, add interactivity
-    // if (this.interactive === true) {
-    //   this.addInteraction();
-    // }
+    selectAll(this.interactionG)
+      .selectAll('path:nth-child(2)')
+      .style('stroke-width', this.strokeWidth);
+    // If desired, add interactivity
+    if (this.interactive === true) {
+      this.addInteraction();
+    }
   } // draw
 }
 
