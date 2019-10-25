@@ -86,6 +86,13 @@
 			max-width: 45%;
 		}
 
+	.example-wrapper {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 16px 16px;
+		justify-items: center;
+		align-items: center;
+	}
 
 		body {
 			background-color: #fff;
@@ -130,28 +137,28 @@
 <!-- 	<br>While the charts are fun and look cool, they serve a valuable commincation purpose: communicating intent as opposed to a precise rendered graph.  -->
 </p>
 
-<br><br><br><br>
-	<center><h2>Quick Start</h2></center>
-	<hr>
-	<br><br>
-	<center>
-	<p>Step 1: Load Library</p>
-	<pre><code class="start">
-&lt;script src=&quot;https://d3js.org/d3.v5.min.js&quot;&gt;&lt;/script&gt;
-	</code></pre>
-	<p>Step 2: Setup chart container</p>	
-	<pre><code class="start">
+			<br><br><br><br>
+			<center><h2>Quick Start</h2></center>
+			<hr>
+			<br><br>
+			<center>
+				<p>Step 1: Load Library</p>
+				<pre><code class="start">
+&lt;script src=&quot;https://unpkg.com/rough-viz@1.0.2&quot;&gt;&lt;/script&gt;
+				</code></pre>
+				<p>Step 2: Setup chart container</p>
+				<pre><code class="start">
 &lt;div id=&quot;chart&quot;&gt;&lt;/div&gt;
-	</code></pre>
-	<p>Step 3: Create chart</p>	
-	<pre><code class="start">
-new roughBars.Bar(
+				</code></pre>
+				<p>Step 3: Create chart</p>
+				<pre><code class="start">
+new roughViz.Bar(
   {
-    element: '#example',
+    element: '#chart',
     data: 'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv',
     labels: 'letter',
     values: 'frequency',
-    height:window.innerHeight * 0.7,
+    height: window.innerHeight * 0.7,
     width: window.innerWidth * 0.8,
     roughness: 3,
     color: 'pink',
@@ -160,36 +167,36 @@ new roughBars.Bar(
     stroke: 'black',
   }
 );
-	</code></pre>
-	<p>That's it!</p>
-	<p>With npm:</p>
-	<pre><code class="start">
-	npm install roughviz
-</code></pre>
-</center>
+				</code></pre>
+				<p>That's it!</p>
+				<p>With npm:</p>
+				<pre><code class="start">
+	npm install rough-viz
+				</code></pre>
+			</center>
+		</center>
 
 
-<br>
+		<br>
 
-<!-- 	<p>roughness</p>
-	<p>fillStyle</p>
-	<p>fillWeight</p>
-	<p>strokeWidth</p>
-	<br><br>
+		<!-- 	<p>roughness</p>
+	  <p>fillStyle</p>
+	  <p>fillWeight</p>
+	  <p>strokeWidth</p>
+	  <br><br>
 
- -->
+		-->
 
-	<br><br><br><br>
-	<center>
-		<h2>Some Examples</h2>
-		<p>(<a href="https://github.com/jwilber/roughViz">View Full API</a>)</p>
-	</center>
-	<hr>
-	<br><br>
-	<div class="wrapper">
-	    <div id="vis0"></div>
-	    <pre><code>
-new roughBars.Scatter(
+		<br><br><br><br>
+		<center>
+			<h2>Some Examples</h2>
+			<p>(<a href="https://github.com/jwilber/roughViz">View Full API</a>)</p>
+		</center>
+		<div class="example-wrapper">
+			<div id="vis0"></div>
+
+			<pre><code>
+new roughViz.Scatter(
   {
     element: '#vis0',
     data: 'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
@@ -204,12 +211,12 @@ new roughBars.Scatter(
     height: 500,
   }
 );
-</code></pre>
-	</div>
-	<div class="wrapper">
-	    <div id="vis1"></div>
-	    <pre><code>
-new roughBars.Donut(
+			</code></pre>
+
+			<div id="vis1"></div>
+
+			<pre><code>
+new roughViz.Donut(
   {
     element: '#vis1',
     data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
@@ -227,13 +234,13 @@ new roughBars.Donut(
     height: 450,
   }
 );
-	    </code>
-	</div>
-	<div class="wrapper">
-	    <div id="vis2"></div>
-	    <pre><code>new roughBars.Donut(
+			</code></pre>
+
+			<div id="vis2"></div>
+
+			<pre><code>new roughViz.Donut(
   {
-    element: '#vis1',
+    element: '#vis2',
     data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
     title: 'Regions',
     labels: 'region',
@@ -253,13 +260,14 @@ new roughBars.Donut(
     height: 450,
     curbZero: false,
   }
-);</code></pre>
-	</div>
-	<div class="wrapper">
-	    <div id="vis3"></div>
-	    <pre><code>new roughBars.Pie(
+);
+			</code></pre>
+
+			<div id="vis3"></div>
+
+			<pre><code>new roughViz.Pie(
   {
-    element: '#vis2',
+    element: '#vis3',
     data: {
       labels: ['Reggae', 'Jah', 'Lax', 'd'],
       values: [40, 400, 40]
@@ -279,9 +287,9 @@ new roughBars.Donut(
     // font: 0,
     fillWeight: 3.5,
   }
-);</code></pre>
+);
+			</code></pre>
 	</div>
-</center>
 
 
 	<script src="index.js"></script>

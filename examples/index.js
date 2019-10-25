@@ -22,23 +22,21 @@ import roughViz from '../src';
 // );
 
 
-// new roughViz.Line(
-//   {
-//     element: '#vis0',
-//     data: 'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
-//     title: 'Line Chart',
-//     x: 'gdpPercap',
-//     y: 'lifeExp',
-//     radius: 'pop',
-//     colorVar: 'continent',
-//     highlightLabel: 'country',
-//     highlight: 'red',
-//     fillWeight: 2,
-//     roughness: 3.5,
-//     width: window.innerWidth / 2,
-//     height: 500,
-//   }
-// );
+new roughViz.Scatter(
+  {
+    element: '#vis0',
+    data: 'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
+    title: 'Hans Rosling (Gapminder 2007)',
+    x: 'gdpPercap',
+    y: 'lifeExp',
+    radius: 'pop',
+    colorVar: 'continent',
+    highlightLabel: 'country',
+    roughness: 1.5,
+    width: window.innerWidth / 2,
+    height: 500,
+  }
+);
 
 // ERROR WHEN x undefined
 // new roughViz.Line(
@@ -305,7 +303,7 @@ new roughViz.Pie(
     },
     title: "'Yarn' Plot (Pie)",
     // titleFontSize: '55px',
-    width: window.innerWidth / 4,
+    width: window.innerWidth / 2,
     roughness: 20,
     // radius: 'petal_width',
     colors: ['red', 'orange', 'blue', 'skyblue', 'red', 'green', 'black', 'grey'],
@@ -504,7 +502,7 @@ new roughViz.Bar(
     data: 'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv',
     labels: 'letter',
     values: 'frequency',
-    height:window.innerHeight * 0.7,
+    height: window.innerHeight * 0.7,
     width: window.innerWidth * 0.8,
     roughness: 3,
     color: 'pink',
