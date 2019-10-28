@@ -166,9 +166,7 @@ class Line {
         [0, this.data.length] :
         [0, maxLen];
     } else {
-      xExtent = this.dataFormat === 'file' ?
-        extent(this.data, d => +d[this.x]) :
-        extent(this.x);
+      xExtent = extent(this.x);
     }
 
     const yExtent = dataExtent;
@@ -219,11 +217,15 @@ class Line {
   addAxes() {
     const xAxis = axisBottom(this.xScale)
       .tickSize(0)
-      .tickFormat((d) => { return this.xValueFormat ? format(this.xValueFormat)(d) : d });
+      .tickFormat((d) => { return this.xValueFormat ?
+        format(this.xValueFormat)(d) :
+        d; });
 
     const yAxis = axisLeft(this.yScale)
       .tickSize(0)
-      .tickFormat((d) => { return this.yValueFormat ? format(this.yValueFormat)(d) : d });
+      .tickFormat((d) => { return this.yValueFormat ?
+        format(this.yValueFormat)(d) :
+        d; });
 
     // x-axis
     this.svg.append('g')
@@ -307,12 +309,15 @@ class Line {
       .attr('pointer-events', 'all');
 
     this.dataSources.map((key, idx) => {
-      let currData = this.dataFormat === 'file' ?
-        this.data :
-        this.data[key];
-      const points = currData.map((d, i) => {
-        return [this.xScale(i), this.yScale(d[key])];
+      const points = this.data.map((d, i) => {
+        return this.x === undefined ?
+          [this.xScale(i), this.yScale(d[key])] :
+          [this.xScale(this.x[i]), this.yScale(+d[key])];
       });
+
+      // remove undefined elements so no odd behavior
+      const drawPoints = points.filter(d => d[0] !== undefined);
+
       const lineGen = line()
         .x(d => d[0])
         .y(d => d[1]);
@@ -320,7 +325,7 @@ class Line {
       // create lines
       this.svg
         .append('path')
-        .datum(points)
+        .datum(drawPoints)
         .attr('fill', 'none')
         .attr('stroke', 'blue')
         .attr('stroke-width', 1.5)
@@ -348,12 +353,12 @@ class Line {
       const domain = that.xScale.domain();
       const xRange = that.xScale.range();
       const rangePoints = range(xRange[0], xRange[1] + 1, that.xScale.step());
-      const xSpot = bisect(rangePoints, xPos) - 1;
+      const xSpot = bisect(rangePoints, xPos);
       const yPos = domain[xSpot];
 
       that.dataSources.map((key, i) => {
         const hoverData = that.dataFormat === 'file' ?
-          that.data[yPos] :
+          that.x === undefined ? that.data[yPos] : that.data[xSpot] :
           that.data[key][xSpot];
         // resolve select classes for hover effects
         const thatClass = '.' + key + 'class';
@@ -362,9 +367,13 @@ class Line {
         if (that.dataFormat === 'file') {
           select(textClass).selectAll('text')
             .style('opacity', 1)
-            .html(`(${xSpot},${hoverData[key]})`)
-            .attr('x', that.xScale(xSpot))
-            .attr('y', that.yScale(hoverData[key]) - 5);
+            .html(that.x === undefined ?
+              `(${xSpot},${hoverData[key]})` :
+              `(${that.x[xSpot]}, ${hoverData[key]})`)
+            .attr('x', that.x === undefined ?
+              that.xScale(xSpot) :
+              that.xScale(that.x[xSpot]))
+            .attr('y', that.yScale(hoverData[key]) - 6);
         } else {
           select(textClass).selectAll('text')
             .style('opacity', 1)
@@ -493,9 +502,14 @@ class Line {
     // Add scatterplot
     this.dataSources.map((key, idx) => {
       const points = this.data.map((d, i) => {
-        return [this.xScale(i), this.yScale(d[key])];
+        return this.x === undefined ?
+          [this.xScale(i), this.yScale(d[key])] :
+          [this.xScale(this.x[i]), this.yScale(+d[key])];
       });
-      let node = this.rc.curve(points, {
+
+      // remove undefined elements so no odd behavior
+      const drawPoints = points.filter(d => d[0] !== undefined);
+      let node = this.rc.curve(drawPoints, {
         stroke: this.colors[idx],
         strokeWidth: this.strokeWidth,
         roughness: 1,
@@ -504,7 +518,7 @@ class Line {
 
       this.roughSvg.appendChild(node);
       if (this.circle === true) {
-        points.forEach((d, i) => {
+        drawPoints.forEach((d, i) => {
           let node = this.rc.circle(
             d[0],
             d[1],
