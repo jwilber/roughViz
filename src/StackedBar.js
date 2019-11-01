@@ -97,20 +97,27 @@ class StackedBar {
     }
   }
 
+  // Helper Method to get the Total Value of the Stack
+  getTotal(d){
+    for(let x = 0; x < d.length; x++){
+      let t = 0;
+      for (let i = 0; i < d.columns.length; ++i) {
+        if (d.columns[i] !== this.labels) {
+          t += d[x][d.columns[i]] = +d[x][d.columns[i]];
+        }
+      }
+      d[x].total = t
+    }
+    return d;
+  }
+
   // add this to abstract base
   resolveData(data) {
     if (typeof data === 'string') {
       if (data.includes('.csv')) {
         return () => {
           csv(data).then(d => {
-            let t = 0;
-            console.log(d.columns);
-            for (let i = 1; i < d.columns.length; ++i) {
-              if (d[i][d.columns[i]] !== this.labels) {
-                t += d[i][d.columns[i]] = +d[i][d.columns[i]];
-                d[i].total = t;
-              }
-            }
+            this.getTotal(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -118,13 +125,7 @@ class StackedBar {
       } else if (data.includes('.tsv')) {
         return () => {
           tsv(data).then(d => {
-            let t = 0;
-            for (let i = 1; i < d.columns.length; ++i) {
-              if (d[i][d.columns[i]] !== this.labels) {
-                t += d[i][d.columns[i]] = +d[i][d.columns[i]];
-                d[i].total = t;
-              }
-            }
+            this.getTotal(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -419,13 +420,8 @@ class StackedBar {
     });
   }
 
-  drawFromObject() {
-    this.initRoughObjects();
-    this.addScales();
-    this.addAxes();
-    this.makeAxesRough(this.roughSvg, this.rcAxis);
-    this.addLabels();
-
+  // Helper Method to create the Stack
+  stacking() {
     // Add Stackedbarplot
     this.data.forEach(d => {
       let keys = Object.keys(d);
@@ -456,6 +452,16 @@ class StackedBar {
         }
       });
     });
+  }
+
+  drawFromObject() {
+    this.initRoughObjects();
+    this.addScales();
+    this.addAxes();
+    this.makeAxesRough(this.roughSvg, this.rcAxis);
+    this.addLabels();
+    // Add Stackedbarplot
+    this.stacking();
 
     selectAll(this.interactionG)
       .selectAll('path:nth-child(2)')
@@ -472,38 +478,9 @@ class StackedBar {
     this.addAxes();
     this.makeAxesRough(this.roughSvg, this.rcAxis);
     this.addLabels();
-    // Add Stackedbarplot
-    this.data.forEach(d => {
-      let keys = Object.keys(d);
-      let yStack = 0;
-      console.log(d.total)
-      keys.forEach((y, i) => {
-        if (i > 0 && y !== 'total') {
-          yStack += parseInt(d[y]);
-          // console.log(
-          //   'x: ' + this.xScale(d[this.labels]) + ' y: ' + yStack + ' width: ' + this.xScale.bandwidth() + ' height: ' + (this.height - this.yScale(+d[y]))
-          // );
-          let node = this.rc.rectangle(
-            this.xScale(d[this.labels]),
-            this.yScale(yStack),
-            this.xScale.bandwidth(),
-            this.height - this.yScale(+d[y]),
-            {
-              fill: this.colors[i],
-              stroke: this.colors[i],
-              simplification: this.simplification,
-              fillWeight: this.fillWeight,
-            }
-          );
-          let roughNode = this.roughSvg.appendChild(node);
-          roughNode.setAttribute('class', this.graphClass);
-          roughNode.setAttribute('attrX', d[this.labels]);
-          roughNode.setAttribute('keyY', y);
-          roughNode.setAttribute('attrY', +d[y]);
-        }
-      });
-    });
-
+    // Add Stackedbar
+    this.stacking();
+    
     selectAll(this.interactionG)
       .selectAll('path:nth-child(2)')
       .style('stroke-width', this.strokeWidth);
