@@ -5,3 +5,4 @@ jest.config.js
 examples/
 .cache
 .eslintrc
+.vscode/

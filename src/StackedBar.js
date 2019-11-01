@@ -38,8 +38,8 @@ class StackedBar {
     this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
     this.font = opts.font || 0;
     this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
-    this.labels = this.dataFormat === 'object' ? 'labels' : opts.labels;
-    this.values = this.dataFormat === 'object' ? 'values' : opts.values;
+    this.labels = opts.labels;
+    this.values = opts.values;
     this.padding = opts.padding || 0.1;
     this.xLabel = opts.xLabel || '';
     this.yLabel = opts.yLabel || '';
@@ -132,6 +132,16 @@ class StackedBar {
     } else {
       return () => {
         this.data = data;
+        for (let i = 0; i < data.length; ++i) {
+          let t = 0;
+          let keys = Object.keys(data[i]);
+          keys.forEach(d => {
+            if (d !== this.labels) {
+              t += data[i][d];
+              data[i].total = t;
+            }
+          })
+        }
         this.drawFromObject();
       };
     }
@@ -141,11 +151,7 @@ class StackedBar {
     this.xScale = scaleBand()
       .rangeRound([0, this.width])
       .padding(this.padding)
-      .domain(
-        this.dataFormat === 'file'
-          ? this.data.map(d => d[this.labels])
-          : this.data[this.labels]
-      );
+      .domain(this.data.map(d => d[this.labels]));
 
     this.data.sort(function(a, b) {
       return b.total - a.total;
@@ -161,7 +167,7 @@ class StackedBar {
       .nice();
 
     // set the colors
-    var keys = this.data.columns;
+    let keys = this.dataFormat === 'object' ? this.data.map(d => d[this.labels]) : this.data.columns;
     this.zScale = scaleOrdinal()
       .range([
         '#98abc5',
@@ -339,12 +345,13 @@ class StackedBar {
       .style('pointer-events', 'none');
 
     // event functions
-    var mouseover = function(d) {
+    let mouseover = function(d) {
       Tooltip.style('opacity', 1);
     };
     let that = this;
+    let thisColor;
 
-    var mousemove = function(d) {
+    let mousemove = function(d) {
       let attrX = select(this).attr('attrX');
       let attrY = select(this).attr('attrY');
       let keyY = select(this).attr('keyY');
@@ -360,13 +367,16 @@ class StackedBar {
             (that.height + that.margin.top + that.margin.bottom)}px)`
         );
     };
-    var mouseleave = function(d) {
+    let mouseleave = function(d) {
       Tooltip.style('opacity', 0);
     };
 
     // d3 event handlers
     selectAll(this.interactionG).on('mouseover', function() {
       mouseover();
+      thisColor = select(this)
+        .selectAll('path')
+        .style('stroke');
       select(this)
         .select('path')
         .style('stroke', that.highlight);
@@ -379,7 +389,7 @@ class StackedBar {
       mouseleave();
       select(this)
         .select('path')
-        .style('stroke', that.color);
+        .style('stroke', thisColor);
       select(this)
         .selectAll('path:nth-child(2)')
         .style('stroke-width', that.strokeWidth);
@@ -416,21 +426,34 @@ class StackedBar {
     this.addLabels();
 
     // Add Stackedbarplot
-    this.data.values.forEach((d, i) => {
-      let node = this.rc.rectangle(
-        this.xScale(this.data[this.labels][i]),
-        this.yScale(+d),
-        this.xScale.bandwidth(),
-        this.height - this.yScale(+d),
-        {
-          simplification: this.simplification,
-          fillWeight: this.fillWeight,
+    this.data.forEach(d => {
+      let keys = Object.keys(d);
+      let yStack = 0
+      keys.forEach((y, i) => {
+        if (i > 0 && y !== 'total') {
+          yStack += d[y]
+          // console.log(
+          //   'x: ' + this.xScale(d[this.labels]) + ' y: ' + yStack + ' width: ' + this.xScale.bandwidth() + ' height: ' + (this.height - this.yScale(+d[y]))
+          // );
+          let node = this.rc.rectangle(
+            this.xScale(d[this.labels]),
+            this.yScale(yStack),
+            this.xScale.bandwidth(),
+            this.height - this.yScale(+d[y]),
+            {
+              fill: this.colors[i],
+              stroke: this.colors[i],
+              simplification: this.simplification,
+              fillWeight: this.fillWeight,
+            }
+          );
+          let roughNode = this.roughSvg.appendChild(node);
+          roughNode.setAttribute('class', this.graphClass);
+          roughNode.setAttribute('attrX', d[this.labels]);
+          roughNode.setAttribute('keyY', y);
+          roughNode.setAttribute('attrY', +d[y]);
         }
-      );
-      let roughNode = this.roughSvg.appendChild(node);
-      roughNode.setAttribute('class', this.graphClass);
-      roughNode.setAttribute('attrX', this.data[this.labels][i]);
-      roughNode.setAttribute('attrY', +d);
+      });
     });
 
     selectAll(this.interactionG)
@@ -450,15 +473,14 @@ class StackedBar {
     this.addLabels();
     // Add Stackedbarplot
     this.data.forEach(d => {
-      var keys = Object.keys(d);
+      let keys = Object.keys(d);
+      let yStack = 0
       keys.forEach((y, i) => {
         if (i > 0 && y !== 'total') {
-          console.log(
-            'Index: ' + i + ' Column: ' + y + ' this.Label: ' + this.labels
-          );
+          yStack += d[y]
           let node = this.rc.rectangle(
             this.xScale(d[this.labels]),
-            this.yScale(+d[y]),
+            this.yScale(yStack),
             this.xScale.bandwidth(),
             this.height - this.yScale(+d[y]),
             {

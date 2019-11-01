@@ -520,11 +520,41 @@ new roughViz.Bar({
 //   }
 // );
 
+// new roughViz.StackedBar({
+//   element: '#vis8',
+//   data:
+//     'https://gist.githubusercontent.com/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0/raw/2bcb1c06ece164086e556b6e7b5140cab0512bc0/age-groups.csv',
+//   labels: 'State',
+//   // values: 'frequency',
+//   height: window.innerHeight * 0.7,
+//   width: window.innerWidth * 0.8,
+//   roughness: 3,
+//   colors: [
+//     'red',
+//     'orange',
+//     '#f996ae',
+//     'skyblue',
+//     '#9ff4df',
+//     'green',
+//     '#f6f0a3',
+//     '#6bceee',
+//     '#d9b6fd',
+//   ],
+//   fillWeight: 1,
+//   strokeWidth: 0.5,
+//   fillStyle: 'cross-hatch',
+//   // roughness: 0,
+//   stroke: 'black',
+// });
+
 new roughViz.StackedBar({
   element: '#vis8',
-  data:
-    'https://gist.githubusercontent.com/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0/raw/2bcb1c06ece164086e556b6e7b5140cab0512bc0/age-groups.csv',
-  labels: 'State',
+  data: [
+      {month:'Jan', A:20, B: 5,  C: 10},
+      {month:'Feb', A:25, B: 10, C: 20}
+    
+  ],
+  labels: 'month',
   // values: 'frequency',
   height: window.innerHeight * 0.7,
   width: window.innerWidth * 0.8,
