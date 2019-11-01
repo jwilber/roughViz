@@ -104,6 +104,7 @@ class StackedBar {
         return () => {
           csv(data).then(d => {
             let t = 0;
+            console.log(d.columns);
             for (let i = 1; i < d.columns.length; ++i) {
               if (d[i][d.columns[i]] !== this.labels) {
                 t += d[i][d.columns[i]] = +d[i][d.columns[i]];
@@ -428,10 +429,10 @@ class StackedBar {
     // Add Stackedbarplot
     this.data.forEach(d => {
       let keys = Object.keys(d);
-      let yStack = 0
+      let yStack = 0;
       keys.forEach((y, i) => {
         if (i > 0 && y !== 'total') {
-          yStack += d[y]
+          yStack += parseInt(d[y]);
           // console.log(
           //   'x: ' + this.xScale(d[this.labels]) + ' y: ' + yStack + ' width: ' + this.xScale.bandwidth() + ' height: ' + (this.height - this.yScale(+d[y]))
           // );
@@ -474,10 +475,14 @@ class StackedBar {
     // Add Stackedbarplot
     this.data.forEach(d => {
       let keys = Object.keys(d);
-      let yStack = 0
+      let yStack = 0;
+      console.log(d.total)
       keys.forEach((y, i) => {
         if (i > 0 && y !== 'total') {
-          yStack += d[y]
+          yStack += parseInt(d[y]);
+          // console.log(
+          //   'x: ' + this.xScale(d[this.labels]) + ' y: ' + yStack + ' width: ' + this.xScale.bandwidth() + ' height: ' + (this.height - this.yScale(+d[y]))
+          // );
           let node = this.rc.rectangle(
             this.xScale(d[this.labels]),
             this.yScale(yStack),
