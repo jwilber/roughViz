@@ -573,6 +573,6 @@ new roughViz.StackedBar({
   fillWeight: 1,
   strokeWidth: 0.5,
   fillStyle: 'cross-hatch',
-  // roughness: 0,
+  roughness: 0,
   stroke: 'black',
 });

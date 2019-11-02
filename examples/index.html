@@ -310,31 +310,41 @@ new roughBars.Donut(
   }
 );</code></pre>
 		</div>
-		<div class="wrapper">
-			<div id="vis8"></div>
-			<!-- <pre><code>new roughBars.Pie(
-  {
-    element: '#vis8,
-    data: {
-      labels: ['Reggae', 'Jah', 'Lax', 'd'],
-      values: [40, 400, 40]
-    },
-    title: 'My Free Time',
-    // titleFontSize: '55px',
-    width: window.innerWidth / 2,
-    roughness: 5,
-    // radius: 'petal_width',
-    colors: ['red', 'orange', 'blue', 'skyblue', 'red', 'green', 'black', 'grey'],
-    // bowing: 0.1,
-    stroke: 'black',
-    strokeWidth: 5,
-    strokeWidth: 3,
-    fillStyle: 'zigzag',
-    height: 400,
-    // font: 0,
-    fillWeight: 3.5,
-  }
-);</code></pre> -->
+<div class="wrapper">
+	<div id="vis8"></div>
+<pre>
+<code>
+new roughViz.StackedBar({
+element: '#vis8',
+data: [
+	{month:'Jan', A:20, B: 5,  C: 10},
+	{month:'Feb', A:25, B: 10, C: 20}
+	
+],
+labels: 'month',
+// values: 'frequency',
+height: window.innerHeight * 0.7,
+width: window.innerWidth * 0.8,
+roughness: 3,
+colors: [
+	'red',
+	'orange',
+	'#f996ae',
+	'skyblue',
+	'#9ff4df',
+	'green',
+	'#f6f0a3',
+	'#6bceee',
+	'#d9b6fd',
+],
+fillWeight: 1,
+strokeWidth: 0.5,
+fillStyle: 'cross-hatch',
+roughness: 0,
+stroke: 'black',
+});
+</code>
+</pre>
 		</div>
 	</center>
 
