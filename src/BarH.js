@@ -174,11 +174,11 @@ class BarH {
   addAxes() {
     const xAxis = axisBottom(this.xScale)
       .tickSize(0)
-      .tickFormat((d) => { return this.xValueFormat ? format(this.xValueFormat)(d) : d });
+      .tickFormat((d) => { return this.xValueFormat ? format(this.xValueFormat)(d) : d; });
 
     const yAxis = axisLeft(this.yScale)
       .tickSize(0)
-      .tickFormat((d) => { return this.yValueFormat ? format(this.yValueFormat)(d) : d });
+      .tickFormat((d) => { return this.yValueFormat ? format(this.yValueFormat)(d) : d; });
 
     // x-axis
     this.svg.append('g')
