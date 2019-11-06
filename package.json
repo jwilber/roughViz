@@ -14,7 +14,7 @@
     "start": "parcel examples/index.html",
     "test": "jest --env=jsdom"
   },
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/jwilber/roughViz.git"
   },
@@ -27,7 +27,6 @@
     "dataviz",
     "data visualization"
   ],
-  
   "author": "jwilber",
   "license": "MIT",
   "bugs": {

@@ -1,49 +1,69 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>roughViz.js</title>
 	<style>
 		@font-face {
-		    font-family: "Gaegu";
-		    src: url("../assets/Gaegu-Light.ttf");
+			font-family: "Gaegu";
+			src: url("../assets/Gaegu-Light.ttf");
 		}
-	    /*@import url('https://fonts.googleapis.com/css?family=Gaegu');*/
-	    @import url('https://fonts.googleapis.com/css?family=Roboto');
-	    /*@import url('https://fonts.googleapis.com/css?family=Indie+Flower');*/
-	    .wrapper {
-	      display: flex;
-	      flex: wrap;
-	    }
-	    h1, h2, h4 {
-	    	font-family: 'Gaegu';
-	    	font-weight: lighter;
-	    	padding-bottom: 0;
-	    	margin-bottom: 0;
-	    	margin-top: 0;
-	    }
 
-	    h2 {
-	    	font-family: 'Gaegu';
-	    	font-size: 2.5rem;
-	    }
+		/*@import url('https://fonts.googleapis.com/css?family=Gaegu');*/
+		@import url('https://fonts.googleapis.com/css?family=Roboto');
 
-	    p {
-	    	font-family: 'Gaegu';
-	    	color: grey;
-	    	font-size: 1.3rem;
-	    }
+		/*@import url('https://fonts.googleapis.com/css?family=Indie+Flower');*/
+		.wrapper {
+			display: flex;
+			flex: wrap;
+		}
 
-	    .dot {
-		    -webkit-animation:name 4s infinite;
-		    stroke: black;
+		h1,
+		h2,
+		h4 {
+			font-family: 'Gaegu';
+			font-weight: lighter;
+			padding-bottom: 0;
+			margin-bottom: 0;
+			margin-top: 0;
+		}
+
+		h2 {
+			font-family: 'Gaegu';
+			font-size: 2.5rem;
+		}
+
+		p {
+			font-family: 'Gaegu';
+			color: grey;
+			font-size: 1.3rem;
+		}
+
+		.dot {
+			-webkit-animation: name 4s infinite;
+			stroke: black;
 		}
 
 		@-webkit-keyframes name {
-		    0% {color: skyblue;}
-		    25% {color: teal;}
-		    50% {color: pink;}
-		    75% {color: yellow;}
-		    100% {color: coral;}
+			0% {
+				color: skyblue;
+			}
+
+			25% {
+				color: teal;
+			}
+
+			50% {
+				color: pink;
+			}
+
+			75% {
+				color: yellow;
+			}
+
+			100% {
+				color: coral;
+			}
 		}
 
 		.project-grid {
@@ -70,16 +90,16 @@
 			opacity: .3;
 		}
 
-		code  {
-		    display: block;
-		    text-align: left;
-		    background: #f5f5f5;
-		    padding-right: 0.5em;
-		    color: #333333;
-		    overflow-x: auto;
-		    font-size: 0.8rem;
-		    max-width: 100%;
-		    border: 1px solid tan;
+		code {
+			display: block;
+			text-align: left;
+			background: #f5f5f5;
+			padding-right: 0.5em;
+			color: #333333;
+			overflow-x: auto;
+			font-size: 0.8rem;
+			max-width: 100%;
+			border: 1px solid tan;
 		}
 
 		.start {
@@ -90,61 +110,70 @@
 		body {
 			background-color: #fff;
 		}
-  </style>
+	</style>
 </head>
+
 <body>
 	<center>
 		<h1 style='font-size: 8rem; letter-spacing: -4px;'> roughViz<span class="dot">.</span>js </h1>
 		<!-- <h4> Chart Zoo </h4> -->
 		<p> Reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser.<br>
-		 Based on D3v5 and rough.js.</p>
+			Based on D3v5 and rough.js.</p>
 	</center>
 	<div style="padding-left: 10%;" id="example"></div>
 	<!-- <h1>Examples</h1> -->
 
 
-	<center><h2>Qualities</h2></center>
 	<center>
-	<li class="project-grid">
-		<ul class="project-wrapper">
-			<h2>Flexible</h2>
-			<p class="desc">Charts can be created from multiple data-sources! Use inline JSON. Load your own local file. Link to data at some url.</p>
-		</ul>
-		<ul class="project-wrapper">
-			<h2>Aesthetic</h2>
-			<p class="desc">Create charts with beautiful, sketchy-looking aesthetics. Or just make charts that look like a bunch of scribbles. </p>
-		</ul>
-		<ul class="project-wrapper">
-			<h2>Simple</h2>
-			<p class="desc">roughViz has a very easy API. Just create a chart and specify the parameters. No more method chaining or nested JSON. </p>
-		</ul>
-	<!-- 	<ul class="project-wrapper">
+		<h2>Qualities</h2>
+	</center>
+	<center>
+		<li class="project-grid">
+			<ul class="project-wrapper">
+				<h2>Flexible</h2>
+				<p class="desc">Charts can be created from multiple data-sources! Use inline JSON. Load your own local file.
+					Link to data at some url.</p>
+			</ul>
+			<ul class="project-wrapper">
+				<h2>Aesthetic</h2>
+				<p class="desc">Create charts with beautiful, sketchy-looking aesthetics. Or just make charts that look like a
+					bunch of scribbles. </p>
+			</ul>
+			<ul class="project-wrapper">
+				<h2>Simple</h2>
+				<p class="desc">roughViz has a very easy API. Just create a chart and specify the parameters. No more method
+					chaining or nested JSON. </p>
+			</ul>
+			<!-- 	<ul class="project-wrapper">
 			<h2>Modern</h2>
 			<p class="desc">The code was written as an ES Module using ES6+ and D3v5+.</p>
 		</ul> -->
-	</li>
-	<br><br>
-	<p style="max-width: 70%;"><b>Why?</b> roughViz was built to provide an easy way to create interactive, "sketchy" plots in the browser.
-	Use these charts where the communication goal is to show intent or generality, and not absolute precision. 
-	Or just because they're fun and look weird.
-<!-- 	<br>While the charts are fun and look cool, they serve a valuable commincation purpose: communicating intent as opposed to a precise rendered graph.  -->
-</p>
+		</li>
+		<br><br>
+		<p style="max-width: 70%;"><b>Why?</b> roughViz was built to provide an easy way to create interactive, "sketchy"
+			plots in the browser.
+			Use these charts where the communication goal is to show intent or generality, and not absolute precision.
+			Or just because they're fun and look weird.
+			<!-- 	<br>While the charts are fun and look cool, they serve a valuable commincation purpose: communicating intent as opposed to a precise rendered graph.  -->
+		</p>
 
-<br><br><br><br>
-	<center><h2>Quick Start</h2></center>
-	<hr>
-	<br><br>
-	<center>
-	<p>Step 1: Load Library</p>
-	<pre><code class="start">
+		<br><br><br><br>
+		<center>
+			<h2>Quick Start</h2>
+		</center>
+		<hr>
+		<br><br>
+		<center>
+			<p>Step 1: Load Library</p>
+			<pre><code class="start">
 &lt;script src=&quot;https://d3js.org/d3.v5.min.js&quot;&gt;&lt;/script&gt;
 	</code></pre>
-	<p>Step 2: Setup chart container</p>	
-	<pre><code class="start">
+			<p>Step 2: Setup chart container</p>
+			<pre><code class="start">
 &lt;div id=&quot;chart&quot;&gt;&lt;/div&gt;
 	</code></pre>
-	<p>Step 3: Create chart</p>	
-	<pre><code class="start">
+			<p>Step 3: Create chart</p>
+			<pre><code class="start">
 new roughBars.Bar(
   {
     element: '#example',
@@ -161,17 +190,17 @@ new roughBars.Bar(
   }
 );
 	</code></pre>
-	<p>That's it!</p>
-	<p>With npm:</p>
-	<pre><code class="start">
+			<p>That's it!</p>
+			<p>With npm:</p>
+			<pre><code class="start">
 	npm install roughviz
 </code></pre>
-</center>
+		</center>
 
 
-<br>
+		<br>
 
-<!-- 	<p>roughness</p>
+		<!-- 	<p>roughness</p>
 	<p>fillStyle</p>
 	<p>fillWeight</p>
 	<p>strokeWidth</p>
@@ -179,16 +208,16 @@ new roughBars.Bar(
 
  -->
 
-	<br><br><br><br>
-	<center>
-		<h2>Some Examples</h2>
-		<p>(<a href="https://github.com/jwilber/roughViz">View Full API</a>)</p>
-	</center>
-	<hr>
-	<br><br>
-	<div class="wrapper">
-	    <div id="vis0"></div>
-	    <pre><code>
+		<br><br><br><br>
+		<center>
+			<h2>Some Examples</h2>
+			<p>(<a href="https://github.com/jwilber/roughViz">View Full API</a>)</p>
+		</center>
+		<hr>
+		<br><br>
+		<div class="wrapper">
+			<div id="vis0"></div>
+			<pre><code>
 new roughBars.Scatter(
   {
     element: '#vis0',
@@ -205,10 +234,10 @@ new roughBars.Scatter(
   }
 );
 </code></pre>
-	</div>
-	<div class="wrapper">
-	    <div id="vis1"></div>
-	    <pre><code>
+		</div>
+		<div class="wrapper">
+			<div id="vis1"></div>
+			<pre><code>
 new roughBars.Donut(
   {
     element: '#vis1',
@@ -254,10 +283,10 @@ new roughBars.Donut(
     curbZero: false,
   }
 );</code></pre>
-	</div>
-	<div class="wrapper">
-	    <div id="vis3"></div>
-	    <pre><code>new roughBars.Pie(
+		</div>
+		<div class="wrapper">
+			<div id="vis3"></div>
+			<pre><code>new roughBars.Pie(
   {
     element: '#vis2',
     data: {
@@ -280,12 +309,49 @@ new roughBars.Donut(
     fillWeight: 3.5,
   }
 );</code></pre>
-	</div>
-</center>
+		</div>
+<div class="wrapper">
+	<div id="vis8"></div>
+<pre>
+<code>
+new roughViz.StackedBar({
+element: '#vis8',
+data: [
+	{month:'Jan', A:20, B: 5,  C: 10},
+	{month:'Feb', A:25, B: 10, C: 20}
+	
+],
+labels: 'month',
+// values: 'frequency',
+height: window.innerHeight * 0.7,
+width: window.innerWidth * 0.8,
+roughness: 3,
+colors: [
+	'red',
+	'orange',
+	'#f996ae',
+	'skyblue',
+	'#9ff4df',
+	'green',
+	'#f6f0a3',
+	'#6bceee',
+	'#d9b6fd',
+],
+fillWeight: 1,
+strokeWidth: 0.5,
+fillStyle: 'cross-hatch',
+roughness: 0,
+stroke: 'black',
+});
+</code>
+</pre>
+		</div>
+	</center>
 
 
 	<script src="index.js"></script>
 </body>
+
 </html>
 
 
