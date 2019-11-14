@@ -309,27 +309,20 @@ class StackedBar {
       .text(title);
   }
 
-  addInteraction(y) {
-    selectAll(this.interactionG)
-      .data(this.dataFormat === 'file' ? this.data : this.data.values)
-      .append('rect')
-      .attr('x', (d, i) => {
-        return this.dataFormat === 'file'
-          ? this.xScale(d[this.labels])
-          : this.xScale(this.data[this.labels][i]);
-      })
-      .attr('y', (d, i) => {
-        return this.dataFormat === 'file'
-          ? this.yScale(+d[y])
-          : this.yScale(this.data[y][i]);
-      })
-      .attr('width', this.xScale.bandwidth())
-      .attr('height', (d, i) => {
-        return this.dataFormat === 'file'
-          ? this.height - this.yScale(+d[y])
-          : this.height - this.yScale(this.data[y][i]);
-      })
-      .attr('fill', 'transparent');
+  addInteraction() {
+      selectAll(this.interactionG)
+        // .data(this.data)
+        // .append('rect')
+        .each(function(d, i){
+          let attr = this['attributes'];
+          select(this)
+          .append('rect')
+          .attr('x', attr['x'].value)
+          .attr('y', attr['y'].value)
+          .attr('width', attr['width'].value)
+          .attr('height', attr['height'].value)
+          .attr('fill', 'transparent')
+      });
 
     // create tooltip
     const Tooltip = select(this.el)
@@ -426,17 +419,18 @@ class StackedBar {
     this.data.forEach(d => {
       let keys = Object.keys(d);
       let yStack = 0;
-      keys.forEach((y, i) => {
-        if (i > 0 && y !== 'total') {
-          yStack += parseInt(d[y]);
-          // console.log(
-          //   'x: ' + this.xScale(d[this.labels]) + ' y: ' + yStack + ' width: ' + this.xScale.bandwidth() + ' height: ' + (this.height - this.yScale(+d[y]))
-          // );
+      keys.forEach((yValue, i) => {
+        if (i > 0 && yValue !== 'total') {
+          yStack += parseInt(d[yValue]);
+          let x = this.xScale(d[this.labels]);
+          let y = this.yScale(yStack);
+          let width = this.xScale.bandwidth();
+          let height = this.height - this.yScale(+d[yValue]);
           let node = this.rc.rectangle(
-            this.xScale(d[this.labels]),
-            this.yScale(yStack),
-            this.xScale.bandwidth(),
-            this.height - this.yScale(+d[y]),
+            x,
+            y,
+            width,
+            height,
             {
               fill: this.colors[i],
               stroke: this.colors[i],
@@ -447,8 +441,13 @@ class StackedBar {
           let roughNode = this.roughSvg.appendChild(node);
           roughNode.setAttribute('class', this.graphClass);
           roughNode.setAttribute('attrX', d[this.labels]);
-          roughNode.setAttribute('keyY', y);
-          roughNode.setAttribute('attrY', +d[y]);
+          roughNode.setAttribute('keyY', yValue);
+          roughNode.setAttribute('attrY', +d[yValue]);
+          // Set Attributes to access them later
+          roughNode.setAttribute('x', x);
+          roughNode.setAttribute('y', y);
+          roughNode.setAttribute('width', width);
+          roughNode.setAttribute('height', height);
         }
       });
     });
@@ -468,7 +467,7 @@ class StackedBar {
       .style('stroke-width', this.strokeWidth);
     // If desired, add interactivity
     if (this.interactive === true) {
-      this.addInteraction();
+      this.addInteraction()
     }
   } // draw
 
