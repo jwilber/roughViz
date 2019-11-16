@@ -1,6 +1,7 @@
 import { extent } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
+import { format } from 'd3-format';
 import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
@@ -46,6 +47,8 @@ class Scatter {
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.x = (this.dataFormat === 'object') ? 'x' : opts.x;
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
+    this.xValueFormat = opts.xValueFormat;
+    this.yValueFormat = opts.yValueFormat;
     this.xLabel = opts.xLabel || '';
     this.yLabel = opts.yLabel || '';
     this.labelFontSize = opts.labelFontSize || '1rem';
@@ -198,10 +201,18 @@ class Scatter {
   }
 
   addAxes() {
+    const xAxis = axisBottom(this.xScale)
+      .tickSize(0)
+      .tickFormat((d) => { return this.xValueFormat ? format(this.xValueFormat)(d) : d; });
+
+    const yAxis = axisLeft(this.yScale)
+      .tickSize(0)
+      .tickFormat((d) => { return this.yValueFormat ? format(this.yValueFormat)(d) : d; });
+
     // x-axis
     this.svg.append('g')
       .attr('transform', 'translate(0,' + this.height + ')')
-      .call(axisBottom(this.xScale).tickSize(0))
+      .call(xAxis)
       .attr('class', `xAxis${this.graphClass}`)
       .selectAll('text')
       .attr('transform', 'translate(-10, 0)rotate(-45)')
@@ -213,7 +224,7 @@ class Scatter {
 
     // y-axis
     this.svg.append('g')
-      .call(axisLeft(this.yScale).tickSize(0))
+      .call(yAxis)
       .attr('class', `yAxis${this.graphClass}`)
       .selectAll('text')
       .style('font-family', this.fontFamily)

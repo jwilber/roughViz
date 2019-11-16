@@ -2,6 +2,7 @@ import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
+import { format } from 'd3-format';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
 import rough from 'roughjs/dist/rough.umd';
@@ -40,6 +41,8 @@ class BarH {
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
     this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
+    this.xValueFormat = opts.xValueFormat;
+    this.yValueFormat = opts.yValueFormat;
     this.padding = opts.padding || 0.1;
     this.xLabel = opts.xLabel || '';
     this.yLabel = opts.yLabel || '';
@@ -170,10 +173,13 @@ class BarH {
 
   addAxes() {
     const xAxis = axisBottom(this.xScale)
-      .tickSize(0);
+      .tickSize(0)
+      .tickFormat((d) => { return this.xValueFormat ? format(this.xValueFormat)(d) : d; });
 
     const yAxis = axisLeft(this.yScale)
-      .tickSize(0);
+      .tickSize(0)
+      .tickFormat((d) => { return this.yValueFormat ? format(this.yValueFormat)(d) : d; });
+
     // x-axis
     this.svg.append('g')
       .attr('transform', `translate(0, ${this.height})`)
