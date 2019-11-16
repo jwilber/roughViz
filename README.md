@@ -61,6 +61,12 @@ Want to use with `React`? [There's a wrapper!](https://github.com/Chris927/react
 npm install react-roughviz
 ```
 
+Want to use it with `Python`? [There's a wrapper!](https://github.com/hannansatopay/roughviz):
+
+```sh
+pip install roughviz
+```
+
 ### How to use
 
 Create some container elements, one for each chart:
@@ -394,6 +400,8 @@ Optional
 
 ### Contributors
 - [Jared Wilber](https://twitter.com/jdwlbr)
+- [Dave Slutzkin[(https://github.com/daveslutzkin)
+- [JoLo](https://github.com/jolo-dev)
 
 
 ### Acknowledgements
