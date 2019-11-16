@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="350" alt="roughViz.js"><br>
 [![npm version](https://badge.fury.io/js/rough-viz.svg)](https://badge.fury.io/js/rough-viz)
-![npm bundle size (version)](https://img.shields.io/bundlephobia/min/rough-viz/1.0.2)
+![npm bundle size (version)](https://img.shields.io/bundlephobia/min/rough-viz/1.0.5)
 
 **roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5, roughjs, and handy.
 
@@ -22,6 +22,7 @@ Use these charts where the communication goal is to show intent or generality, a
 <li> Line (<code>roughViz.Line</code>) <a href="#Line">API</a>. <a href="https://blockbuilder.org/jwilber/ec7cbc374c2dc61b255494511e7d7ac6">Example</a>.</li>
 <li> Pie (<code>roughViz.Pie</code>) <a href="#Pie">API</a>. <a href="https://blockbuilder.org/jwilber/d117e0b0864a161bec2d914013ed69da">Example</a>.</li>
 <li> Scatter (<code>roughViz.Scatter</code>) <a href="#Scatter">API</a>. <a href="https://blockbuilder.org/jwilber/d02e4381d776fb9a7bcb126d3b32c85b">Example</a>.</li>
+ <li> Stacked Bar (<code>roughViz.StackedBar</code>) <a href="#StackedBar">API</a>. <a href="https://blockbuilder.org/jwilber/ee35865631cb805057142568fa5fd090">Example</a>.</li>
  </ul>
 
 Apply the features of `roughjs` to each chart:
@@ -396,6 +397,50 @@ Optional
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
+
+
+### <code id="StackedBar">roughViz.StackedBar</code>
+Required
+- `element` [string]: Id or class of container element.
+- `data`: Data with which to construct chart. Should be an object.
+- `labels`: String name of label key in `data` object.
+
+    ```js
+    new roughViz.StackedBar({
+       element: '#vis0',
+       data: [
+           {month:'Jan', A:20, B: 5},
+           {month:'Feb', A:25, B: 10},    
+       ],
+       labels: 'month',
+     })
+     ```
+
+Optional
+- `axisFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `axisRoughness` [number]: Roughness for x & y axes. Default: `0.5`.
+- `axisStrokeWidth` [number]: Stroke-width for x & y axes. Default: `0.5`.
+- `bowing` [number]: Chart bowing. Default: `0`.
+- `colors` [string]: Array of colors for each bar grouping.
+- `fillStyle` [string]: Bar fill-style. Should be one of [fillStyles](#fillStyle) shown above.
+- `fillWeight` [number]: Weight of inner paths' color. Default: `0.5`.
+- `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
+- `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
+- `innerStrokeWidth` [number]: Stroke-width for paths inside bars. Default: `1`.
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
+- `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
+- `padding` [number]: Padding between bars. Default: `0.1`.
+- `roughness` [number]: Roughness level of chart. Default: `1`.
+- `simplification` [number]: Chart simplification. Default `0.2`.
+- `stroke` [string]: Color of bars' stroke. Default: `black`.
+- `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
+- `title` [string]: Chart title. Optional.
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
+- `xLabel` [string]: Label for x-axis.
+- `yLabel` [string]: Label for y-axis.
+
 
 
 ### Contributors
