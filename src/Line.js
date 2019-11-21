@@ -309,7 +309,7 @@ class Line {
       .attr('pointer-events', 'all');
 
     this.dataSources.map((key, idx) => {
-      const points = this.data.map((d, i) => {
+      const points = this.data[key].map((d, i) => {
         return this.x === undefined ?
           [this.xScale(i), this.yScale(d[key])] :
           [this.xScale(this.x[i]), this.yScale(+d[key])];
