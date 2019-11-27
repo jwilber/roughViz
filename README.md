@@ -79,7 +79,7 @@ Create some container elements, one for each chart:
 ```
 In the javascript, just create charts, referencing the desired container:
 ```js
-// create donut chart from csv file, using default options
+// create Bar chart from csv file, using default options
  new roughViz.Bar({
     element: '#vis0', // container selection
     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
