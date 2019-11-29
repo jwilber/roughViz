@@ -62,6 +62,12 @@ Want to use with `React`? [There's a wrapper!](https://github.com/Chris927/react
 npm install react-roughviz
 ```
 
+Want to use with `Vue`? [There's a wrapper!](https://github.com/jolo-dev/vue-roughviz):
+
+```sh
+npm install vue-roughviz
+```
+
 Want to use it with `Python`? [There's a wrapper!](https://github.com/hannansatopay/roughviz):
 
 ```sh
