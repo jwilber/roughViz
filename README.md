@@ -445,7 +445,7 @@ Optional
 
 ### Contributors
 - [Jared Wilber](https://twitter.com/jdwlbr)
-- [Dave Slutzkin[(https://github.com/daveslutzkin)
+- [Dave Slutzkin](https://github.com/daveslutzkin)
 - [JoLo](https://github.com/jolo-dev)
 
 
