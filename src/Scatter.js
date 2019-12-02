@@ -3,14 +3,11 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { format } from 'd3-format';
 import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
+import { roughCeiling } from './utils/roughCeiling';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
 import rough from 'roughjs/dist/rough.umd';
-
-const roughCeiling = (roughness) => {
-  let roughVal = roughness > 20 ? 20 : roughness;
-  return roughVal;
-};
+import get from 'lodash.get';
 
 const defaultColors = ['pink', 'skyblue', 'coral', 'gold', 'teal', 'grey',
   'darkgreen', 'pink', 'brown', 'slateblue', 'grey1', 'orange'];
@@ -21,37 +18,37 @@ class Scatter {
     this.el = opts.element;
     // this.data = opts.data;
     this.element = opts.element;
-    this.margin = opts.margin || {top: 50, right: 20, bottom: 50, left: 100};
+    this.margin = opts.margin || { top: 50, right: 20, bottom: 50, left: 100 };
     this.title = opts.title;
     this.colorVar = opts.colorVar;
-    this.roughness = roughCeiling(opts.roughness) || 1;
+    this.roughness = roughCeiling({ roughness: opts.roughness });
     this.highlight = opts.highlight;
-    this.highlightLabel = opts.highlightLabel || 'xy';
-    this.radius = opts.radius || 8;
+    this.highlightLabel = get(opts, 'highlightLabel', 'xy');
+    this.radius = get(opts, 'radius', 8);
     this.fillStyle = opts.fillStyle;
-    this.bowing = opts.bowing || 0;
-    this.axisStrokeWidth = opts.axisStrokeWidth || 0.4;
-    this.axisRoughness = opts.axisRoughness || 0.9;
+    this.bowing = get(opts, 'bowing', 0);
+    this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.4);
+    this.axisRoughness = get(opts, 'axisRoughness', 0.9);
     this.interactive = opts.interactive !== false;
     this.curbZero = opts.curbZero === true;
-    this.innerStrokeWidth = opts.innerStrokeWidth || 1;
-    this.stroke = opts.stroke || 'black';
-    this.fillWeight = opts.fillWeight || 0.85;
-    this.simplification = opts.simplification || 0.2;
+    this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
+    this.stroke = get(opts, 'stroke', 'black');
+    this.fillWeight = get(opts, 'fillWeight', 0.85);
+    this.simplification = get(opts, 'simplification', 0.2);
     this.colors = opts.colors;
-    this.strokeWidth = opts.strokeWidth || 1;
+    this.strokeWidth = get(opts, 'strokeWidth', 1);
     this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
-    this.font = opts.font || 0;
+    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
+    this.font = get(opts, 'font', 0);
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.x = (this.dataFormat === 'object') ? 'x' : opts.x;
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
     this.xValueFormat = opts.xValueFormat;
     this.yValueFormat = opts.yValueFormat;
-    this.xLabel = opts.xLabel || '';
-    this.yLabel = opts.yLabel || '';
-    this.labelFontSize = opts.labelFontSize || '1rem';
+    this.xLabel = get(opts, 'xLabel', '');
+    this.yLabel = get(opts, 'yLabel', '');
+    this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -72,8 +69,8 @@ class Scatter {
       this.fontFamily = 'gaeguregular';
     } else if (
       this.font === 1 ||
-        this.font.toString().toLowerCase() === 'indie flower'
-    ){
+      this.font.toString().toLowerCase() === 'indie flower'
+    ) {
       addFontIndieFlower(this.svg);
       this.fontFamily = 'indie_flowerregular';
     } else {

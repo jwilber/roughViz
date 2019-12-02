@@ -5,12 +5,9 @@ import { csv, tsv } from 'd3-fetch';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
 import { colors } from './utils/colors';
+import { roughCeiling } from './utils/roughCeiling';
 import rough from 'roughjs/dist/rough.umd';
-
-const roughCeiling = roughness => {
-  let roughVal = roughness > 20 ? 20 : roughness;
-  return roughVal;
-};
+import get from 'lodash.get';
 
 class StackedBar {
   constructor(opts) {
@@ -20,30 +17,30 @@ class StackedBar {
     this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 70, left: 100 };
     this.title = opts.title;
-    this.colors = opts.colors || colors;
-    this.highlight = opts.highlight || 'coral';
-    this.roughness = roughCeiling(opts.roughness) || 1;
-    this.stroke = opts.stroke || 'black';
-    this.strokeWidth = opts.strokeWidth || 1;
-    this.axisStrokeWidth = opts.axisStrokeWidth || 0.5;
-    this.axisRoughness = opts.axisRoughness || 0.5;
-    this.innerStrokeWidth = opts.innerStrokeWidth || 1;
+    this.colors = get(opts, 'colors', colors);
+    this.highlight = get(opts, 'highlight', 'coral');
+    this.roughness = roughCeiling({ roughness: opts.roughness });
+    this.stroke = get(opts, 'stroke', 'black');
+    this.strokeWidth = get(opts, 'strokeWidth', 1);
+    this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.5);
+    this.axisRoughness = get(opts, 'axisRoughness', 0.5);
+    this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
     this.fillStyle = opts.fillStyle;
-    this.bowing = opts.bowing || 0;
-    this.fillWeight = opts.fillWeight || 0.5;
-    this.simplification = opts.simplification || 0.2;
+    this.bowing = get(opts, 'bowing', 0);
+    this.fillWeight = get(opts, 'fillWeight', 0.5);
+    this.simplification = get(opts, 'simplification', 0.2);
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
-    this.font = opts.font || 0;
+    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
+    this.font = get(opts, 'font', 0);
     this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
     this.labels = opts.labels;
     this.values = opts.values;
-    this.padding = opts.padding || 0.1;
-    this.xLabel = opts.xLabel || '';
-    this.yLabel = opts.yLabel || '';
-    this.labelFontSize = opts.labelFontSize || '1rem';
+    this.padding = get(opts, 'padding', 0.1);
+    this.xLabel = get(opts, 'xLabel', '');
+    this.yLabel = get(opts, 'yLabel', '');
+    this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -99,14 +96,14 @@ class StackedBar {
 
   // Helper Method to get the Total Value of the Stack
   getTotal(d){
-    for(let x = 0; x < d.length; x++){
+    for (let x = 0; x < d.length; x++) {
       let t = 0;
       for (let i = 0; i < d.columns.length; ++i) {
         if (d.columns[i] !== this.labels) {
           t += d[x][d.columns[i]] = +d[x][d.columns[i]];
         }
       }
-      d[x].total = t
+      d[x].total = t;
     }
     return d;
   }
@@ -142,7 +139,7 @@ class StackedBar {
               t += data[i][d];
               data[i].total = t;
             }
-          })
+          });
         }
         this.drawFromObject();
       };
@@ -310,18 +307,18 @@ class StackedBar {
   }
 
   addInteraction() {
-      selectAll(this.interactionG)
-        // .data(this.data)
-        // .append('rect')
-        .each(function(d, i){
-          let attr = this['attributes'];
-          select(this)
+    selectAll(this.interactionG)
+      // .data(this.data)
+      // .append('rect')
+      .each(function(d, i){
+        let attr = this['attributes'];
+        select(this)
           .append('rect')
           .attr('x', attr['x'].value)
           .attr('y', attr['y'].value)
           .attr('width', attr['width'].value)
           .attr('height', attr['height'].value)
-          .attr('fill', 'transparent')
+          .attr('fill', 'transparent');
       });
 
     // create tooltip
@@ -421,7 +418,7 @@ class StackedBar {
       let yStack = 0;
       keys.forEach((yValue, i) => {
         if (i > 0 && yValue !== 'total') {
-          yStack += parseInt(d[yValue]);
+          yStack += parseInt(d[yValue], 10);
           let x = this.xScale(d[this.labels]);
           let y = this.yScale(yStack);
           let width = this.xScale.bandwidth();
@@ -467,7 +464,7 @@ class StackedBar {
       .style('stroke-width', this.strokeWidth);
     // If desired, add interactivity
     if (this.interactive === true) {
-      this.addInteraction()
+      this.addInteraction();
     }
   } // draw
 
@@ -479,7 +476,7 @@ class StackedBar {
     this.addLabels();
     // Add Stackedbar
     this.stacking();
-    
+
     selectAll(this.interactionG)
       .selectAll('path:nth-child(2)')
       .style('stroke-width', this.strokeWidth);

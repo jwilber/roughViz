@@ -5,11 +5,8 @@ import { arc, pie } from 'd3-shape';
 import rough from 'roughjs/dist/rough.umd';
 import { colors } from './utils/colors';
 import { addLegend } from './utils/addLegend';
-
-const roughCeiling = roughness => {
-  let roughVal = roughness > 30 ? 30 : roughness;
-  return roughVal;
-};
+import { roughCeiling } from './utils/roughCeiling';
+import get from 'lodash.get';
 
 class Donut {
   constructor(opts) {
@@ -19,19 +16,19 @@ class Donut {
     this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 10, left: 20 };
     this.title = opts.title;
-    this.colors = opts.colors || colors;
+    this.colors = get(opts, 'colors', colors);
     this.highlight = opts.highlight;
-    this.roughness = roughCeiling(opts.roughness) || 1;
-    this.strokeWidth = opts.strokeWidth || 0.75;
-    this.innerStrokeWidth = opts.innerStrokeWidth || 0.75;
+    this.roughness = roughCeiling({ roughness: opts.roughness, ceiling: 30 });
+    this.strokeWidth = get(opts, 'strokeWidth', 0.75);
+    this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 0.75);
     this.fillStyle = opts.fillStyle;
-    this.bowing = opts.bowing || 0;
-    this.fillWeight = opts.fillWeight || 0.85;
-    this.simplification = opts.simplification || 0.2;
+    this.bowing = get(opts, 'bowing', 0);
+    this.fillWeight = get(opts, 'fillWeight', 0.85);
+    this.simplification = get(opts, 'simplification', 0.2);
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '.95rem';
-    this.font = opts.font || 0;
+    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
+    this.font = get(opts, 'font', 0);
     this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
     this.labels = this.dataFormat === 'object' ? 'labels' : opts.labels;
     this.values = this.dataFormat === 'object' ? 'values' : opts.values;
@@ -41,7 +38,7 @@ class Donut {
       return;
     }
     this.legend = opts.legend !== false;
-    this.legendPosition = opts.legendPosition || 'right';
+    this.legendPosition = get(opts, 'legendPosition', 'right');
     // new width
     this.initChartValues(opts);
     // resolve font
