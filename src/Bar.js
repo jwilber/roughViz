@@ -6,12 +6,8 @@ import { format } from 'd3-format';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
 import rough from 'roughjs/dist/rough.umd';
-
-const roughCeiling = (roughness) => {
-  let roughVal = roughness > 20 ? 20 : roughness;
-  return roughVal;
-};
-
+import get from 'lodash.get';
+import { roughCeiling } from './utils/roughCeiling';
 
 class Bar {
   constructor(opts) {
@@ -19,34 +15,34 @@ class Bar {
     this.el = opts.element;
     this.data = opts.data;
     this.element = opts.element;
-    this.margin = opts.margin || {top: 50, right: 20, bottom: 70, left: 100};
+    this.margin = opts.margin || { top: 50, right: 20, bottom: 70, left: 100 };
     this.title = opts.title;
-    this.color = opts.color || 'skyblue';
-    this.highlight = opts.highlight || 'coral';
-    this.roughness = roughCeiling(opts.roughness) || 1;
-    this.stroke = opts.stroke || 'black';
-    this.strokeWidth = opts.strokeWidth || 1;
-    this.axisStrokeWidth = opts.axisStrokeWidth || 0.5;
-    this.axisRoughness = opts.axisRoughness || 0.5;
-    this.innerStrokeWidth = opts.innerStrokeWidth || 1;
+    this.color = get(opts, 'color', 'skyblue');
+    this.highlight = get(opts, 'highlight', 'coral');
+    this.roughness = roughCeiling({ roughness: opts.roughness });
+    this.stroke = get(opts, 'stroke', 'black');
+    this.strokeWidth = get(opts, 'strokeWidth', 1);
+    this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.5);
+    this.axisRoughness = get(opts, 'axisRoughness', 0.5);
+    this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
     this.fillStyle = opts.fillStyle;
-    this.bowing = opts.bowing || 0;
-    this.fillWeight = opts.fillWeight || 0.5;
-    this.simplification = opts.simplification || 0.2;
+    this.bowing = get(opts, 'bowing', 0);
+    this.fillWeight = get(opts, 'fillWeight', 0.5);
+    this.simplification = get(opts, 'simplification', 0.2);
     this.interactive = opts.interactive !== false;
     this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
-    this.font = opts.font || 0;
+    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
+    this.font = get(opts, 'font', 0);
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
     this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
     this.xValueFormat = opts.xValueFormat;
     this.yValueFormat = opts.yValueFormat;
-    this.padding = opts.padding || 0.1;
-    this.xLabel = opts.xLabel || '';
-    this.yLabel = opts.yLabel || '';
-    this.labelFontSize = opts.labelFontSize || '1rem';
+    this.padding = get(opts, 'padding', 0.1);
+    this.xLabel = get(opts, 'xLabel', '');
+    this.yLabel = get(opts, 'yLabel', '');
+    this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -89,8 +85,8 @@ class Bar {
       this.fontFamily = 'gaeguregular';
     } else if (
       this.font === 1 ||
-        this.font.toString().toLowerCase() === 'indie flower'
-    ){
+      this.font.toString().toLowerCase() === 'indie flower'
+    ) {
       addFontIndieFlower(this.svg);
       this.fontFamily = 'indie_flowerregular';
     } else {
