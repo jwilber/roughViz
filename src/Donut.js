@@ -1,5 +1,3 @@
-import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
-import { csv, tsv, json } from 'd3-fetch';
 import { mouse, select, selectAll } from 'd3-selection';
 import { arc, pie } from 'd3-shape';
 import rough from 'roughjs/dist/rough.umd';
@@ -7,28 +5,21 @@ import { colors } from './utils/colors';
 import { addLegend } from './utils/addLegend';
 import { roughCeiling } from './utils/roughCeiling';
 import get from 'lodash.get';
+import Chart from './Chart';
 
-class Donut {
+class Donut extends Chart {
   constructor(opts) {
+    super(opts);
+
     // load in arguments from config object
-    this.el = opts.element;
     // this.data = opts.data;
-    this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 10, left: 20 };
-    this.title = opts.title;
     this.colors = get(opts, 'colors', colors);
     this.highlight = opts.highlight;
     this.roughness = roughCeiling({ roughness: opts.roughness, ceiling: 30 });
     this.strokeWidth = get(opts, 'strokeWidth', 0.75);
     this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 0.75);
-    this.fillStyle = opts.fillStyle;
-    this.bowing = get(opts, 'bowing', 0);
     this.fillWeight = get(opts, 'fillWeight', 0.85);
-    this.simplification = get(opts, 'simplification', 0.2);
-    this.interactive = opts.interactive !== false;
-    this.titleFontSize = opts.titleFontSize;
-    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
-    this.font = get(opts, 'font', 0);
     this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
     this.labels = this.dataFormat === 'object' ? 'labels' : opts.labels;
     this.values = this.dataFormat === 'object' ? 'values' : opts.values;
@@ -40,111 +31,13 @@ class Donut {
     this.legend = opts.legend !== false;
     this.legendPosition = get(opts, 'legendPosition', 'right');
     // new width
-    this.initChartValues(opts);
+    this.initChartValues(opts, 300, 300, true);
     // resolve font
     this.resolveFont();
     // create the chart
     this.drawChart = this.resolveData(opts.data);
     this.drawChart();
-    if (opts.title !== 'undefined') this.setTitle(opts.title);
-  }
-
-  initChartValues(opts) {
-    let width = opts.width ? opts.width : 300;
-    let height = opts.height ? opts.height : 300;
-    this.width = width - this.margin.left - this.margin.right;
-    this.height = height - this.margin.top - this.margin.bottom;
-    this.roughId = this.el + '_svg';
-    this.graphClass = this.el.substring(1, this.el.length);
-    this.interactionG = 'g.' + this.graphClass;
-    this.radius = Math.min(this.width, this.height) / 2;
-    this.setSvg();
-  }
-
-  setSvg() {
-    this.svg = select(this.el)
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('id', this.roughId)
-      .attr(
-        'transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')'
-      );
-  }
-
-  resolveFont() {
-    if (
-      this.font === 0 ||
-      this.font === undefined ||
-      this.font.toString().toLowerCase() === 'gaegu'
-    ) {
-      addFontGaegu(this.svg);
-      this.fontFamily = 'gaeguregular';
-    } else if (
-      this.font === 1 ||
-      this.font.toString().toLowerCase() === 'indie flower'
-    ) {
-      addFontIndieFlower(this.svg);
-      this.fontFamily = 'indie_flowerregular';
-    } else {
-      this.fontFamily = this.font;
-    }
-  }
-
-  // add this to abstract base
-  resolveData(data) {
-    if (typeof data === 'string') {
-      if (data.includes('.csv')) {
-        return () => {
-          csv(data).then(d => {
-            // console.log(d);
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      } else if (data.includes('.tsv')) {
-        return () => {
-          tsv(data).then(d => {
-            // console.log(d);
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      } else if (data.includes('.json')) {
-        return () => {
-          json(data).then(d => {
-            // console.log(d);
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      }
-    } else {
-      return () => {
-        this.data = data;
-        this.drawFromObject();
-      };
-    }
-  }
-
-  setTitle(title) {
-    this.svg
-      .append('text')
-      .attr('x', this.width / 2)
-      .attr('y', 0 - this.margin.top / 3)
-      .attr('class', 'title')
-      .attr('text-anchor', 'middle')
-      .style(
-        'font-size',
-        this.titleFontSize === undefined
-          ? `${Math.min(40, Math.min(this.width, this.height) / 4)}px`
-          : this.titleFontSize
-      )
-      .style('font-family', this.fontFamily)
-      .style('opacity', 0.8)
-      .text(title);
+    if (opts.title !== 'undefined') this.setTitle(opts.title, { marginTopFactor: 3 });
   }
 
   addInteraction() {

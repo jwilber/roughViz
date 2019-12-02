@@ -1,22 +1,20 @@
-import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
-import { csv, tsv } from 'd3-fetch';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
 import { colors } from './utils/colors';
 import { roughCeiling } from './utils/roughCeiling';
 import rough from 'roughjs/dist/rough.umd';
 import get from 'lodash.get';
+import Chart from './Chart';
 
-class StackedBar {
+class StackedBar extends Chart {
   constructor(opts) {
+    super(opts);
+
     // load in arguments from config object
-    this.el = opts.element;
     this.data = opts.data;
-    this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 70, left: 100 };
-    this.title = opts.title;
     this.colors = get(opts, 'colors', colors);
     this.highlight = get(opts, 'highlight', 'coral');
     this.roughness = roughCeiling({ roughness: opts.roughness });
@@ -25,15 +23,8 @@ class StackedBar {
     this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.5);
     this.axisRoughness = get(opts, 'axisRoughness', 0.5);
     this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
-    this.fillStyle = opts.fillStyle;
-    this.bowing = get(opts, 'bowing', 0);
     this.fillWeight = get(opts, 'fillWeight', 0.5);
-    this.simplification = get(opts, 'simplification', 0.2);
-    this.interactive = opts.interactive !== false;
-    this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
-    this.font = get(opts, 'font', 0);
     this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
     this.labels = opts.labels;
     this.values = opts.values;
@@ -42,56 +33,13 @@ class StackedBar {
     this.yLabel = get(opts, 'yLabel', '');
     this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     // new width
-    this.initChartValues(opts);
+    this.initChartValues(opts, 350, 450);
     // resolve font
     this.resolveFont();
     // create the chart
-    this.drawChart = this.resolveData(opts.data);
+    this.drawChart = this.resolveData(opts.data, true);
     this.drawChart();
-    if (opts.title !== 'undefined') this.setTitle(opts.title);
-  }
-
-  initChartValues(opts) {
-    let width = opts.width ? opts.width : 350;
-    let height = opts.height ? opts.height : 450;
-    this.width = width - this.margin.left - this.margin.right;
-    this.height = height - this.margin.top - this.margin.bottom;
-    this.roughId = this.el + '_svg';
-    this.graphClass = this.el.substring(1, this.el.length);
-    this.interactionG = 'g.' + this.graphClass;
-    this.setSvg();
-  }
-
-  setSvg() {
-    this.svg = select(this.el)
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('id', this.roughId)
-      .attr(
-        'transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')'
-      );
-  }
-
-  resolveFont() {
-    if (
-      this.font === 0 ||
-      this.font === undefined ||
-      this.font.toString().toLowerCase() === 'gaegu'
-    ) {
-      addFontGaegu(this.svg);
-      this.fontFamily = 'gaeguregular';
-    } else if (
-      this.font === 1 ||
-      this.font.toString().toLowerCase() === 'indie flower'
-    ) {
-      addFontIndieFlower(this.svg);
-      this.fontFamily = 'indie_flowerregular';
-    } else {
-      this.fontFamily = this.font;
-    }
+    if (opts.title !== 'undefined') this.setTitle(opts.title, { fontSizeFactor: 5 });
   }
 
   // Helper Method to get the Total Value of the Stack
@@ -106,44 +54,6 @@ class StackedBar {
       d[x].total = t;
     }
     return d;
-  }
-
-  // add this to abstract base
-  resolveData(data) {
-    if (typeof data === 'string') {
-      if (data.includes('.csv')) {
-        return () => {
-          csv(data).then(d => {
-            this.getTotal(d);
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      } else if (data.includes('.tsv')) {
-        return () => {
-          tsv(data).then(d => {
-            this.getTotal(d);
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      }
-    } else {
-      return () => {
-        this.data = data;
-        for (let i = 0; i < data.length; ++i) {
-          let t = 0;
-          let keys = Object.keys(data[i]);
-          keys.forEach(d => {
-            if (d !== this.labels) {
-              t += data[i][d];
-              data[i].total = t;
-            }
-          });
-        }
-        this.drawFromObject();
-      };
-    }
   }
 
   addScales() {
@@ -286,24 +196,6 @@ class StackedBar {
         roughYAxis.setAttribute('class', roughYAxisClass);
         roughSvg.appendChild(roughYAxis);
       });
-  }
-
-  setTitle(title) {
-    this.svg
-      .append('text')
-      .attr('x', this.width / 2)
-      .attr('y', 0 - this.margin.top / 2)
-      .attr('class', 'title')
-      .attr('text-anchor', 'middle')
-      .style(
-        'font-size',
-        this.titleFontSize === undefined
-          ? `${Math.min(40, Math.min(this.width, this.height) / 5)}px`
-          : this.titleFontSize
-      )
-      .style('font-family', this.fontFamily)
-      .style('opacity', 0.8)
-      .text(title);
   }
 
   addInteraction() {

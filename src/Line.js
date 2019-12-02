@@ -1,8 +1,6 @@
 import { bisect, extent, max, min, range } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
-import { csv, tsv } from 'd3-fetch';
 import { format } from 'd3-format';
-import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { addLegend } from './utils/addLegend';
 import { scaleLinear, scalePoint } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
@@ -11,6 +9,7 @@ import rough from 'roughjs/dist/rough.umd';
 import { colors } from './utils/colors';
 import { roughCeiling } from './utils/roughCeiling';
 import get from 'lodash.get';
+import Chart from './Chart';
 
 const allDataExtent = (data) => {
   // get extend for all keys in data
@@ -21,28 +20,20 @@ const allDataExtent = (data) => {
   return [dataMin, dataMax];
 };
 
-class Line {
+class Line extends Chart {
   constructor(opts) {
+    super(opts);
+
     // load in arguments from config object
-    this.el = opts.element;
-    this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 50, left: 100 };
-    this.title = opts.title;
     this.roughness = roughCeiling({ roughness: opts.roughness, defaultValue: 2.2 });
-    this.fillStyle = opts.fillStyle;
-    this.bowing = get(opts, 'bowing', 0);
     this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.4);
     this.axisRoughness = get(opts, 'axisRoughness', 0.9);
-    this.interactive = opts.interactive !== false;
     this.stroke = get(opts, 'stroke', 'black');
     this.fillWeight = get(opts, 'fillWeight', 0.85);
-    this.simplification = get(opts, 'simplification', 0.2);
-    this.colors = opts.colors;
+    this.colors = get(opts, 'colors', colors);
     this.strokeWidth = get(opts, 'strokeWidth', 8);
-    this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
-    this.font = get(opts, 'font', 0);
     this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.x = opts.x;
     this.y = (this.dataFormat === 'object') ? 'y' : opts.y;
@@ -64,80 +55,13 @@ class Line {
       });
     };
     // new width
-    this.initChartValues(opts);
+    this.initChartValues(opts, 300, 400);
     // resolve font
     this.resolveFont();
     // create the chart
     this.drawChart = this.resolveData(opts.data);
     this.drawChart();
-    if (opts.title !== 'undefined') this.setTitle(opts.title);
-  }
-
-  resolveFont() {
-    if (
-      this.font === 0 ||
-      this.font === undefined ||
-      this.font.toString().toLowerCase() === 'gaegu'
-    ) {
-      addFontGaegu(this.svg);
-      this.fontFamily = 'gaeguregular';
-    } else if (
-      this.font === 1 ||
-      this.font.toString().toLowerCase() === 'indie flower'
-    ) {
-      addFontIndieFlower(this.svg);
-      this.fontFamily = 'indie_flowerregular';
-    } else {
-      this.fontFamily = this.font;
-    }
-  }
-
-  initChartValues(opts) {
-    let width = opts.width ? opts.width : 300;
-    let height = opts.height ? opts.height : 400;
-    this.width = width - this.margin.left - this.margin.right;
-    this.height = height - this.margin.top - this.margin.bottom;
-    this.roughId = this.el + '_svg';
-    this.graphClass = this.el.substring(1, this.el.length);
-    this.interactionG = 'g.' + this.graphClass;
-    this.setSvg();
-  }
-
-  setSvg() {
-    this.svg = select(this.el)
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('id', this.roughId)
-      .attr('transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')');
-  }
-
-  // add this to abstract base
-  resolveData(data) {
-    if (typeof data === 'string') {
-      if (data.includes('.csv')) {
-        return () => {
-          csv(data).then(d => {
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      } else if (data.includes('.tsv')) {
-        return () => {
-          tsv(data).then(d => {
-            this.data = d;
-            this.drawFromFile();
-          });
-        };
-      }
-    } else {
-      return () => {
-        this.data = data;
-        this.drawFromObject();
-      };
-    }
+    if (opts.title !== 'undefined') this.setTitle(opts.title, { fontSizeMin: 20 });
   }
 
   addScales() {
@@ -287,19 +211,6 @@ class Line {
       });
   }
 
-  setTitle(title) {
-    this.svg.append('text')
-      .attr('x', (this.width / 2))
-      .attr('y', 0 - (this.margin.top / 2))
-      .attr('text-anchor', 'middle')
-      .style('font-size', (this.titleFontSize === undefined) ?
-        `${Math.min(20, Math.min(this.width, this.height) / 4)}px` :
-        this.titleFontSize)
-      .style('font-family', this.fontFamily)
-      .style('opacity', 0.8)
-      .text(title);
-  }
-
   addInteraction() {
     const that = this;
     this.chartScreen = this.svg.append('g')
@@ -423,9 +334,6 @@ class Line {
   }
 
   drawFromObject() {
-    // set default color
-    if (this.colors === undefined) this.colors = colors;
-
     this.dataSources = Object.keys(this.data);
     this.initRoughObjects();
     this.addScales();
@@ -489,10 +397,6 @@ class Line {
   }
 
   drawFromFile() {
-
-    // set default colors
-    if (this.colors === undefined) this.colors = colors;
-
     this.initRoughObjects();
     this.addScales();
 
