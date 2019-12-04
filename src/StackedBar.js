@@ -37,6 +37,7 @@ class StackedBar {
     this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
     this.labels = opts.labels;
     this.values = opts.values;
+    this.stackColorMapping = {};
     this.padding = get(opts, 'padding', 0.1);
     this.xLabel = get(opts, 'xLabel', '');
     this.yLabel = get(opts, 'yLabel', '');
@@ -95,7 +96,7 @@ class StackedBar {
   }
 
   // Helper Method to get the Total Value of the Stack
-  getTotal(d){
+  getTotal(d) {
     for (let x = 0; x < d.length; x++) {
       let t = 0;
       for (let i = 0; i < d.columns.length; ++i) {
@@ -106,6 +107,13 @@ class StackedBar {
       d[x].total = t;
     }
     return d;
+  }
+
+  updateColorMapping(label) {
+    if (!this.stackColorMapping[label]) {
+      // If there isn't a color already mapped to the label then use the next color available
+      this.stackColorMapping[label] = colors[Object.keys(this.stackColorMapping).length];
+    }
   }
 
   // add this to abstract base
@@ -133,9 +141,10 @@ class StackedBar {
         this.data = data;
         for (let i = 0; i < data.length; ++i) {
           let t = 0;
-          let keys = Object.keys(data[i]);
+          const keys = Object.keys(data[i]);
           keys.forEach(d => {
             if (d !== this.labels) {
+              this.updateColorMapping(d);
               t += data[i][d];
               data[i].total = t;
             }
@@ -429,8 +438,8 @@ class StackedBar {
             width,
             height,
             {
-              fill: this.colors[i],
-              stroke: this.colors[i],
+              fill: this.stackColorMapping[yValue] || this.colors[i],
+              stroke: this.stackColorMapping[yValue] || this.colors[i],
               simplification: this.simplification,
               fillWeight: this.fillWeight,
             }
