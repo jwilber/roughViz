@@ -290,8 +290,8 @@ new roughViz.Donut({
 new roughViz.Pie({
   element: '#vis2',
   data: {
-    labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h'],
-    values: [13, 10, 4, 5, 6, 4, 5],
+    labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h', 'zero'],
+    values: [13, 10, 4, 5, 6, 4, 5, 0],
   },
   title: '"Yarn" Plot (Pie)',
   // titleFontSize: '55px',

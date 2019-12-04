@@ -249,21 +249,23 @@ class Pie {
     this.arcs = this.makePie(this.data[this.values]);
 
     this.arcs.forEach((d, i) => {
-      let node = this.rc.arc(
-        this.width / 2, // x
-        this.height / 2, // y
-        2 * this.radius, // width
-        2 * this.radius, // height
-        d.startAngle - Math.PI / 2, // start
-        d.endAngle - Math.PI / 2, // stop
-        true, {
-          fill: this.colors[i],
-          stroke: this.colors[i],
-        });
-      node.setAttribute('class', this.graphClass);
-      let roughNode = this.roughSvg.appendChild(node);
-      roughNode.setAttribute('attrY', this.data[this.values][i]);
-      roughNode.setAttribute('attrX', this.data[this.labels][i]);
+      if (d.value !== 0) {
+        const node = this.rc.arc(
+          this.width / 2, // x
+          this.height / 2, // y
+          2 * this.radius, // width
+          2 * this.radius, // height
+          d.startAngle - Math.PI / 2, // start
+          d.endAngle - Math.PI / 2, // stop
+          true, {
+            fill: this.colors[i],
+            stroke: this.colors[i],
+          });
+        node.setAttribute('class', this.graphClass);
+        const roughNode = this.roughSvg.appendChild(node);
+        roughNode.setAttribute('attrY', this.data[this.values][i]);
+        roughNode.setAttribute('attrX', this.data[this.labels][i]);
+      }
     });
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
@@ -307,22 +309,24 @@ class Pie {
     this.arcs = this.makePie(this.data);
 
     this.arcs.forEach((d, i) => {
-      // let c = this.makeArc.centroid(d);
-      let node = this.rc.arc(
-        this.width / 2, // x
-        this.height / 2, // y
-        2 * this.radius, // width
-        2 * this.radius, // height
-        d.startAngle - Math.PI / 2, // start
-        d.endAngle - Math.PI / 2, // stop
-        true, {
-          fill: this.colors[i],
-          stroke: this.colors[i],
-        });
-      node.setAttribute('class', this.graphClass);
-      let roughNode = this.roughSvg.appendChild(node);
-      roughNode.setAttribute('attrY', d.data[this.values]);
-      roughNode.setAttribute('attrX', d.data[this.labels]);
+      if (d.value !== 0) {
+        // let c = this.makeArc.centroid(d);
+        const node = this.rc.arc(
+          this.width / 2, // x
+          this.height / 2, // y
+          2 * this.radius, // width
+          2 * this.radius, // height
+          d.startAngle - Math.PI / 2, // start
+          d.endAngle - Math.PI / 2, // stop
+          true, {
+            fill: this.colors[i],
+            stroke: this.colors[i],
+          });
+        node.setAttribute('class', this.graphClass);
+        const roughNode = this.roughSvg.appendChild(node);
+        roughNode.setAttribute('attrY', d.data[this.values]);
+        roughNode.setAttribute('attrX', d.data[this.labels]);
+      }
       valueArr.push(d.data[this.labels]);
     });
 
