@@ -451,6 +451,7 @@ Optional
 
 ### Contributors
 - [Jared Wilber](https://twitter.com/jdwlbr)
+- [Laimonas Andriejauskas](https://github.com/laimonasA)
 - [Dave Slutzkin](https://github.com/daveslutzkin)
 - [JoLo](https://github.com/jolo-dev)
 
