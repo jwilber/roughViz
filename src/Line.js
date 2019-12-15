@@ -93,8 +93,8 @@ class Line {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 300;
-    let height = opts.height ? opts.height : 400;
+    const width = opts.width ? opts.width : 300;
+    const height = opts.height ? opts.height : 400;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -257,15 +257,15 @@ class Line {
 
 
   makeAxesRough(roughSvg, rcAxis) {
-    let xAxisClass = `xAxis${this.graphClass}`;
-    let yAxisClass = `yAxis${this.graphClass}`;
-    let roughXAxisClass = `rough-${xAxisClass}`;
-    let roughYAxisClass = `rough-${yAxisClass}`;
+    const xAxisClass = `xAxis${this.graphClass}`;
+    const yAxisClass = `yAxis${this.graphClass}`;
+    const roughXAxisClass = `rough-${xAxisClass}`;
+    const roughYAxisClass = `rough-${yAxisClass}`;
 
     select(`.${xAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
-        let pathD = select(this).node().getAttribute('d');
-        let roughXAxis = rcAxis.path(pathD, {
+        const pathD = select(this).node().getAttribute('d');
+        const roughXAxis = rcAxis.path(pathD, {
           stroke: 'black',
           fillStyle: 'hachure',
         });
@@ -277,8 +277,8 @@ class Line {
 
     select(`.${yAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
-        let pathD = select(this).node().getAttribute('d');
-        let roughYAxis = rcAxis.path(pathD, {
+        const pathD = select(this).node().getAttribute('d');
+        const roughYAxis = rcAxis.path(pathD, {
           stroke: 'black',
           fillStyle: 'hachure',
         });
@@ -439,17 +439,17 @@ class Line {
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter(d => d[0] !== undefined);
 
-      let node = this.rc.curve(drawPoints, {
+      const node = this.rc.curve(drawPoints, {
         stroke: this.colors.length === 1 ? this.colors[0] : this.colors[idx],
         roughness: this.roughness,
         bowing: this.bowing,
       });
 
-      let roughNode = this.roughSvg.appendChild(node);
+      const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
       if (this.circle === true) {
         points.forEach((d, i) => {
-          let node = this.rc.circle(
+          const node = this.rc.circle(
             d[0],
             d[1],
             this.circleRadius, {
@@ -506,7 +506,7 @@ class Line {
 
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter(d => d[0] !== undefined);
-      let node = this.rc.curve(drawPoints, {
+      const node = this.rc.curve(drawPoints, {
         stroke: this.colors[idx],
         strokeWidth: this.strokeWidth,
         roughness: 1,
@@ -516,7 +516,7 @@ class Line {
       this.roughSvg.appendChild(node);
       if (this.circle === true) {
         drawPoints.forEach((d, i) => {
-          let node = this.rc.circle(
+          const node = this.rc.circle(
             d[0],
             d[1],
             this.circleRadius, {

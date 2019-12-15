@@ -8,9 +8,10 @@
     },
     "rules": {
         "max-len": ["error", {
-            "code": 145
+            "code": 100
         }],
-        "no-new": 0
+        "no-new": 0,
+        "prefer-const": "error",
         // "quotes": ["error", "double"]
     }
 }

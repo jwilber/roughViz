@@ -50,8 +50,8 @@ class Donut {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 300;
-    let height = opts.height ? opts.height : 300;
+    const width = opts.width ? opts.width : 300;
+    const height = opts.height ? opts.height : 300;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -181,13 +181,13 @@ class Donut {
       Tooltip.style('opacity', 1);
     };
 
-    let that = this;
+    const that = this;
     let thisColor;
 
     var mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let mousePos = mouse(this);
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip.html(`<b>${attrX}</b>: ${attrY}`)
         .style('opacity', 0.95)
@@ -282,7 +282,7 @@ class Donut {
       }
     });
 
-    let donutNode = this.rc.circle(
+    const donutNode = this.rc.circle(
       this.width / 2,
       this.height / 2,
       this.radius,
@@ -364,7 +364,7 @@ class Donut {
 
     // console.log("yeet", valueArr);
 
-    let donutNode = this.rc.circle(
+    const donutNode = this.rc.circle(
       this.width / 2,
       this.height / 2,
       this.radius,

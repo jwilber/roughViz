@@ -54,8 +54,8 @@ class Bar {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 350;
-    let height = opts.height ? opts.height : 450;
+    const width = opts.width ? opts.width : 350;
+    const height = opts.height ? opts.height : 450;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -210,15 +210,15 @@ class Bar {
   }
 
   makeAxesRough(roughSvg, rcAxis) {
-    let xAxisClass = `xAxis${this.graphClass}`;
-    let yAxisClass = `yAxis${this.graphClass}`;
-    let roughXAxisClass = `rough-${xAxisClass}`;
-    let roughYAxisClass = `rough-${yAxisClass}`;
+    const xAxisClass = `xAxis${this.graphClass}`;
+    const yAxisClass = `yAxis${this.graphClass}`;
+    const roughXAxisClass = `rough-${xAxisClass}`;
+    const roughYAxisClass = `rough-${yAxisClass}`;
 
     select(`.${xAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
-        let pathD = select(this).node().getAttribute('d');
-        let roughXAxis = rcAxis.path(pathD, {
+        const pathD = select(this).node().getAttribute('d');
+        const roughXAxis = rcAxis.path(pathD, {
           fillStyle: 'hachure',
         });
         roughXAxis.setAttribute('class', roughXAxisClass);
@@ -229,8 +229,8 @@ class Bar {
 
     select(`.${yAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
-        let pathD = select(this).node().getAttribute('d');
-        let roughYAxis = rcAxis.path(pathD, {
+        const pathD = select(this).node().getAttribute('d');
+        const roughYAxis = rcAxis.path(pathD, {
           fillStyle: 'hachure',
         });
         roughYAxis.setAttribute('class', roughYAxisClass);
@@ -299,12 +299,12 @@ class Bar {
       Tooltip
         .style('opacity', 1);
     };
-    let that = this;
+    const that = this;
 
     var mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let mousePos = mouse(this);
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip
         .html(`<b>${attrX}</b>: ${attrY}`)
@@ -369,7 +369,7 @@ class Bar {
 
     // Add barplot
     this.data.values.forEach((d, i) => {
-      let node = this.rc.rectangle(
+      const node = this.rc.rectangle(
         this.xScale(this.data[this.labels][i]),
         this.yScale(+d),
         this.xScale.bandwidth(),
@@ -377,7 +377,7 @@ class Bar {
           simplification: this.simplification,
           fillWeight: this.fillWeight,
         });
-      let roughNode = this.roughSvg.appendChild(node);
+      const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
       roughNode.setAttribute('attrX', this.data[this.labels][i]);
       roughNode.setAttribute('attrY', +d);
@@ -401,7 +401,7 @@ class Bar {
 
     // Add barplot
     this.data.forEach((d) => {
-      let node = this.rc.rectangle(
+      const node = this.rc.rectangle(
         this.xScale(d[this.labels]),
         this.yScale(+d[this.values]),
         this.xScale.bandwidth(),
@@ -409,7 +409,7 @@ class Bar {
           simplification: this.simplification,
           fillWeight: this.fillWeight,
         });
-      let roughNode = this.roughSvg.appendChild(node);
+      const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
       roughNode.setAttribute('attrX', d[this.labels]);
       roughNode.setAttribute('attrY', +d[this.values]);
