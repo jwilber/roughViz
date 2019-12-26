@@ -1,4 +1,3 @@
-import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
@@ -7,16 +6,16 @@ import { scaleBand, scaleLinear } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
 import rough from 'roughjs/dist/rough.umd';
 import get from 'lodash.get';
+import Chart from './Chart';
 import { roughCeiling } from './utils/roughCeiling';
 
-class BarH {
+class BarH extends Chart {
   constructor(opts) {
+    super(opts);
+
     // load in arguments from config object
-    this.el = opts.element;
     // this.data = opts.data;
-    this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 50, left: 100 };
-    this.title = opts.title;
     this.color = get(opts, 'color', 'skyblue');
     this.highlight = get(opts, 'highlight', 'coral');
     this.roughness = roughCeiling({ roughness: opts.roughness });
@@ -25,16 +24,8 @@ class BarH {
     this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.5);
     this.axisRoughness = get(opts, 'axisRoughness', 0.5);
     this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
-    this.fillStyle = opts.fillStyle;
-    this.bowing = get(opts, 'bowing', 0);
     this.fillWeight = get(opts, 'fillWeight', 0.5);
-    this.simplification = get(opts, 'simplification', 0.2);
-    this.interactive = opts.interactive !== false;
-    this.titleFontSize = opts.titleFontSize;
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = get(opts, 'tooltipFontSize', '0.95rem');
-    this.font = get(opts, 'font', 0);
-    this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
     this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
     this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
     this.xValueFormat = opts.xValueFormat;
@@ -62,36 +53,6 @@ class BarH {
     this.graphClass = this.el.substring(1, this.el.length);
     this.interactionG = 'g.' + this.graphClass;
     this.setSvg();
-  }
-
-  setSvg() {
-    this.svg = select(this.el)
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('id', this.roughId)
-      .attr('transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')');
-  }
-
-  resolveFont() {
-    if (
-      this.font === 0 ||
-      this.font === undefined ||
-      this.font.toString().toLowerCase() === 'gaegu'
-    ) {
-      addFontGaegu(this.svg);
-      this.fontFamily = 'gaeguregular';
-    } else if (
-      this.font === 1 ||
-      this.font.toString().toLowerCase() === 'indie flower'
-    ) {
-      addFontIndieFlower(this.svg);
-      this.fontFamily = 'indie_flowerregular';
-    } else {
-      this.fontFamily = this.font;
-    }
   }
 
   // add this to abstract base
