@@ -50,8 +50,8 @@ class Pie {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 350;
-    let height = opts.height ? opts.height : 450;
+    const width = opts.width ? opts.width : 350;
+    const height = opts.height ? opts.height : 450;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -179,13 +179,13 @@ class Pie {
         .style('opacity', 1);
     };
 
-    let that = this;
+    const that = this;
     let thisColor;
 
     var mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let mousePos = mouse(this);
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip
         .html(`<b>${attrX}</b>: ${attrY}`)

@@ -12,7 +12,7 @@ const addLegend = (parent, legendItems, legendWidth, legendHeight, left) => {
     -parent.margin.left + 5 :
     left;
 
-  let nodeLegend = parent.rc.rectangle(
+  const nodeLegend = parent.rc.rectangle(
     parent.legendPosition === 'left' ?
       leftPadding : // left
       parent.width + parent.margin.right - 2 - (legendWidth), // right
@@ -26,7 +26,7 @@ const addLegend = (parent, legendItems, legendWidth, legendHeight, left) => {
       roughness: 2,
     });
 
-  let roughLegend = parent.roughSvg.appendChild(nodeLegend);
+  const roughLegend = parent.roughSvg.appendChild(nodeLegend);
   const legendClass = 'rough' + parent.el.substring(1, parent.el.length);
   roughLegend.setAttribute('class', legendClass);
 

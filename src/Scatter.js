@@ -79,8 +79,8 @@ class Scatter {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 300;
-    let height = opts.height ? opts.height : 400;
+    const width = opts.width ? opts.width : 300;
+    const height = opts.height ? opts.height : 400;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -239,15 +239,15 @@ class Scatter {
 
 
   makeAxesRough(roughSvg, rcAxis) {
-    let xAxisClass = `xAxis${this.graphClass}`;
-    let yAxisClass = `yAxis${this.graphClass}`;
-    let roughXAxisClass = `rough-${xAxisClass}`;
-    let roughYAxisClass = `rough-${yAxisClass}`;
+    const xAxisClass = `xAxis${this.graphClass}`;
+    const yAxisClass = `yAxis${this.graphClass}`;
+    const roughXAxisClass = `rough-${xAxisClass}`;
+    const roughYAxisClass = `rough-${yAxisClass}`;
 
     select(`.${xAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
-        let pathD = select(this).node().getAttribute('d');
-        let roughXAxis = rcAxis.path(pathD, {
+        const pathD = select(this).node().getAttribute('d');
+        const roughXAxis = rcAxis.path(pathD, {
           stroke: 'black',
           fillStyle: 'hachure',
         });
@@ -259,8 +259,8 @@ class Scatter {
 
     select(`.${yAxisClass}`)
       .selectAll('path.domain').each(function(d, i) {
-        let pathD = select(this).node().getAttribute('d');
-        let roughYAxis = rcAxis.path(pathD, {
+        const pathD = select(this).node().getAttribute('d');
+        const roughYAxis = rcAxis.path(pathD, {
           stroke: 'black',
           fillStyle: 'hachure',
         });
@@ -333,14 +333,14 @@ class Scatter {
         .style('opacity', 1);
     };
 
-    let that = this;
+    const that = this;
     let thisColor;
 
     var mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let attrHighlightLabel = select(this).attr('attrHighlightLabel');
-      let mousePos = mouse(this);
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const attrHighlightLabel = select(this).attr('attrHighlightLabel');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip
         .html(that.highlightLabel === 'xy' ? `<b>x</b>: ${attrX} <br><b>y</b>: ${attrY}` :
@@ -416,7 +416,7 @@ class Scatter {
 
     // Add scatterplot
     this.data.x.forEach((d, i) => {
-      let node = this.rc.circle(
+      const node = this.rc.circle(
         this.xScale(+d),
         this.yScale(+this.data[this.y][i]),
         typeof this.radius === 'number' ? this.radius :
@@ -427,7 +427,7 @@ class Scatter {
           simplification: this.simplification,
           fillWeight: this.fillWeight,
         });
-      let roughNode = this.roughSvg.appendChild(node);
+      const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
       roughNode.setAttribute('attrX', d);
       roughNode.setAttribute('attrY', this.data[this.y][i]);
@@ -456,7 +456,7 @@ class Scatter {
 
     // Add scatterplot
     this.data.forEach((d, i) => {
-      let node = this.rc.circle(
+      const node = this.rc.circle(
         this.xScale(+d[this.x]),
         this.yScale(+d[this.y]),
         (typeof this.radius === 'number') ? this.radius :
@@ -467,7 +467,7 @@ class Scatter {
           simplification: this.simplification,
           fillWeight: this.fillWeight,
         });
-      let roughNode = this.roughSvg.appendChild(node);
+      const roughNode = this.roughSvg.appendChild(node);
       roughNode.setAttribute('class', this.graphClass);
       roughNode.setAttribute('attrX', d[this.x]);
       roughNode.setAttribute('attrY', d[this.y]);

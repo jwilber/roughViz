@@ -53,8 +53,8 @@ class StackedBar {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 350;
-    let height = opts.height ? opts.height : 450;
+    const width = opts.width ? opts.width : 350;
+    const height = opts.height ? opts.height : 450;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -175,7 +175,9 @@ class StackedBar {
       .nice();
 
     // set the colors
-    let keys = this.dataFormat === 'object' ? this.data.map(d => d[this.labels]) : this.data.columns;
+    const keys = (
+      this.dataFormat === 'object' ? this.data.map(d => d[this.labels]) : this.data.columns
+    );
     this.zScale = scaleOrdinal()
       .range([
         '#98abc5',
@@ -261,18 +263,18 @@ class StackedBar {
   }
 
   makeAxesRough(roughSvg, rcAxis) {
-    let xAxisClass = `xAxis${this.graphClass}`;
-    let yAxisClass = `yAxis${this.graphClass}`;
-    let roughXAxisClass = `rough-${xAxisClass}`;
-    let roughYAxisClass = `rough-${yAxisClass}`;
+    const xAxisClass = `xAxis${this.graphClass}`;
+    const yAxisClass = `yAxis${this.graphClass}`;
+    const roughXAxisClass = `rough-${xAxisClass}`;
+    const roughYAxisClass = `rough-${yAxisClass}`;
 
     select(`.${xAxisClass}`)
       .selectAll('path.domain')
       .each(function(d, i) {
-        let pathD = select(this)
+        const pathD = select(this)
           .node()
           .getAttribute('d');
-        let roughXAxis = rcAxis.path(pathD, {
+        const roughXAxis = rcAxis.path(pathD, {
           fillStyle: 'hachure',
         });
         roughXAxis.setAttribute('class', roughXAxisClass);
@@ -286,10 +288,10 @@ class StackedBar {
     select(`.${yAxisClass}`)
       .selectAll('path.domain')
       .each(function(d, i) {
-        let pathD = select(this)
+        const pathD = select(this)
           .node()
           .getAttribute('d');
-        let roughYAxis = rcAxis.path(pathD, {
+        const roughYAxis = rcAxis.path(pathD, {
           fillStyle: 'hachure',
         });
         roughYAxis.setAttribute('class', roughYAxisClass);
@@ -320,7 +322,7 @@ class StackedBar {
       // .data(this.data)
       // .append('rect')
       .each(function(d, i){
-        let attr = this['attributes'];
+        const attr = this['attributes'];
         select(this)
           .append('rect')
           .attr('x', attr['x'].value)
@@ -346,17 +348,17 @@ class StackedBar {
       .style('pointer-events', 'none');
 
     // event functions
-    let mouseover = function(d) {
+    const mouseover = function(d) {
       Tooltip.style('opacity', 1);
     };
-    let that = this;
+    const that = this;
     let thisColor;
 
-    let mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let keyY = select(this).attr('keyY');
-      let mousePos = mouse(this);
+    const mousemove = function(d) {
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const keyY = select(this).attr('keyY');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip.html(`<h4>${attrX}</h4> <b>${keyY}</b>: ${attrY}`)
         .style('opacity', 0.95)
@@ -368,7 +370,7 @@ class StackedBar {
             (that.height + that.margin.top + that.margin.bottom)}px)`
         );
     };
-    let mouseleave = function(d) {
+    const mouseleave = function(d) {
       Tooltip.style('opacity', 0);
     };
 
@@ -423,16 +425,16 @@ class StackedBar {
   stacking() {
     // Add Stackedbarplot
     this.data.forEach(d => {
-      let keys = Object.keys(d);
+      const keys = Object.keys(d);
       let yStack = 0;
       keys.forEach((yValue, i) => {
         if (i > 0 && yValue !== 'total') {
           yStack += parseInt(d[yValue], 10);
-          let x = this.xScale(d[this.labels]);
-          let y = this.yScale(yStack);
-          let width = this.xScale.bandwidth();
-          let height = this.height - this.yScale(+d[yValue]);
-          let node = this.rc.rectangle(
+          const x = this.xScale(d[this.labels]);
+          const y = this.yScale(yStack);
+          const width = this.xScale.bandwidth();
+          const height = this.height - this.yScale(+d[yValue]);
+          const node = this.rc.rectangle(
             x,
             y,
             width,
@@ -444,7 +446,7 @@ class StackedBar {
               fillWeight: this.fillWeight,
             }
           );
-          let roughNode = this.roughSvg.appendChild(node);
+          const roughNode = this.roughSvg.appendChild(node);
           roughNode.setAttribute('class', this.graphClass);
           roughNode.setAttribute('attrX', d[this.labels]);
           roughNode.setAttribute('keyY', yValue);
