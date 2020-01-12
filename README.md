@@ -94,7 +94,7 @@ In the javascript, just create charts, referencing the desired container:
 ```js
 // create Bar chart from csv file, using default options
  new roughViz.Bar({
-    element: '#vis0', // container selection
+    element: '#viz0', // container selection
     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
     labels: 'flavor',
     values: 'price'
@@ -103,7 +103,7 @@ In the javascript, just create charts, referencing the desired container:
 // create Donut chart using defined data & customize plot options
 new roughViz.Donut(
   {
-    element: '#vis1',
+    element: '#viz1',
     data: {
       labels: ['North', 'South', 'East', 'West'],
       values: [10, 5, 8, 3]
