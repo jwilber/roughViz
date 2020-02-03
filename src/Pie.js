@@ -1,39 +1,26 @@
-import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { csv, tsv, json } from 'd3-fetch';
 import { mouse, select, selectAll } from 'd3-selection';
 import { arc, pie } from 'd3-shape';
 import rough from 'roughjs/dist/rough.umd';
+import get from 'lodash.get';
+import Chart from './Chart';
 import { colors } from './utils/colors';
 import { addLegend } from './utils/addLegend';
+import { roughCeiling } from './utils/roughCeiling';
 
-const roughCeiling = (roughness) => {
-  let roughVal = roughness > 30 ? 30 : roughness;
-  return roughVal;
-};
-
-class Pie {
-
+class Pie extends Chart {
   constructor(opts) {
+    super(opts);
+
     // load in arguments from config object
-    this.el = opts.element;
     // this.data = opts.data;
-    this.element = opts.element;
-    this.margin = opts.margin || {top: 50, right: 20, bottom: 10, left: 20};
-    this.title = opts.title;
-    this.colors = opts.colors || colors;
+    this.margin = opts.margin || { top: 50, right: 20, bottom: 10, left: 20 };
+    this.colors = get(opts, 'colors', colors);
     this.highlight = opts.highlight;
-    this.roughness = roughCeiling(opts.roughness) || 0;
-    this.strokeWidth = opts.strokeWidth || 0.75;
-    this.innerStrokeWidth = opts.innerStrokeWidth || 1;
-    this.fillStyle = opts.fillStyle;
-    this.bowing = opts.bowing || 0;
-    this.fillWeight = opts.fillWeight || 0.5;
-    this.simplification = opts.simplification || 0.2;
-    this.interactive = opts.interactive !== false;
-    this.titleFontSize = opts.titleFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
-    this.font = opts.font || 0;
-    this.dataFormat = (typeof opts.data === 'object') ? 'object' : 'file';
+    this.roughness = roughCeiling({ roughness: opts.roughness, ceiling: 30, defaultValue: 0 });
+    this.strokeWidth = get(opts, 'strokeWidth', 0.75);
+    this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
+    this.fillWeight = get(opts, 'fillWeight', 0.5);
     this.labels = (this.dataFormat === 'object') ? 'labels' : opts.labels;
     this.values = (this.dataFormat === 'object') ? 'values' : opts.values;
     if (this.labels === undefined || this.values === undefined) {
@@ -42,7 +29,7 @@ class Pie {
       return;
     }
     this.legend = opts.legend !== false;
-    this.legendPosition = opts.legendPosition || 'right';
+    this.legendPosition = get(opts, 'legendPosition', 'right');
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -54,8 +41,8 @@ class Pie {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 350;
-    let height = opts.height ? opts.height : 450;
+    const width = opts.width ? opts.width : 350;
+    const height = opts.height ? opts.height : 450;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -63,36 +50,6 @@ class Pie {
     this.interactionG = 'g.' + this.graphClass;
     this.radius = Math.min(this.width, this.height) / 2;
     this.setSvg();
-  }
-
-  setSvg() {
-    this.svg = select(this.el)
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('id', this.roughId)
-      .attr('transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')');
-  }
-
-  resolveFont() {
-    if (
-      this.font === 0 ||
-      this.font === undefined ||
-      this.font.toString().toLowerCase() === 'gaegu'
-    ) {
-      addFontGaegu(this.svg);
-      this.fontFamily = 'gaeguregular';
-    } else if (
-      this.font === 1 ||
-      this.font.toString().toLowerCase() === 'indie flower'
-    ){
-      addFontIndieFlower(this.svg);
-      this.fontFamily = 'indie_flowerregular';
-    } else {
-      this.fontFamily = this.font;
-    }
   }
 
   // add this to abstract base
@@ -183,13 +140,13 @@ class Pie {
         .style('opacity', 1);
     };
 
-    let that = this;
+    const that = this;
     let thisColor;
 
     var mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let mousePos = mouse(this);
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip
         .html(`<b>${attrX}</b>: ${attrY}`)
@@ -253,21 +210,23 @@ class Pie {
     this.arcs = this.makePie(this.data[this.values]);
 
     this.arcs.forEach((d, i) => {
-      let node = this.rc.arc(
-        this.width / 2, // x
-        this.height / 2, // y
-        2 * this.radius, // width
-        2 * this.radius, // height
-        d.startAngle - Math.PI / 2, // start
-        d.endAngle - Math.PI / 2, // stop
-        true, {
-          fill: this.colors[i],
-          stroke: this.colors[i],
-        });
-      node.setAttribute('class', this.graphClass);
-      let roughNode = this.roughSvg.appendChild(node);
-      roughNode.setAttribute('attrY', this.data[this.values][i]);
-      roughNode.setAttribute('attrX', this.data[this.labels][i]);
+      if (d.value !== 0) {
+        const node = this.rc.arc(
+          this.width / 2, // x
+          this.height / 2, // y
+          2 * this.radius, // width
+          2 * this.radius, // height
+          d.startAngle - Math.PI / 2, // start
+          d.endAngle - Math.PI / 2, // stop
+          true, {
+            fill: this.colors[i],
+            stroke: this.colors[i],
+          });
+        node.setAttribute('class', this.graphClass);
+        const roughNode = this.roughSvg.appendChild(node);
+        roughNode.setAttribute('attrY', this.data[this.values][i]);
+        roughNode.setAttribute('attrX', this.data[this.labels][i]);
+      }
     });
 
     selectAll(this.interactionG).selectAll('path:nth-child(2)')
@@ -311,22 +270,24 @@ class Pie {
     this.arcs = this.makePie(this.data);
 
     this.arcs.forEach((d, i) => {
-      // let c = this.makeArc.centroid(d);
-      let node = this.rc.arc(
-        this.width / 2, // x
-        this.height / 2, // y
-        2 * this.radius, // width
-        2 * this.radius, // height
-        d.startAngle - Math.PI / 2, // start
-        d.endAngle - Math.PI / 2, // stop
-        true, {
-          fill: this.colors[i],
-          stroke: this.colors[i],
-        });
-      node.setAttribute('class', this.graphClass);
-      let roughNode = this.roughSvg.appendChild(node);
-      roughNode.setAttribute('attrY', d.data[this.values]);
-      roughNode.setAttribute('attrX', d.data[this.labels]);
+      if (d.value !== 0) {
+        // let c = this.makeArc.centroid(d);
+        const node = this.rc.arc(
+          this.width / 2, // x
+          this.height / 2, // y
+          2 * this.radius, // width
+          2 * this.radius, // height
+          d.startAngle - Math.PI / 2, // start
+          d.endAngle - Math.PI / 2, // stop
+          true, {
+            fill: this.colors[i],
+            stroke: this.colors[i],
+          });
+        node.setAttribute('class', this.graphClass);
+        const roughNode = this.roughSvg.appendChild(node);
+        roughNode.setAttribute('attrY', d.data[this.values]);
+        roughNode.setAttribute('attrX', d.data[this.labels]);
+      }
       valueArr.push(d.data[this.labels]);
     });
 

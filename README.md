@@ -47,7 +47,7 @@ As well as additional chart-specific options ([see API below](#API))
 Via CDN (expose the `roughViz` global in `html`):
 
 ```html
-<script src="https://unpkg.com/rough-viz@1.0.2"></script>
+<script src="https://unpkg.com/rough-viz@1.0.5"></script>
 ```
 
 Via `npm`:
@@ -62,11 +62,24 @@ Want to use with `React`? [There's a wrapper!](https://github.com/Chris927/react
 npm install react-roughviz
 ```
 
-Want to use it with `Python`? [There's a wrapper!](https://github.com/hannansatopay/roughviz):
+Want to use with `Vue`? [There's a wrapper!](https://github.com/jolo-dev/vue-roughviz):
 
 ```sh
+npm install vue-roughviz
+```
+
+Want to use it with `Python`? [Option 1](https://github.com/hannansatopay/roughviz) or [Option 2](https://github.com/charlesdong1991/py-roughviz):
+
+```sh
+# for option 1
 pip install roughviz
 ```
+
+```sh
+# for option 2
+pip install py-roughviz
+```
+
 
 ### How to use
 
@@ -79,9 +92,9 @@ Create some container elements, one for each chart:
 ```
 In the javascript, just create charts, referencing the desired container:
 ```js
-// create donut chart from csv file, using default options
+// create Bar chart from csv file, using default options
  new roughViz.Bar({
-    element: '#vis0', // container selection
+    element: '#viz0', // container selection
     data: 'https://raw.githubusercontent.com/jwilber/random_data/master/flavors.csv',
     labels: 'flavor',
     values: 'price'
@@ -90,7 +103,7 @@ In the javascript, just create charts, referencing the desired container:
 // create Donut chart using defined data & customize plot options
 new roughViz.Donut(
   {
-    element: '#vis1',
+    element: '#viz1',
     data: {
       labels: ['North', 'South', 'East', 'West'],
       values: [10, 5, 8, 3]
@@ -445,7 +458,8 @@ Optional
 
 ### Contributors
 - [Jared Wilber](https://twitter.com/jdwlbr)
-- [Dave Slutzkin[(https://github.com/daveslutzkin)
+- [Laimonas Andriejauskas](https://github.com/laimonasA)
+- [Dave Slutzkin](https://github.com/daveslutzkin)
 - [JoLo](https://github.com/jolo-dev)
 
 

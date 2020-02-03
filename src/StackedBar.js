@@ -1,49 +1,38 @@
-import { addFontGaegu, addFontIndieFlower } from './utils/addFonts';
 import { max } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
-import { colors } from './utils/colors';
 import rough from 'roughjs/dist/rough.umd';
+import get from 'lodash.get';
+import Chart from './Chart';
+import { colors } from './utils/colors';
+import { roughCeiling } from './utils/roughCeiling';
 
-const roughCeiling = roughness => {
-  let roughVal = roughness > 20 ? 20 : roughness;
-  return roughVal;
-};
-
-class StackedBar {
+class StackedBar extends Chart {
   constructor(opts) {
+    super(opts);
+
     // load in arguments from config object
-    this.el = opts.element;
     this.data = opts.data;
-    this.element = opts.element;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 70, left: 100 };
-    this.title = opts.title;
-    this.colors = opts.colors || colors;
-    this.highlight = opts.highlight || 'coral';
-    this.roughness = roughCeiling(opts.roughness) || 1;
-    this.stroke = opts.stroke || 'black';
-    this.strokeWidth = opts.strokeWidth || 1;
-    this.axisStrokeWidth = opts.axisStrokeWidth || 0.5;
-    this.axisRoughness = opts.axisRoughness || 0.5;
-    this.innerStrokeWidth = opts.innerStrokeWidth || 1;
-    this.fillStyle = opts.fillStyle;
-    this.bowing = opts.bowing || 0;
-    this.fillWeight = opts.fillWeight || 0.5;
-    this.simplification = opts.simplification || 0.2;
-    this.interactive = opts.interactive !== false;
-    this.titleFontSize = opts.titleFontSize;
+    this.colors = get(opts, 'colors', colors);
+    this.highlight = get(opts, 'highlight', 'coral');
+    this.roughness = roughCeiling({ roughness: opts.roughness });
+    this.stroke = get(opts, 'stroke', 'black');
+    this.strokeWidth = get(opts, 'strokeWidth', 1);
+    this.axisStrokeWidth = get(opts, 'axisStrokeWidth', 0.5);
+    this.axisRoughness = get(opts, 'axisRoughness', 0.5);
+    this.innerStrokeWidth = get(opts, 'innerStrokeWidth', 1);
+    this.fillWeight = get(opts, 'fillWeight', 0.5);
     this.axisFontSize = opts.axisFontSize;
-    this.tooltipFontSize = opts.tooltipFontSize || '0.95rem';
-    this.font = opts.font || 0;
-    this.dataFormat = typeof opts.data === 'object' ? 'object' : 'file';
     this.labels = opts.labels;
     this.values = opts.values;
-    this.padding = opts.padding || 0.1;
-    this.xLabel = opts.xLabel || '';
-    this.yLabel = opts.yLabel || '';
-    this.labelFontSize = opts.labelFontSize || '1rem';
+    this.stackColorMapping = {};
+    this.padding = get(opts, 'padding', 0.1);
+    this.xLabel = get(opts, 'xLabel', '');
+    this.yLabel = get(opts, 'yLabel', '');
+    this.labelFontSize = get(opts, 'labelFontSize', '1rem');
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -55,8 +44,8 @@ class StackedBar {
   }
 
   initChartValues(opts) {
-    let width = opts.width ? opts.width : 350;
-    let height = opts.height ? opts.height : 450;
+    const width = opts.width ? opts.width : 350;
+    const height = opts.height ? opts.height : 450;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + '_svg';
@@ -65,50 +54,25 @@ class StackedBar {
     this.setSvg();
   }
 
-  setSvg() {
-    this.svg = select(this.el)
-      .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .append('g')
-      .attr('id', this.roughId)
-      .attr(
-        'transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')'
-      );
-  }
-
-  resolveFont() {
-    if (
-      this.font === 0 ||
-      this.font === undefined ||
-      this.font.toString().toLowerCase() === 'gaegu'
-    ) {
-      addFontGaegu(this.svg);
-      this.fontFamily = 'gaeguregular';
-    } else if (
-      this.font === 1 ||
-      this.font.toString().toLowerCase() === 'indie flower'
-    ) {
-      addFontIndieFlower(this.svg);
-      this.fontFamily = 'indie_flowerregular';
-    } else {
-      this.fontFamily = this.font;
-    }
-  }
-
   // Helper Method to get the Total Value of the Stack
-  getTotal(d){
-    for(let x = 0; x < d.length; x++){
+  getTotal(d) {
+    for (let x = 0; x < d.length; x++) {
       let t = 0;
       for (let i = 0; i < d.columns.length; ++i) {
         if (d.columns[i] !== this.labels) {
           t += d[x][d.columns[i]] = +d[x][d.columns[i]];
         }
       }
-      d[x].total = t
+      d[x].total = t;
     }
     return d;
+  }
+
+  updateColorMapping(label) {
+    if (!this.stackColorMapping[label]) {
+      // If there isn't a color already mapped to the label then use the next color available
+      this.stackColorMapping[label] = colors[Object.keys(this.stackColorMapping).length];
+    }
   }
 
   // add this to abstract base
@@ -136,13 +100,14 @@ class StackedBar {
         this.data = data;
         for (let i = 0; i < data.length; ++i) {
           let t = 0;
-          let keys = Object.keys(data[i]);
+          const keys = Object.keys(data[i]);
           keys.forEach(d => {
             if (d !== this.labels) {
+              this.updateColorMapping(d);
               t += data[i][d];
               data[i].total = t;
             }
-          })
+          });
         }
         this.drawFromObject();
       };
@@ -169,7 +134,9 @@ class StackedBar {
       .nice();
 
     // set the colors
-    let keys = this.dataFormat === 'object' ? this.data.map(d => d[this.labels]) : this.data.columns;
+    const keys = (
+      this.dataFormat === 'object' ? this.data.map(d => d[this.labels]) : this.data.columns
+    );
     this.zScale = scaleOrdinal()
       .range([
         '#98abc5',
@@ -255,18 +222,18 @@ class StackedBar {
   }
 
   makeAxesRough(roughSvg, rcAxis) {
-    let xAxisClass = `xAxis${this.graphClass}`;
-    let yAxisClass = `yAxis${this.graphClass}`;
-    let roughXAxisClass = `rough-${xAxisClass}`;
-    let roughYAxisClass = `rough-${yAxisClass}`;
+    const xAxisClass = `xAxis${this.graphClass}`;
+    const yAxisClass = `yAxis${this.graphClass}`;
+    const roughXAxisClass = `rough-${xAxisClass}`;
+    const roughYAxisClass = `rough-${yAxisClass}`;
 
     select(`.${xAxisClass}`)
       .selectAll('path.domain')
       .each(function(d, i) {
-        let pathD = select(this)
+        const pathD = select(this)
           .node()
           .getAttribute('d');
-        let roughXAxis = rcAxis.path(pathD, {
+        const roughXAxis = rcAxis.path(pathD, {
           fillStyle: 'hachure',
         });
         roughXAxis.setAttribute('class', roughXAxisClass);
@@ -280,10 +247,10 @@ class StackedBar {
     select(`.${yAxisClass}`)
       .selectAll('path.domain')
       .each(function(d, i) {
-        let pathD = select(this)
+        const pathD = select(this)
           .node()
           .getAttribute('d');
-        let roughYAxis = rcAxis.path(pathD, {
+        const roughYAxis = rcAxis.path(pathD, {
           fillStyle: 'hachure',
         });
         roughYAxis.setAttribute('class', roughYAxisClass);
@@ -310,18 +277,18 @@ class StackedBar {
   }
 
   addInteraction() {
-      selectAll(this.interactionG)
-        // .data(this.data)
-        // .append('rect')
-        .each(function(d, i){
-          let attr = this['attributes'];
-          select(this)
+    selectAll(this.interactionG)
+      // .data(this.data)
+      // .append('rect')
+      .each(function(d, i){
+        const attr = this['attributes'];
+        select(this)
           .append('rect')
           .attr('x', attr['x'].value)
           .attr('y', attr['y'].value)
           .attr('width', attr['width'].value)
           .attr('height', attr['height'].value)
-          .attr('fill', 'transparent')
+          .attr('fill', 'transparent');
       });
 
     // create tooltip
@@ -340,17 +307,17 @@ class StackedBar {
       .style('pointer-events', 'none');
 
     // event functions
-    let mouseover = function(d) {
+    const mouseover = function(d) {
       Tooltip.style('opacity', 1);
     };
-    let that = this;
+    const that = this;
     let thisColor;
 
-    let mousemove = function(d) {
-      let attrX = select(this).attr('attrX');
-      let attrY = select(this).attr('attrY');
-      let keyY = select(this).attr('keyY');
-      let mousePos = mouse(this);
+    const mousemove = function(d) {
+      const attrX = select(this).attr('attrX');
+      const attrY = select(this).attr('attrY');
+      const keyY = select(this).attr('keyY');
+      const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip.html(`<h4>${attrX}</h4> <b>${keyY}</b>: ${attrY}`)
         .style('opacity', 0.95)
@@ -362,7 +329,7 @@ class StackedBar {
             (that.height + that.margin.top + that.margin.bottom)}px)`
         );
     };
-    let mouseleave = function(d) {
+    const mouseleave = function(d) {
       Tooltip.style('opacity', 0);
     };
 
@@ -417,28 +384,28 @@ class StackedBar {
   stacking() {
     // Add Stackedbarplot
     this.data.forEach(d => {
-      let keys = Object.keys(d);
+      const keys = Object.keys(d);
       let yStack = 0;
       keys.forEach((yValue, i) => {
         if (i > 0 && yValue !== 'total') {
-          yStack += parseInt(d[yValue]);
-          let x = this.xScale(d[this.labels]);
-          let y = this.yScale(yStack);
-          let width = this.xScale.bandwidth();
-          let height = this.height - this.yScale(+d[yValue]);
-          let node = this.rc.rectangle(
+          yStack += parseInt(d[yValue], 10);
+          const x = this.xScale(d[this.labels]);
+          const y = this.yScale(yStack);
+          const width = this.xScale.bandwidth();
+          const height = this.height - this.yScale(+d[yValue]);
+          const node = this.rc.rectangle(
             x,
             y,
             width,
             height,
             {
-              fill: this.colors[i],
-              stroke: this.colors[i],
+              fill: this.stackColorMapping[yValue] || this.colors[i],
+              stroke: this.stackColorMapping[yValue] || this.colors[i],
               simplification: this.simplification,
               fillWeight: this.fillWeight,
             }
           );
-          let roughNode = this.roughSvg.appendChild(node);
+          const roughNode = this.roughSvg.appendChild(node);
           roughNode.setAttribute('class', this.graphClass);
           roughNode.setAttribute('attrX', d[this.labels]);
           roughNode.setAttribute('keyY', yValue);
@@ -467,7 +434,7 @@ class StackedBar {
       .style('stroke-width', this.strokeWidth);
     // If desired, add interactivity
     if (this.interactive === true) {
-      this.addInteraction()
+      this.addInteraction();
     }
   } // draw
 
@@ -479,7 +446,7 @@ class StackedBar {
     this.addLabels();
     // Add Stackedbar
     this.stacking();
-    
+
     selectAll(this.interactionG)
       .selectAll('path:nth-child(2)')
       .style('stroke-width', this.strokeWidth);

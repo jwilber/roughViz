@@ -290,8 +290,8 @@ new roughViz.Donut({
 new roughViz.Pie({
   element: '#vis2',
   data: {
-    labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h'],
-    values: [13, 10, 4, 5, 6, 4, 5],
+    labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h', 'zero'],
+    values: [13, 10, 4, 5, 6, 4, 5, 0],
   },
   title: '"Yarn" Plot (Pie)',
   // titleFontSize: '55px',
@@ -550,15 +550,14 @@ new roughViz.Bar({
 new roughViz.StackedBar({
   element: '#vis8',
   data: [
-      {month:'Jan', A:20, B: 5,  C: 10},
-      {month:'Feb', A:25, B: 10, C: 20}
-    
+    {month: 'Jan', A: 20, B: 5, C: 10, D: 15},
+    {month: 'Feb', A: 25, B: 10, D: 20},
   ],
   labels: 'month',
   // values: 'frequency',
   height: window.innerHeight * 0.7,
   width: window.innerWidth * 0.8,
-  roughness: 3,
+  roughness: 1,
   colors: [
     'red',
     'orange',
@@ -573,6 +572,5 @@ new roughViz.StackedBar({
   fillWeight: 1,
   strokeWidth: 0.5,
   fillStyle: 'cross-hatch',
-  roughness: 0,
   stroke: 'black',
 });
