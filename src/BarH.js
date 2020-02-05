@@ -4,7 +4,7 @@ import { csv, tsv } from 'd3-fetch';
 import { format } from 'd3-format';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
-import rough from 'roughjs/dist/rough.umd';
+import rough from 'roughjs/bundled/rough.esm.js';
 import get from 'lodash.get';
 import Chart from './Chart';
 import { roughCeiling } from './utils/roughCeiling';

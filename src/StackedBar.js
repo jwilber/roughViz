@@ -3,7 +3,7 @@ import { axisBottom, axisLeft } from 'd3-axis';
 import { csv, tsv } from 'd3-fetch';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import { mouse, select, selectAll } from 'd3-selection';
-import rough from 'roughjs/dist/rough.umd';
+import rough from 'roughjs/bundled/rough.esm.js';
 import get from 'lodash.get';
 import Chart from './Chart';
 import { colors } from './utils/colors';
