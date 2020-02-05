@@ -1,7 +1,7 @@
 import { csv, tsv, json } from 'd3-fetch';
 import { mouse, select, selectAll } from 'd3-selection';
 import { arc, pie } from 'd3-shape';
-import rough from 'roughjs/dist/rough.umd';
+import rough from 'roughjs/bundled/rough.esm.js';
 import get from 'lodash.get';
 import Chart from './Chart';
 import { colors } from './utils/colors';
