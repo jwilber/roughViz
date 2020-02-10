@@ -145,18 +145,14 @@ new roughViz.BarH({
     values: [240, 40, 400, 90, 75, 315, 43, 1500],
   },
   width: window.innerWidth / 2,
-  // height: 600,
   title: 'Genres',
   roughness: 1,
   highlight: 'chocolate',
   stroke: 'grey',
-  // axesFontSize: '20px'
   padding: 0.15,
   bowing: 6,
   innerStrokeWidth: 0.5,
   color: 'white',
-  // margin: {top: 50, right: 20, bottom: 150, left: 100},
-  // highlight: 'white',
   fillStyle: 'dashed',
 });
 
@@ -217,33 +213,33 @@ new roughViz.BarH({
 //   }
 // );
 
-// new roughViz.Scatter(
-//   {
-//     element: '#vis0',
-//     data: 'https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv',
-//     title: 'Iris',
-//     x: 'sepal_width',
-//     y: 'petal_length',
-//     color: 'species',
-//     highlightLabel: 'species',
-//     fillWeight: 5.1,
-//     radius: 12,
-//     colors: ['pink', 'coral', 'skyblue'],
-//     stroke: 'black',
-//     strokeWidth: .4,
-//     roughness: 1,
-//     // strokeWidth: 0.5,
-//     // titleFontSize: '2rem',
-//     // axesFontSize: '1.5rem',
-//     // axisStrokeWidth: 0.4,
-//     // axisRoughness: 2,
-//     width: 400,
-//     height: 500,
-//     font: 0,
-//     curbZero: false,
-//     fillStyle: 'crss-hatch',
-//     // highlight: 'blue'
-// })
+new roughViz.Scatter(
+  {
+    element: '#vis0',
+    data: 'https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv',
+    title: 'Iris',
+    x: 'sepal_width',
+    y: 'petal_length',
+    colorVar: 'species',
+    highlightLabel: 'species',
+    fillWeight: 5.1,
+    radius: 12,
+    colors: ['pink', 'coral', 'skyblue'],
+    stroke: 'black',
+    strokeWidth: .4,
+    roughness: 1,
+    // strokeWidth: 0.5,
+    // titleFontSize: '2rem',
+    // axesFontSize: '1.5rem',
+    // axisStrokeWidth: 0.4,
+    // axisRoughness: 2,
+    width: 400,
+    height: 500,
+    font: 0,
+    curbZero: false,
+    fillStyle: 'crss-hatch',
+    // highlight: 'blue'
+})
 
 new roughViz.Donut({
   element: '#vis1',
@@ -290,21 +286,16 @@ new roughViz.Donut({
 new roughViz.Pie({
   element: '#vis2',
   data: {
-    labels: ['Mike', 'Jah', 'Lax', 'd', 'e', 'g', 'h', 'zero'],
-    values: [13, 10, 4, 5, 6, 4, 5, 0],
+    labels: ['Mike', 'Jah',],
+    values: [13, 10, ],
   },
   title: '"Yarn" Plot (Pie)',
-  // titleFontSize: '55px',
   width: window.innerWidth / 4,
-  roughness: 20,
-  // radius: 'petal_width',
+  roughness: 2,
   colors: ['red', 'orange', 'blue', 'skyblue', 'red', 'green', 'black', 'grey'],
-  // bowing: 0.1,
   stroke: 'black',
   strokeWidth: 3,
   fillStyle: 'cross-hatch',
-  // height: 300,
-  // font: 0,
   fillWeight: 3.5,
 });
 
@@ -547,30 +538,30 @@ new roughViz.Bar({
 //   stroke: 'black',
 // });
 
-new roughViz.StackedBar({
-  element: '#vis8',
-  data: [
-    {month: 'Jan', A: 20, B: 5, C: 10, D: 15},
-    {month: 'Feb', A: 25, B: 10, D: 20},
-  ],
-  labels: 'month',
-  // values: 'frequency',
-  height: window.innerHeight * 0.7,
-  width: window.innerWidth * 0.8,
-  roughness: 1,
-  colors: [
-    'red',
-    'orange',
-    '#f996ae',
-    'skyblue',
-    '#9ff4df',
-    'green',
-    '#f6f0a3',
-    '#6bceee',
-    '#d9b6fd',
-  ],
-  fillWeight: 1,
-  strokeWidth: 0.5,
-  fillStyle: 'cross-hatch',
-  stroke: 'black',
-});
+// new roughViz.StackedBar({
+//   element: '#vis8',
+//   data: [
+//     {month: 'Jan', A: 20, B: 5, C: 10, D: 15},
+//     {month: 'Feb', A: 25, B: 10, D: 20},
+//   ],
+//   labels: 'month',
+//   // values: 'frequency',
+//   height: window.innerHeight * 0.7,
+//   width: window.innerWidth * 0.8,
+//   roughness: 1,
+//   colors: [
+//     'red',
+//     'orange',
+//     '#f996ae',
+//     'skyblue',
+//     '#9ff4df',
+//     'green',
+//     '#f6f0a3',
+//     '#6bceee',
+//     '#d9b6fd',
+//   ],
+//   fillWeight: 1,
+//   strokeWidth: 0.5,
+//   fillStyle: 'cross-hatch',
+//   stroke: 'black',
+// });

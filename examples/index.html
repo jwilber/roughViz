@@ -9,10 +9,6 @@
 			src: url("../assets/Gaegu-Light.ttf");
 		}
 
-		/*@import url('https://fonts.googleapis.com/css?family=Gaegu');*/
-		@import url('https://fonts.googleapis.com/css?family=Roboto');
-
-		/*@import url('https://fonts.googleapis.com/css?family=Indie+Flower');*/
 		.wrapper {
 			display: flex;
 			flex: wrap;
@@ -93,9 +89,10 @@
 		code {
 			display: block;
 			text-align: left;
-			background: #f5f5f5;
+			/*background: #f5f5f5;*/
+			background: snow;
 			padding-right: 0.5em;
-			color: #333333;
+			color: tan;
 			overflow-x: auto;
 			font-size: 0.8rem;
 			max-width: 100%;
@@ -110,6 +107,12 @@
 		body {
 			background-color: #fff;
 		}
+
+		.blue {color: #4fabc9;}
+		.red {color: coral;}
+		.purple {color: orange;}
+		.yellow {color: #b88747;}
+		.green {color: #4fabc9;}
 	</style>
 </head>
 
@@ -166,27 +169,27 @@
 		<center>
 			<p>Step 1: Load Library</p>
 			<pre><code class="start">
-&lt;script src=&quot;https://d3js.org/d3.v5.min.js&quot;&gt;&lt;/script&gt;
+&lt;<span class="red">script</span> <span class="green">src</span>=<span class="yellow">&quot;https://d3js.org/d3.v5.min.js&quot;</span>&gt;&lt;/<span class="red">script</span>&gt;
 	</code></pre>
 			<p>Step 2: Setup chart container</p>
 			<pre><code class="start">
-&lt;div id=&quot;chart&quot;&gt;&lt;/div&gt;
+&lt;<span class="red">div</span> <span class="green">id</span>=<span class="yellow">&quot;chart&quot;</span>&gt;&lt;/<span class="red">div</span>&gt;
 	</code></pre>
 			<p>Step 3: Create chart</p>
 			<pre><code class="start">
-new roughBars.Bar(
+<span class="red">new</span> roughBars.<span class="blue">Bar</span>(
   {
-    element: '#example',
-    data: 'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv',
-    labels: 'letter',
-    values: 'frequency',
-    height:window.innerHeight * 0.7,
-    width: window.innerWidth * 0.8,
-    roughness: 3,
-    color: 'pink',
-    fillWeight: 1,
-    strokeWidth: 0.5,
-    stroke: 'black',
+    <span class="yellow">element</span><span class="purple">:</span> <span class="yellow">'#example'</span>,
+    <span class="yellow">data</span><span class="purple">:</span> <span class="yellow">'https://gist.githubusercontent.com/mbostock/3310560/raw/98311dc46685ed02588afdcb69e5fa296febc1eb/letter-frequency.tsv'</span>,
+     <span class="yellow">labels</span><span class="purple">:</span> <span class="yellow">'letter'</span>,
+     <span class="yellow">values</span><span class="purple">:</span> <span class="yellow">'frequency'</span>,
+     <span class="yellow">height</span><span class="purple">:</span> <span class="blue">window</span>.innerHeight <span class="red">*</span> <span class="purple">0.7</span>,
+     <span class="yellow">width</span><span class="purple">:</span> <span class="blue">window</span>.innerWidth <span class="red">*</span> <span class="purple">0.8</span>,
+     <span class="yellow">roughness</span><span class="purple">:</span> <span class="purple">3</span>,
+     <span class="yellow">color</span><span class="purple">:</span> <span class="yellow">'pink'</span>,
+     <span class="yellow">fillWeight</span><span class="purple">:</span> <span class="purple">1</span>,
+     <span class="yellow">strokeWidth</span><span class="purple">:</span> <span class="purple">0.5</span>,
+     <span class="yellow">stroke</span><span class="purple">:</span> <span class="yellow">'black'</span>,
   }
 );
 	</code></pre>
@@ -218,19 +221,19 @@ new roughBars.Bar(
 		<div class="wrapper">
 			<div id="vis0"></div>
 			<pre><code>
-new roughBars.Scatter(
+<span class="red">new</span> roughBars.<span class="blue">Scatter</span>(
   {
-    element: '#vis0',
-    data: 'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv',
-    title: 'Hans Rosling (Gapminder 2007)',
-    x: 'gdpPercap',
-    y: 'lifeExp',
-    radius: 'pop',
-    colorVar: 'continent',
-    highlightLabel: 'country',
-    roughness: 1.5,
-    width: window.innerWidth / 2,
-    height: 500,
+    <span class="yellow">element</span><span class="purple">:</span> <span class="yellow">'#vis0'</span>,
+     <span class="yellow">data</span><span class="purple">:</span> <span class="yellow">'https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv'</span>,
+    <span class="yellow">title</span><span class="purple">:</span> <span class="yellow">'Hans Rosling (Gapminder 2007)'</span>,
+    <span class="yellow">x</span><span class="purple">:</span> <span class="yellow">'gdpPercap'</span>,
+    <span class="yellow">y</span><span class="purple">:</span> <span class="yellow">'lifeExp'</span>,
+    <span class="yellow">radius</span><span class="purple">:</span> <span class="yellow">'pop'</span>,
+    <span class="yellow">colorVar</span><span class="purple">:</span> <span class="yellow">'continent'</span>,
+    <span class="yellow">highlightLabel</span><span class="purple">:</span> <span class="yellow">'country'</span>,
+    <span class="yellow">roughness</span><span class="purple">:</span> <span class="purple">1.5</span>,
+    <span class="yellow">width</span><span class="purple">:</span> <span class="blue">window</span>.innerWidth <span class="red">/</span> <span class="purple">2</span>,
+    <span class="yellow">height</span><span class="purple">:</span> <span class="purple">500</span>,
   }
 );
 </code></pre>
@@ -238,79 +241,75 @@ new roughBars.Scatter(
 		<div class="wrapper">
 			<div id="vis1"></div>
 			<pre><code>
-new roughBars.Donut(
-  {
-    element: '#vis1',
-    data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
-    title: 'Regions',
-    labels: 'region',
-    values: 'count',
-    roughness: 4,
-    colors: ['pink', 'coral', 'teal', 'skyblue'],
-    highlight: 'gold',
-    strokeWidth: 2,
-    titleFontSize: '25px',
-    fillWeight: 1.5,
-    fillStyle: 'zigzag-line',
-    width: window.innerWidth / 2,
-    height: 450,
-  }
-);
+<span class="red">new</span> roughViz.<span class="blue">Donut</span>({
+  <span class="yellow">element</span><span class="purple">:</span> <span class="yellow">'#vis1'</span>,
+   <span class="yellow">data</span><span class="purple">:</span>
+    <span class="yellow">'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json'</span>,
+   <span class="yellow">title</span><span class="purple">:</span> <span class="yellow">'Regions'</span>,
+  <span class="yellow">labels</span><<span class="purple">:</span> <span class="yellow">'region'</span>,
+  <span class="yellow">values</span><span class="purple">:</span> <span class="yellow">'count'</span>,
+  <span class="yellow">roughness</span><span class="purple">:</span> <span class="purple">0</span>,
+  <span class="yellow">colors</span><span class="purple">:</span> [<span class="yellow">'pink'</span>, <span class="yellow">'coral'</span>, <span class="yellow">'teal'</span>, <span class="yellow">'skyblue'</span>],
+  <span class="yellow">highlight</span><span class="purple">:</span> <span class="yellow">'gold'</span>,
+  <span class="yellow">strokeWidth</span><span class="purple">:</span> <span class="purple">2</span>,
+  <span class="yellow">titleFontSize</span><span class="purple">:</span> <span class="yellow">'25px'</span>,
+  <span class="yellow">fillWeight</span><span class="purple">:</span> <span class="purple">1.5</span>,
+  <span class="yellow">fillStyle</span><span class="purple">:</span> <span class="yellow">'zigzag-line'</span>,
+  <span class="yellow">width</span><span class="purple">:</span> <span class="blue">window</span>.innerWidth <span class="red">/</span> <span class="purple">2</span>,
+  <span class="yellow">height</span><span class="purple">:</span> <span class="purple">450</span>,
+});
 	    </code>
 	</div>
 	<div class="wrapper">
 	    <div id="vis2"></div>
-	    <pre><code>new roughBars.Donut(
-  {
-    element: '#vis1',
-    data: 'https://raw.githubusercontent.com/jwilber/jenkem_data/master/regions.json',
-    title: 'Regions',
-    labels: 'region',
-    values: 'count',
-    width: window.innerWidth / 2,
-    roughness: 0,
-    radius: 'petal_width',
-    colors: ['pink', 'coral', 'teal', 'skyblue'],
-    bowing: 0.1,
-    highlight: 'gold',
-    // stroke: 'black',
-    strokeWidth: 1,
-    titleFontSize: '25px',
-    // fillWeight: 1.5,
-    // simplification: 5,
-    fillStyle: 'zigzag-line',
-    height: 450,
-    curbZero: false,
-  }
-);</code></pre>
+	    <pre><code><span class="red">new</span> roughViz.<span class="blue">Pie</span>(
+	{
+	  <span class="yellow">element</span><span class="purple">:</span> <span class="yellow">'#vis2'</span>,
+	   <span class="yellow">data</span><span class="purple">:</span> {
+	    <span class="yellow">labels</span><<span class="purple">:</span> [<span class="yellow">'Mike'</span>, <span class="yellow">'Jah'</span>,],
+	    <span class="yellow">values</span><span class="purple">:</span> [<span class="purple">13</span>, <span class="purple">10</span>, ],
+	  },
+	  <span class="yellow">title</span><span class="purple">:</span> <span class="yellow">'"Yarn" Plot (Pie)'</span>,
+	  <span class="yellow">width</span><span class="purple">:</span> <span class="blue">window</span>.innerWidth <span class="red">/</span> <span class="purple">4</span>,
+	  <span class="yellow">roughness</span><span class="purple">:</span> <span class="purple">2</span>,
+	  <span class="yellow">colors</span><span class="purple">:</span> [<span class="yellow">'red'</span>, <span class="yellow">'orange'</span>, <span class="yellow">'blue'</span>, <span class="yellow">'skyblue'</span>, <span class="yellow">'red'</span>, <span class="yellow">'green'</span>, <span class="yellow">'black'</span>, <span class="yellow">'grey'</span>],
+	  <span class="yellow">stroke</span><span class="purple">:</span> <span class="yellow">'black'</span>,
+	  <span class="yellow">strokeWidth</span><span class="purple">:</span> <span class="purple">3</span>,
+	  <span class="yellow">fillStyle</span><span class="purple">:</span> 'cross-hatch',
+	  <span class="yellow">fillWeight</span><span class="purple">:</span> <span class="purple">3.5</span>,
+	}
+ );</code></pre>
 		</div>
 		<div class="wrapper">
 			<div id="vis3"></div>
-			<pre><code>new roughBars.Pie(
-  {
-    element: '#vis2',
-    data: {
-      labels: ['Reggae', 'Jah', 'Lax', 'd'],
-      values: [40, 400, 40]
-    },
-    title: 'My Free Time',
-    // titleFontSize: '55px',
-    width: window.innerWidth / 2,
-    roughness: 5,
-    // radius: 'petal_width',
-    colors: ['red', 'orange', 'blue', 'skyblue', 'red', 'green', 'black', 'grey'],
-    // bowing: 0.1,
-    stroke: 'black',
-    strokeWidth: 5,
-    strokeWidth: 3,
-    fillStyle: 'zigzag',
-    height: 400,
-    // font: 0,
-    fillWeight: 3.5,
-  }
-);</code></pre>
+			<pre><code><span class="red">new</span> roughViz.<span class="blue">BarH</span>({
+  <span class="yellow">element</span><span class="purple">:</span> <span class="yellow">'#vis3'</span>,
+   <span class="yellow">data</span><span class="purple">:</span> {
+    <span class="yellow">labels</span><<span class="purple">:</span> [
+      <span class="yellow">'Reggae'</span>,
+      <span class="yellow">'Rap'</span>,
+      <span class="yellow">'R&B'</span>,
+      <span class="yellow">'Dance House'</span>,
+      <span class="yellow">'Hip Hop'</span>,
+      <span class="yellow">'Trap'</span>,
+      <span class="yellow">'tre'</span>,
+      <span class="yellow">'eifj'</span>,
+    ],
+    <span class="yellow">values</span><span class="purple">:</span> [<span class="purple">240</span>, <span class="purple">40</span>, <span class="purple">400</span>, <span class="purple">90</span>, <span class="purple">75</span>, <span class="purple">315</span>, <span class="purple">43</span>, <span class="purple">1500</span>],
+  },
+  <span class="yellow">width</span><span class="purple">:</span> <span class="blue">window</span>.innerWidth <span class="red">/</span> <span class="purple">2</span>,
+  <span class="yellow">title</span><span class="purple">:</span> <span class="yellow">'Genres'</span>,
+  <span class="yellow">roughness</span><span class="purple">:</span> <span class="purple">1</span>,
+  <span class="yellow">highlight</span><span class="purple">:</span> <span class="yellow">'chocolate'</span>,
+  <span class="yellow">stroke</span><span class="purple">:</span> <span class="yellow">'grey'</span>,
+  <span class="yellow">padding</span><span class="purple">:</span> <span class="purple">0.15</span>,
+  <span class="yellow">bowing</span><span class="purple">:</span> <span class="purple">6</span>,
+  <span class="yellow">innerStrokeWidth</span><span class="purple">:</span> <span class="purple">0.5</span>,
+  <span class="yellow">color</span><span class="purple">:</span> <span class="yellow">'white'</span>,
+  <span class="yellow">fillStyle</span><span class="purple">:</span> <span class="yellow">'dashed'</span>,
+});</code></pre>
 		</div>
-<div class="wrapper">
+<!-- <div class="wrapper">
 	<div id="vis8"></div>
 <pre>
 <code>
@@ -345,7 +344,7 @@ stroke: 'black',
 });
 </code>
 </pre>
-		</div>
+		</div> -->
 	</center>
 
 
