@@ -1015,9 +1015,9 @@ acorn-walk@^6.0.1:
   integrity sha512-7evsyfH1cLOCdAzZAd43Cic04yKydNx0cF+7tiA19p1XnLLPU4dpCQOqpjqwokFe//vS0QqfqqjCS2JkiIs0cA==
 
 acorn@^5.0.0, acorn@^5.5.3:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1, acorn@^6.0.4:
   version "6.3.0"
@@ -6402,12 +6402,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-roughjs@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/roughjs/-/roughjs-3.1.0.tgz#d011b9239fd1790e487bbfa204c98f1c786966ac"
-  integrity sha512-WJIKyWxBlEIuMeK0foUZD1KVYzT6Dn62ksawZrlu3BzxUxgtPdnlCMDgX/C3N5gxj/AMRazstKOFm70tqTo5Bw==
-  dependencies:
-    workly "^1.2.0"
+roughjs@^4.0.0:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/roughjs/-/roughjs-4.0.4.tgz#31db3cc9654e7012a5d5701c6234f7601a14d720"
+  integrity sha512-rXmMGcALUlYIFKBbn9aWuxznPKOtnx9bouVC407/uneUNx0mT/4Mo2Z4TUieoCOT+rWmHnOQqVT1FvoN+L3baA==
 
 rsvp@^4.8.4:
   version "4.8.5"
@@ -7472,11 +7470,6 @@ wordwrap@~0.0.2:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
   integrity sha1-o9XabNXAvAAI03I0u68b7WMFkQc=
-
-workly@^1.2.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/workly/-/workly-1.3.0.tgz#86cd453139732ef1540ed7f094e058a3e879ba43"
-  integrity sha512-eozpibnwnyvsWJEoADCfo3171Ncl4J/57PQnZN37eoVgQG7buf3KEpPNfewDKH4OXf3eAZaUAF57i4ko5zY9Cw==
 
 wrap-ansi@^5.1.0:
   version "5.1.0"
