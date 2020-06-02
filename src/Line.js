@@ -267,7 +267,9 @@ class Line extends Chart {
       .attr('pointer-events', 'all');
 
     this.dataSources.map((key, idx) => {
-      const points = this.data[key].map((d, i) => {
+
+      const yValues = this.dataFormat === 'file' ? this.data : this.data[key];
+      const points = yValues.map((d, i) => {
         return this.x === undefined ?
           [this.xScale(i), this.yScale(d[key])] :
           [this.xScale(this.x[i]), this.yScale(+d[key])];
