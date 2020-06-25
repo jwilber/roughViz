@@ -461,7 +461,7 @@ Optional
 - [Laimonas Andriejauskas](https://github.com/laimonasA)
 - [Dave Slutzkin](https://github.com/daveslutzkin)
 - [JoLo](https://github.com/jolo-dev)
-
+- [Lucas Wilber](https://github.com/lucasjwilber)
 
 ### Acknowledgements
 This library wouldn't be possible without the following people:
