@@ -20,8 +20,8 @@ class Chart {
   setSvg() {
     this.svg = select(this.el)
       .append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
+     .attr("viewBox", `0 0 ${(this.width + this.margin.left + this.margin.right)}
+       ${(this.height + this.margin.top + this.margin.bottom)}`)
       .append('g')
       .attr('id', this.roughId)
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
