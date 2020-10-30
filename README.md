@@ -68,15 +68,9 @@ Want to use with `Vue`? [There's a wrapper!](https://github.com/jolo-dev/vue-rou
 npm install vue-roughviz
 ```
 
-Want to use it with `Python`? [Option 1](https://github.com/hannansatopay/roughviz) or [Option 2](https://github.com/charlesdong1991/py-roughviz):
+Want to use it with `Python`? [Go crazy](https://github.com/charlesdong1991/py-roughviz):
 
 ```sh
-# for option 1
-pip install roughviz
-```
-
-```sh
-# for option 2
 pip install py-roughviz
 ```
 
