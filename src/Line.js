@@ -224,7 +224,7 @@ class Line extends Chart {
     const roughYAxisClass = `rough-${yAxisClass}`;
 
     select(`.${xAxisClass}`)
-      .selectAll('path.domain').each(function(d, i) {
+      .selectAll('path.domain').each(function (d, i) {
         const pathD = select(this).node().getAttribute('d');
         const roughXAxis = rcAxis.path(pathD, {
           stroke: 'black',
@@ -237,7 +237,7 @@ class Line extends Chart {
       .attr('transform', `translate(0, ${this.height})`);
 
     select(`.${yAxisClass}`)
-      .selectAll('path.domain').each(function(d, i) {
+      .selectAll('path.domain').each(function (d, i) {
         const pathD = select(this).node().getAttribute('d');
         const roughYAxis = rcAxis.path(pathD, {
           stroke: 'black',
@@ -306,7 +306,7 @@ class Line extends Chart {
         .attr('alignment-baseline', 'middle');
     });
 
-    const mousemove = function(d) {
+    const mousemove = function (d) {
 
       // recover coordinate we need
       const xPos = mouse(this)[0];
@@ -368,10 +368,11 @@ class Line extends Chart {
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg,
-      {options: {
-        strokeWidth: this.axisStrokeWidth,
-        roughness: this.axisRoughness,
-      },
+      {
+        options: {
+          strokeWidth: this.axisStrokeWidth,
+          roughness: this.axisRoughness,
+        },
       });
     this.rc = rough.svg(this.roughSvg, {
       options: {
@@ -416,12 +417,12 @@ class Line extends Chart {
             d[0],
             d[1],
             this.circleRadius, {
-              stroke: this.colors[idx],
-              fill: this.colors[idx],
-              fillStyle: 'solid',
-              strokeWidth: 1,
-              roughness: this.circleRoughness,
-            });
+            stroke: this.colors[idx],
+            fill: this.colors[idx],
+            fillStyle: 'solid',
+            strokeWidth: 1,
+            roughness: this.circleRoughness,
+          });
           this.roughSvg.appendChild(node);
         });
       };
@@ -461,7 +462,7 @@ class Line extends Chart {
 
     // Add scatterplot
     this.dataSources.map((key, idx) => {
-      const points = this.data.map((d, i) => {
+      const points = this.data[key].map((d, i) => {
         return this.x === undefined ?
           [this.xScale(i), this.yScale(d[key])] :
           [this.xScale(this.x[i]), this.yScale(+d[key])];
@@ -483,12 +484,12 @@ class Line extends Chart {
             d[0],
             d[1],
             this.circleRadius, {
-              stroke: this.colors[idx],
-              fill: this.colors[idx],
-              fillStyle: 'solid',
-              strokeWidth: 1,
-              roughness: this.circleRoughness,
-            });
+            stroke: this.colors[idx],
+            fill: this.colors[idx],
+            fillStyle: 'solid',
+            strokeWidth: 1,
+            roughness: this.circleRoughness,
+          });
           this.roughSvg.appendChild(node);
         });
       };
