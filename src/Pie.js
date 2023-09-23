@@ -10,9 +10,8 @@ import { roughCeiling } from "./utils/roughCeiling";
 class Pie extends Chart {
   constructor(opts) {
     super(opts);
-
     // load in arguments from config object
-    // this.data = opts.data;
+    this.data = opts.data;
     this.margin = opts.margin || { top: 50, right: 20, bottom: 10, left: 20 };
     this.colors = opts.colors || colors;
     this.highlight = opts.highlight;
@@ -33,6 +32,8 @@ class Pie extends Chart {
     }
     this.legend = opts.legend !== false;
     this.legendPosition = opts.legendPosition || "right";
+    this.responsive = true;
+    this.boundRedraw = this.redraw.bind(this, opts);
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -43,9 +44,33 @@ class Pie extends Chart {
     if (opts.title !== "undefined") this.setTitle(opts.title);
   }
 
+  resizeHandler() {
+    if (this.responsive) {
+      this.boundRedraw();
+    }
+  }
+
+  redraw(opts) {
+    // 1. Remove the current SVG associated with the chart.
+    select(this.el).select("svg").remove();
+
+    // 2. Recalculate the size of the container.
+    this.initChartValues(opts);
+
+    // 3. Redraw everything.
+    this.resolveFont();
+    this.drawChart = this.resolveData(opts.data);
+    this.drawChart();
+
+    if (opts.title !== "undefined") {
+      this.setTitle(opts.title);
+    }
+  }
+
   initChartValues(opts) {
-    const width = opts.width ? opts.width : 350;
-    const height = opts.height ? opts.height : 450;
+    const divDimensions = select(this.el).node().getBoundingClientRect();
+    const width = divDimensions.width;
+    const height = divDimensions.height;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + "_svg";
@@ -63,7 +88,6 @@ class Pie extends Chart {
       if (data.includes(".csv")) {
         return () => {
           csv(data).then((d) => {
-            console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -71,7 +95,6 @@ class Pie extends Chart {
       } else if (data.includes(".tsv")) {
         return () => {
           tsv(data).then((d) => {
-            console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -79,7 +102,6 @@ class Pie extends Chart {
       } else if (data.includes(".json")) {
         return () => {
           json(data).then((d) => {
-            console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -158,7 +180,7 @@ class Pie extends Chart {
         .attr("class", function (d) {})
         .style(
           "transform",
-          `translate(${mousePos[0] + that.margin.left}px, 
+          `translate(${mousePos[0] + that.margin.left}px,
                             ${
                               mousePos[1] - that.height - that.margin.bottom
                             }px)`
@@ -204,13 +226,11 @@ class Pie extends Chart {
 
   drawFromObject() {
     this.initRoughObjects();
-
     this.makePie = pie();
 
     this.makeArc = arc().innerRadius(0).outerRadius(this.radius);
 
     this.arcs = this.makePie(this.data[this.values]);
-
     this.arcs.forEach((d, i) => {
       if (d.value !== 0) {
         const node = this.rc.arc(
