@@ -32,6 +32,8 @@ class StackedBar extends Chart {
     this.xLabel = opts.xLabel || "";
     this.yLabel = opts.yLabel || "";
     this.labelFontSize = opts.labelFontSize || "1rem";
+    this.responsive = true;
+    this.boundRedraw = this.redraw.bind(this, opts);
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -40,11 +42,36 @@ class StackedBar extends Chart {
     this.drawChart = this.resolveData(opts.data);
     this.drawChart();
     if (opts.title !== "undefined") this.setTitle(opts.title);
+    window.addEventListener("resize", this.resizeHandler.bind(this));
+  }
+
+  resizeHandler() {
+    if (this.responsive) {
+      this.boundRedraw();
+    }
+  }
+
+  redraw(opts) {
+    // 1. Remove the current SVG associated with the chart.
+    select(this.el).select("svg").remove();
+
+    // 2. Recalculate the size of the container.
+    this.initChartValues(opts);
+
+    // 3. Redraw everything.
+    this.resolveFont();
+    this.drawChart = this.resolveData(opts.data);
+    this.drawChart();
+
+    if (opts.title !== "undefined") {
+      this.setTitle(opts.title);
+    }
   }
 
   initChartValues(opts) {
-    const width = opts.width ? opts.width : 350;
-    const height = opts.height ? opts.height : 450;
+    const divDimensions = select(this.el).node().getBoundingClientRect();
+    const width = divDimensions.width;
+    const height = divDimensions.height;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + "_svg";
@@ -98,17 +125,28 @@ class StackedBar extends Chart {
     } else {
       return () => {
         this.data = data;
+
+        // reset total key (need in case resize)
+        data = data.map((d) => {
+          if (Object.keys(d).includes("total")) {
+            d["total"] = 0;
+          }
+          return d;
+        });
+
         for (let i = 0; i < data.length; ++i) {
           let t = 0;
           const keys = Object.keys(data[i]);
           keys.forEach((d) => {
-            if (d !== this.labels) {
+            if (d !== this.labels && d !== "total") {
+              // exclude "total" key from accumulating
               this.updateColorMapping(d);
               t += data[i][d];
-              data[i].total = t;
             }
           });
+          data[i].total = t;
         }
+
         this.drawFromObject();
       };
     }
@@ -120,9 +158,6 @@ class StackedBar extends Chart {
       .padding(this.padding)
       .domain(this.data.map((d) => d[this.labels]));
 
-    this.data.sort(function (a, b) {
-      return b.total - a.total;
-    });
     this.yScale = scaleLinear()
       .rangeRound([this.height, 0])
       .domain([
@@ -310,13 +345,12 @@ class StackedBar extends Chart {
     const that = this;
     let thisColor;
 
-    const mousemove = function (d) {
+    var mousemove = function (d) {
       const attrX = select(this).attr("attrX");
       const attrY = select(this).attr("attrY");
-      const keyY = select(this).attr("keyY");
       const mousePos = mouse(this);
       // get size of enclosing div
-      Tooltip.html(`<h4>${attrX}</h4> <b>${keyY}</b>: ${attrY}`)
+      Tooltip.html(`<b>${attrX}</b>: ${attrY}`)
         .style("opacity", 0.95)
         .attr("class", function (d) {})
         .style(
