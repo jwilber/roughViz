@@ -3,15 +3,12 @@
   "version": "1.0.3",
   "description": "Hand drawn, rough, sketchy data visualization in svg.",
   "jsdelivr": "dist/roughviz.min.js",
-  "unpkg": "dist/roughviz.min.js",
-  "main": "dist/index.js",
+  "main": "roughviz.umd.js",
+  "module": "roughviz.es.js",
   "scripts": {
-    "buildUmd": "parcel build src/index.js --target browser --out-file roughviz.min.js --no-source-maps --experimental-scope-hoisting --global roughViz",
-    "build": "parcel build src/index.js --target node --bundle-node-modules --no-source-maps --experimental-scope-hoisting",
-    "pretestt": "eslint --ignore-path .gitignore .",
-    "lint": "eslint --ignore-path .gitignore .",
-    "lintFix": "eslint --ignore-path .gitignore . --fix",
-    "start": "parcel examples/index.html",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "test": "jest --env=jsdom"
   },
   "repository": {
@@ -46,11 +43,10 @@
     "roughjs": "^4.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^6.3.0",
     "eslint-config-strongloop": "^2.1.0",
     "jest": "^24.9.0",
-    "parcel-bundler": "^1.12.3"
+    "rollup-plugin-terser": "^7.0.2",
+    "vite": "^4.4.9"
   }
 }
