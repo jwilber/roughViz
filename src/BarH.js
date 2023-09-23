@@ -33,6 +33,8 @@ class BarH extends Chart {
     this.xLabel = opts.xLabel || "";
     this.yLabel = opts.yLabel || "";
     this.labelFontSize = opts.labelFontSize || "1rem";
+    this.responsive = true;
+    this.boundRedraw = this.redraw.bind(this, opts);
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -41,11 +43,36 @@ class BarH extends Chart {
     this.drawChart = this.resolveData(opts.data);
     this.drawChart();
     if (opts.title !== "undefined") this.setTitle(opts.title);
+    window.addEventListener("resize", this.resizeHandler.bind(this));
+  }
+
+  resizeHandler() {
+    if (this.responsive) {
+      this.boundRedraw();
+    }
+  }
+
+  redraw(opts) {
+    // 1. Remove the current SVG associated with the chart.
+    select(this.el).select("svg").remove();
+
+    // 2. Recalculate the size of the container.
+    this.initChartValues(opts);
+
+    // 3. Redraw everything.
+    this.resolveFont();
+    this.drawChart = this.resolveData(opts.data);
+    this.drawChart();
+
+    if (opts.title !== "undefined") {
+      this.setTitle(opts.title);
+    }
   }
 
   initChartValues(opts) {
-    const width = opts.width ? opts.width : 350;
-    const height = opts.height ? opts.height : 450;
+    const divDimensions = select(this.el).node().getBoundingClientRect();
+    const width = divDimensions.width;
+    const height = divDimensions.height;
     this.width = width - this.margin.left - this.margin.right;
     this.height = height - this.margin.top - this.margin.bottom;
     this.roughId = this.el + "_svg";
