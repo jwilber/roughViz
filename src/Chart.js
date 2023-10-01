@@ -6,7 +6,7 @@ class Chart {
     this.el = opts.element;
     this.element = opts.element;
     this.title = opts.title;
-    this.titleFontSize = opts.titleFontSize;
+    this.titleFontSize = opts.titleFontSize || "17px";
     this.font = opts.font || 0;
     this.fillStyle = opts.fillStyle;
     this.tooltipFontSize = opts.tooltipFontSize || "0.95rem";
