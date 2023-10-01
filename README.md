@@ -1,6 +1,4 @@
 <img src="https://raw.githubusercontent.com/jwilber/random_data/master/roughViz_Title.png"  width="350" alt="roughViz.js"><br>
-[![npm version](https://badge.fury.io/js/rough-viz.svg)](https://badge.fury.io/js/rough-viz)
-![npm bundle size (version)](https://img.shields.io/bundlephobia/min/rough-viz/2.0.1)
 
 **roughViz.js** is a reusable JavaScript library for creating sketchy/hand-drawn styled charts in the browser, based on D3v5, roughjs, and handy.
 
