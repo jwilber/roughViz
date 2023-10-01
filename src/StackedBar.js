@@ -51,9 +51,13 @@ class StackedBar extends Chart {
     }
   }
 
+  remove() {
+    select(this.el).select("svg").remove();
+  }
+
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
-    select(this.el).select("svg").remove();
+    this.remove();
 
     // 2. Recalculate the size of the container.
     this.initChartValues(opts);
@@ -69,6 +73,14 @@ class StackedBar extends Chart {
   }
 
   initChartValues(opts) {
+    this.roughness = opts.roughness || this.roughness;
+    this.stroke = opts.stroke || this.stroke;
+    this.strokeWidth = opts.strokeWidth || this.strokeWidth;
+    this.axisStrokeWidth = opts.axisStrokeWidth || this.axisStrokeWidth;
+    this.axisRoughness = opts.axisRoughness || this.axisRoughness;
+    this.innerStrokeWidth = opts.innerStrokeWidth || this.innerStrokeWidth;
+    this.fillWeight = opts.fillWeight || this.fillWeight;
+    this.fillStyle = opts.fillStyle || this.fillStyle;
     const divDimensions = select(this.el).node().getBoundingClientRect();
     const width = divDimensions.width;
     const height = divDimensions.height;
@@ -345,7 +357,7 @@ class StackedBar extends Chart {
     const that = this;
     let thisColor;
 
-    var mousemove = function (d) {
+    let mousemove = function (d) {
       const attrX = select(this).attr("attrX");
       const attrY = select(this).attr("attrY");
       const mousePos = mouse(this);
@@ -357,7 +369,8 @@ class StackedBar extends Chart {
           "transform",
           `translate(${mousePos[0] + that.margin.left}px, 
           ${
-            mousePos[1] - (that.height + that.margin.top + that.margin.bottom)
+            mousePos[1] -
+            (that.height + that.margin.top + that.margin.bottom / 2)
           }px)`
         );
     };

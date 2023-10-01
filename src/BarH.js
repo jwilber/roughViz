@@ -52,9 +52,13 @@ class BarH extends Chart {
     }
   }
 
+  remove() {
+    select(this.el).select("svg").remove();
+  }
+
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
-    select(this.el).select("svg").remove();
+    this.remove();
 
     // 2. Recalculate the size of the container.
     this.initChartValues(opts);
@@ -70,6 +74,15 @@ class BarH extends Chart {
   }
 
   initChartValues(opts) {
+    this.roughness = opts.roughness || this.roughness;
+    this.stroke = opts.stroke || this.stroke;
+    this.color = opts.color || this.color;
+    this.strokeWidth = opts.strokeWidth || this.strokeWidth;
+    this.axisStrokeWidth = opts.axisStrokeWidth || this.axisStrokeWidth;
+    this.axisRoughness = opts.axisRoughness || this.axisRoughness;
+    this.innerStrokeWidth = opts.innerStrokeWidth || this.innerStrokeWidth;
+    this.fillWeight = opts.fillWeight || this.fillWeight;
+    this.fillStyle = opts.fillStyle || this.fillStyle;
     const divDimensions = select(this.el).node().getBoundingClientRect();
     const width = divDimensions.width;
     const height = divDimensions.height;
@@ -314,7 +327,7 @@ class BarH extends Chart {
           `translate(${mousePos[0] + that.margin.left}px, 
               ${
                 mousePos[1] -
-                (that.height + that.margin.top + that.margin.bottom)
+                (that.height + that.margin.top + that.margin.bottom / 2)
               }px)`
         );
     };

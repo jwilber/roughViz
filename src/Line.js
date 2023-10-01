@@ -78,9 +78,13 @@ class Line extends Chart {
     }
   }
 
+  remove() {
+    select(this.el).select("svg").remove();
+  }
+
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
-    select(this.el).select("svg").remove();
+    this.remove();
 
     // 2. Recalculate the size of the container.
     this.initChartValues(opts);
@@ -96,6 +100,14 @@ class Line extends Chart {
   }
 
   initChartValues(opts) {
+    this.roughness = opts.roughness || this.roughness;
+    this.stroke = opts.stroke || this.stroke;
+    this.strokeWidth = opts.strokeWidth || this.strokeWidth;
+    this.axisStrokeWidth = opts.axisStrokeWidth || this.axisStrokeWidth;
+    this.axisRoughness = opts.axisRoughness || this.axisRoughness;
+    this.innerStrokeWidth = opts.innerStrokeWidth || this.innerStrokeWidth;
+    this.fillWeight = opts.fillWeight || this.fillWeight;
+    this.fillStyle = opts.fillStyle || this.fillStyle;
     const divDimensions = select(this.el).node().getBoundingClientRect();
     const width = divDimensions.width;
     const height = divDimensions.height;
@@ -433,7 +445,6 @@ class Line extends Chart {
     });
     this.rc = rough.svg(this.roughSvg, {
       options: {
-        // fill: this.color,
         stroke: this.stroke === "none" ? undefined : this.stroke,
         strokeWidth: this.strokeWidth,
         roughness: this.roughness,
@@ -444,6 +455,7 @@ class Line extends Chart {
   }
 
   drawFromObject() {
+    const that = this;
     // set default color
     if (this.colors === undefined) this.colors = colors;
 
@@ -459,11 +471,11 @@ class Line extends Chart {
 
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter((d) => d[0] !== undefined);
-
+      console.log("roughness", that.roughness);
       const node = this.rc.curve(drawPoints, {
-        stroke: this.colors.length === 1 ? this.colors[0] : this.colors[idx],
-        roughness: this.roughness,
-        bowing: this.bowing,
+        stroke: that.colors.length === 1 ? that.colors[0] : that.colors[idx],
+        roughness: that.roughness,
+        bowing: that.bowing,
       });
 
       const roughNode = this.roughSvg.appendChild(node);
