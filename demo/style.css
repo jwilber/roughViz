@@ -1,0 +1,203 @@
+@import url("https://fonts.googleapis.com/css?family=Gaegu");
+
+#viz0, #viz1, #viz2, #viz3, #viz4, #viz5 {
+  border: 2px solid black;
+  width: 500px;
+  height: 250px;
+}
+
+.side {
+  display: flex;
+}
+
+
+.wrapper {
+  display: flex;
+  flex: wrap;
+}
+* {
+  font-family: "Gaegu";
+}
+h1,
+h4 {
+  font-family: "Gaegu";
+  font-weight: 0.1;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  justify-content: center;
+  height: 100%;
+}
+
+#vizLogo {
+  width: 10%;
+}
+.wrapper {
+  display: flex;
+  flex: wrap;
+}
+
+h1,
+h2,
+h4 {
+  font-family: "Gaegu";
+  font-weight: lighter;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+h2 {
+  font-family: "Gaegu";
+  font-size: 2.5rem;
+}
+
+p {
+  font-family: "Gaegu";
+  color: black;
+  font-size: 18px;
+}
+
+.dot {
+  -webkit-animation: name 4s infinite;
+  stroke: black;
+}
+
+@-webkit-keyframes name {
+  0% {
+    color: skyblue;
+  }
+
+  25% {
+    color: teal;
+  }
+
+  50% {
+    color: pink;
+  }
+
+  75% {
+    color: yellow;
+  }
+
+  100% {
+    color: coral;
+  }
+}
+
+.project-grid {
+  /*flex-direction: row;*/
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.project-wrapper {
+  /*width: 85%;*/
+  flex-basis: 25%;
+  padding: 1.9rem;
+  margin-bottom: 0;
+}
+
+.desc {
+  font-size: 1.1rem;
+}
+
+hr {
+  max-width: 50%;
+  opacity: 0.3;
+}
+
+.start {
+  max-width: 45%;
+}
+
+body {
+  background-color: #fff;
+}
+
+.blue {
+  color: #4fabc9;
+}
+.red {
+  color: coral;
+}
+.purple {
+  color: orange;
+}
+.yellow {
+  color: #b88747;
+}
+.green {
+  color: #4fabc9;
+}
+
+#introViz {
+  margin: auto;
+  width: 100%;
+  height: 80vh;
+}
+.link {
+  stroke: black;
+  stroke-width: 1;
+}
+
+h3 {
+  margin: 2px;
+}
+
+
+/* code highlight */
+/* code {
+  text-align: left;
+  width: 100%;
+  font-size: 1rem;
+  margin: 0;
+  font-family: monospace;
+} */
+
+
+code {
+  display: block;
+  text-align: left;
+  padding-right: 0.5em;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  max-width: 100%;
+  border: 1px solid pink;
+  font-family: monospace;
+  text-align: left;
+  width: 100%;
+  font-size: 15px;
+  padding: 0;
+  margin: 0;
+}
+
+pre, code {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+pre, code {
+  white-space: pre-wrap;
+}
+
+pre {
+  padding: 0 1em;
+  border-radius: 5px;
+  border: 1.5px solid black;
+  background: snow;
+
+}
+
+a {
+  text-decoration: underline;
+  text-decoration-color: pink;
+}
