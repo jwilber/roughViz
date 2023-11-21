@@ -10,9 +10,9 @@
 Use these charts where the communication goal is to show intent or generality, and not absolute precision. Or just because they're fun and look weird.
 
 
-### Features
+### Chart Types
 
-| Chart Type     | API                                           |
+| Type           | API                                           |
 | -------------- | --------------------------------------------- |
 | Bar            | <a href="#Bar">roughViz.Bar</a>               |
 | Horizontal Bar | <a href="#BarH">roughViz.BarH</a>             |
@@ -21,6 +21,9 @@ Use these charts where the communication goal is to show intent or generality, a
 | Pie            | <a href="#Pie">roughViz.Pie</a>               |
 | Scatter        | <a href="#Scatter">roughViz.Scatter</a>       |
 | Stacked Bar    | <a href="#StackedBar">roughViz.StackedBar</a> |
+
+
+### Features
 
 Apply the features of `roughjs` to each chart:
 
