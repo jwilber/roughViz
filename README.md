@@ -12,7 +12,7 @@ Use these charts where the communication goal is to show intent or generality, a
 
 ### Features
 
-<table style="width: 100%">
+<table width="100%">
   <tr>
     <th>Chart Type</th>
     <th>API</th>
