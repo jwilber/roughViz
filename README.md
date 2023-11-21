@@ -7,21 +7,20 @@
 
 
 ### Why?
-Use these charts where the communication goal is to show intent or generality, and not absolute precision. Or just because they're fun and look weird. 
+Use these charts where the communication goal is to show intent or generality, and not absolute precision. Or just because they're fun and look weird.
 
 
 ### Features
 
-**Chart Types** (more to come!)
-<ul>
- <li>Bar (<code>roughViz.Bar</code>) <a href="#Bar">API</a>. <a href="https://blockbuilder.org/jwilber/4dc5235f7ea5e51ac1219b3605f5af6a">Example</a>.</li>
-<li> Horizontal Bar (<code>roughViz.BarH</code>) <a href="#BarH">API</a>. <a href="https://blockbuilder.org/jwilber/419fa6d878fe6c0f79a28f9fc72d7ec6">Example</a>.</li>
-<li> Donut (<code>roughViz.Donut</code>) <a href="#Donut">API</a>. <a href="https://blockbuilder.org/jwilber/e713c03097950d53a8cfde4c23aa292f">Example</a>.</li>
-<li> Line (<code>roughViz.Line</code>) <a href="#Line">API</a>. <a href="https://blockbuilder.org/jwilber/ec7cbc374c2dc61b255494511e7d7ac6">Example</a>.</li>
-<li> Pie (<code>roughViz.Pie</code>) <a href="#Pie">API</a>. <a href="https://blockbuilder.org/jwilber/d117e0b0864a161bec2d914013ed69da">Example</a>.</li>
-<li> Scatter (<code>roughViz.Scatter</code>) <a href="#Scatter">API</a>. <a href="https://blockbuilder.org/jwilber/d02e4381d776fb9a7bcb126d3b32c85b">Example</a>.</li>
- <li> Stacked Bar (<code>roughViz.StackedBar</code>) <a href="#StackedBar">API</a>. <a href="https://blockbuilder.org/jwilber/ee35865631cb805057142568fa5fd090">Example</a>.</li>
- </ul>
+| Chart Type     | API                                           |
+| -------------- | --------------------------------------------- |
+| Bar            | <a href="#Bar">roughViz.Bar</a>               |
+| Horizontal Bar | <a href="#BarH">roughViz.BarH</a>             |
+| Donut          | <a href="#Donut">roughViz.Line</a>            |
+| Line           | <a href="#Line">roughViz.Line</a>             |
+| Pie            | <a href="#Pie">roughViz.Pie</a>               |
+| Scatter        | <a href="#Scatter">roughViz.Scatter</a>       |
+| Stacked Bar    | <a href="#StackedBar">roughViz.StackedBar</a> |
 
 Apply the features of `roughjs` to each chart:
 
@@ -133,7 +132,7 @@ Can be either an object or string.
        data: {labels: ['a', 'b'], values: [10, 20]}
      })
      ```
-    
+
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
    ```js
    new roughViz.Bar({
@@ -155,7 +154,7 @@ Optional
 - `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
 - `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside bars. Default: `1`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
 - `padding` [number]: Padding between bars. Default: `0.1`.
@@ -164,7 +163,7 @@ Optional
 - `stroke` [string]: Color of bars' stroke. Default: `black`.
 - `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
@@ -184,7 +183,7 @@ Can be either an object or string.
        data: {labels: ['a', 'b'], values: [10, 20]}
      })
      ```
-    
+
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
    ```js
    new roughViz.BarH({
@@ -206,7 +205,7 @@ Optional
 - `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
 - `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside bars. Default: `1`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
 - `padding` [number]: Padding between bars. Default: `0.1`.
@@ -215,7 +214,7 @@ Optional
 - `stroke` [string]: Color of bars' stroke. Default: `black`.
 - `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
@@ -235,7 +234,7 @@ Can be either an object or string.
        data: {labels: ['a', 'b'], values: [10, 20]}
      })
      ```
-    
+
    - If string: must be a path/url to a `csv`, `json`, or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
    ```js
    new roughViz.Donut({
@@ -254,7 +253,7 @@ Optional
 - `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
 - `highlight` [string]: Color for each arc on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside arcs. Default: `0.75`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `legend` [boolean]: Whether or not to add legend. Default: `'true'`.
 - `legendPosition` [string]: Position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
@@ -263,7 +262,7 @@ Optional
 - `simplification` [number]: Chart simplification. Default `0.2`.
 - `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 
 
@@ -293,7 +292,7 @@ Optional
 - `fillStyle` [string]: Bar fill-style. Should be one of [fillStyles](#fillStyle) shown above.
 - `fillWeight` [number]: Weight of inner paths' color. Default: `0.5`.
 - `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
 - `legend` [boolean]: Whether or not to add legend. Default: `true`.
 - `legendPosition` [string]: Position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
@@ -303,7 +302,7 @@ Optional
 - `stroke` [string]: Color of lines' stroke. Default: `this.colors`.
 - `strokeWidth` [number]: Size of lines' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'0.95rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'0.95rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
@@ -323,7 +322,7 @@ Can be either an object or string.
        data: {labels: ['a', 'b'], values: [10, 20]}
      })
      ```
-    
+
    - If string: must be a path/url to a `csv`, `json`, or `tsv`, and you must also specify the `labels` and `values` as separate attributes that represent columns in said file:
    ```js
    new roughViz.Pie({
@@ -342,7 +341,7 @@ Optional
 - `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
 - `highlight` [string]: Color for each arc on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside arcs. Default: `0.75`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `legend` [boolean]: Whether or not to add legend. Default: `true`.
 - `legendPosition` [string]: Position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
@@ -351,7 +350,7 @@ Optional
 - `simplification` [number]: Chart simplification. Default `0.2`.
 - `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 
 
@@ -369,7 +368,7 @@ Can be either an object or string.
        data: {x: [1, 2, 35], y: [10, 20, 8]}
      })
      ```
-    
+
    - If string: must be a path/url to a `csv` or `tsv`, and you must also specify the `x` and `y` as separate attributes that represent columns in said file:
    ```js
    new roughViz.Scatter({
@@ -394,7 +393,7 @@ Optional
 - `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
 - `highlightLabel` [string]: If input data is `csv` or `tsv`, this should be a column representing what value to display on hover. Otherwise, `(x, y)` values will be shown on hover.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside circles. Default: `1`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
 - `radius` [number]: Circle radius. Default: `8`.
@@ -403,7 +402,7 @@ Optional
 - `stroke` [string]: Color of circles' stroke. Default: `black`.
 - `strokeWidth` [number]: Size of circles' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'0.95rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'0.95rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
@@ -420,7 +419,7 @@ Required
        element: '#vis0',
        data: [
            {month:'Jan', A:20, B: 5},
-           {month:'Feb', A:25, B: 10},    
+           {month:'Feb', A:25, B: 10},
        ],
        labels: 'month',
      })
@@ -437,7 +436,7 @@ Optional
 - `font`: Font-family to use. You can use `0` or `gaegu` to use `Gaegu`, or `1` or `indie flower` to use `Indie Flower`. Or feed it something else. Default: `Gaegu`.
 - `highlight` [string]: Color for each bar on hover. Default: `'coral'`.
 - `innerStrokeWidth` [number]: Stroke-width for paths inside bars. Default: `1`.
-- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`. 
+- `interactive` [boolean]: Whether or not chart is interactive. Default: `true`.
 - `labelFontSize` [string]: Font-size for axes' labels. Default: `'1rem'`.
 - `margin` [object]: Margin object. Default: `{top: 50, right: 20, bottom: 70, left: 100}`
 - `padding` [number]: Padding between bars. Default: `0.1`.
@@ -446,7 +445,7 @@ Optional
 - `stroke` [string]: Color of bars' stroke. Default: `black`.
 - `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
-- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`. 
+- `titleFontSize` [string]: Font-size for chart title. Default: `'1rem'`.
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 - `xLabel` [string]: Label for x-axis.
 - `yLabel` [string]: Label for y-axis.
