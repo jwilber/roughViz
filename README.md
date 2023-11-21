@@ -22,6 +22,8 @@ Use these charts where the communication goal is to show intent or generality, a
 | Scatter        | <a href="#roughvizscatter">roughViz.Scatter</a>       |
 | Stacked Bar    | <a href="#roughvizstackedbar">roughViz.StackedBar</a> |
 
+Visit [this link](https://observablehq.com/d/6d3209e2f7f114de) for interactive examples of each chart.
+
 ### Features
 
 Apply the features of `roughjs` to each chart:
