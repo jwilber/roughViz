@@ -12,16 +12,15 @@ Use these charts where the communication goal is to show intent or generality, a
 
 ### Chart Types
 
-| Type           | API                                           |
-| -------------- | --------------------------------------------- |
-| Bar            | <a href="#Bar">roughViz.Bar</a>               |
-| Horizontal Bar | <a href="#BarH">roughViz.BarH</a>             |
-| Donut          | <a href="#Donut">roughViz.Line</a>            |
-| Line           | <a href="#Line">roughViz.Line</a>             |
-| Pie            | <a href="#Pie">roughViz.Pie</a>               |
-| Scatter        | <a href="#Scatter">roughViz.Scatter</a>       |
-| Stacked Bar    | <a href="#StackedBar">roughViz.StackedBar</a> |
-
+| Chart Type     | API                                                   |
+| -------------- | ----------------------------------------------------- |
+| Bar            | <a href="#roughvizbar">roughViz.Bar</a>               |
+| Horizontal Bar | <a href="#roughvizbarh">roughViz.BarH</a>             |
+| Donut          | <a href="#roughvizdonut">roughViz.Donut</a>           |
+| Line           | <a href="#roughvizline">roughViz.Line</a>             |
+| Pie            | <a href="#roughvizpie">roughViz.Pie</a>               |
+| Scatter        | <a href="#roughvizscatter">roughViz.Scatter</a>       |
+| Stacked Bar    | <a href="#roughvizstackedbar">roughViz.StackedBar</a> |
 
 ### Features
 
