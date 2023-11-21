@@ -118,7 +118,7 @@ new roughViz.Donut(
 
 <h2 id="API">API</h2>
 
-### <code id="Bar">roughViz.Bar</code>
+### `roughViz.Bar`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Data with which to construct chart.
@@ -169,7 +169,7 @@ Optional
 - `yLabel` [string]: Label for y-axis.
 
 
-### <code id="BarH">roughViz.BarH</code>
+### `roughViz.BarH`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Data with which to construct chart.
@@ -220,7 +220,7 @@ Optional
 - `yLabel` [string]: Label for y-axis.
 
 
-### <code id="Donut">roughViz.Donut</code>
+### `roughViz.Donut`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Data with which to construct chart.
@@ -266,7 +266,7 @@ Optional
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 
 
-### <code id="Line">roughViz.Line</code>
+### `roughViz.Line`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Must be a path/url to a `csv` or `tsv`, and you must also specify the each `y` as separate attributes that represent columns in said file. Each attribute prefaced with `y` (except `yLabel`) will receive its own line:
@@ -308,7 +308,7 @@ Optional
 - `yLabel` [string]: Label for y-axis.
 
 
-### <code id="Pie">roughViz.Pie</code>
+### `roughViz.Pie`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Data with which to construct chart.
@@ -354,7 +354,7 @@ Optional
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 
 
-### <code id="Scatter">roughViz.Scatter</code>
+### `roughViz.Scatter`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Data with which to construct chart.
@@ -408,7 +408,7 @@ Optional
 - `yLabel` [string]: Label for y-axis.
 
 
-### <code id="StackedBar">roughViz.StackedBar</code>
+### `roughViz.StackedBar`
 Required
 - `element` [string]: Id or class of container element.
 - `data`: Data with which to construct chart. Should be an object.
