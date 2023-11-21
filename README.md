@@ -12,54 +12,15 @@ Use these charts where the communication goal is to show intent or generality, a
 
 ### Features
 
-<table width="100%">
-  <tr>
-    <th>Chart Type</th>
-    <th>API</th>
-  </tr>
-  <tr>
-    <td>Bar</td>
-    <td>
-      <a href="#roughvizbar">roughViz.Bar</a>
-    </td>
-  </tr>
-  <tr>
-    <td>Horizontal Bar</td>
-    <td>
-      <a href="#roughvizbarh">roughViz.BarH</a>
-    </td>
-  </tr>
-  <tr>
-    <td>Donut</td>
-    <td>
-      <a href="#roughvizdonut">roughViz.Donut</a>
-    </td>
-  </tr>
-  <tr>
-    <td>Line</td>
-    <td>
-      <a href="#roughvizline">roughViz.Line</a>
-    </td>
-  </tr>
-  <tr>
-    <td>Pie</td>
-    <td>
-      <a href="#roughvizpie">roughViz.Pie</a>
-    </td>
-  </tr>
-  <tr>
-    <td>Scatter</td>
-    <td>
-      <a href="#roughvizscatter">roughViz.Scatter</a>
-    </td>
-  </tr>
-  <tr>
-    <td>Stacked Bar</td>
-    <td>
-      <a href="#roughvizstackedbar">roughViz.StackedBar</a>
-    </td>
-  </tr>
-</table>
+| Chart Type     | API                                           |
+| -------------- | --------------------------------------------- |
+| Bar            | <a href="#Bar">roughViz.Bar</a>               |
+| Horizontal Bar | <a href="#BarH">roughViz.BarH</a>             |
+| Donut          | <a href="#Donut">roughViz.Line</a>            |
+| Line           | <a href="#Line">roughViz.Line</a>             |
+| Pie            | <a href="#Pie">roughViz.Pie</a>               |
+| Scatter        | <a href="#Scatter">roughViz.Scatter</a>       |
+| Stacked Bar    | <a href="#StackedBar">roughViz.StackedBar</a> |
 
 Apply the features of `roughjs` to each chart:
 
