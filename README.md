@@ -17,6 +17,7 @@ Use these charts where the communication goal is to show intent or generality, a
 | Bar            | <a href="#roughvizbar">roughViz.Bar</a>               |
 | Horizontal Bar | <a href="#roughvizbarh">roughViz.BarH</a>             |
 | Donut          | <a href="#roughvizdonut">roughViz.Donut</a>           |
+| Force          | <a href="#roughvizforce">roughViz.Force</a>           |
 | Line           | <a href="#roughvizline">roughViz.Line</a>             |
 | Pie            | <a href="#roughvizpie">roughViz.Pie</a>               |
 | Scatter        | <a href="#roughvizscatter">roughViz.Scatter</a>       |
