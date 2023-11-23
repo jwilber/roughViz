@@ -74,7 +74,3 @@ export const addLegend = (
       .text(item.text);
   });
 };
-
-module.exports = {
-  addLegend,
-};

@@ -11,9 +11,3 @@ export const roughCeiling = ({
 
   return roughness > ceiling ? ceiling : roughness;
 };
-
-module.exports = {
-  roughCeiling,
-  DEFAULT_CEILING,
-  DEFAULT_VALUE,
-};

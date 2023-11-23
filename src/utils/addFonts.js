@@ -20,8 +20,3 @@ export const addFontIndieFlower = (parent) => {
     font-style: normal;
 	}`);
 };
-
-module.exports = {
-  addFontGaegu,
-  addFontIndieFlower,
-};

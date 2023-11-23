@@ -12,7 +12,3 @@ export const colors = [
   "tan",
   "orange",
 ];
-
-module.exports = {
-  colors,
-};
