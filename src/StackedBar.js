@@ -8,7 +8,14 @@ import Chart from "./Chart";
 import { colors } from "./utils/colors";
 import { roughCeiling } from "./utils/roughCeiling";
 
+/**
+ * StackedBar chart class, which extends the Chart class.
+ */
 class StackedBar extends Chart {
+  /**
+   * Constructs a new StackedBar instance.
+   * @param {Object} opts - Configuration object for the stacked bar chart.
+   */
   constructor(opts) {
     super(opts);
 
@@ -45,16 +52,26 @@ class StackedBar extends Chart {
     window.addEventListener("resize", this.resizeHandler.bind(this));
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
 
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
 
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -72,6 +89,10 @@ class StackedBar extends Chart {
     }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.stroke = opts.stroke || this.stroke;
@@ -198,6 +219,9 @@ class StackedBar extends Chart {
       .domain(keys);
   }
 
+  /**
+   * Create x and y labels for chart.
+   */
   addLabels() {
     // xLabel
     if (this.xLabel !== "") {
@@ -228,6 +252,9 @@ class StackedBar extends Chart {
     }
   }
 
+  /**
+   * Create x and y axes for chart.
+   */
   addAxes() {
     const xAxis = axisBottom(this.xScale).tickSize(0);
 
@@ -302,6 +329,10 @@ class StackedBar extends Chart {
       });
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -320,6 +351,9 @@ class StackedBar extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
     selectAll(this.interactionG)
       // .data(this.data)
@@ -399,6 +433,9 @@ class StackedBar extends Chart {
     selectAll(this.interactionG).on("mousemove", mousemove);
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -453,6 +490,9 @@ class StackedBar extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
     this.initRoughObjects();
     this.addScales();
@@ -471,6 +511,9 @@ class StackedBar extends Chart {
     }
   } // draw
 
+  /**
+   * Draw chart from file.
+   */
   drawFromFile() {
     this.initRoughObjects();
     this.addScales();

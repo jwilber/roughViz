@@ -1,7 +1,14 @@
 import { select } from "d3-selection";
 import { addFontGaegu, addFontIndieFlower } from "./utils/addFonts";
 
+/**
+ * Chart class ABC.
+ */
 class Chart {
+  /**
+   * Constructs a new Chart instance.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   constructor(opts) {
     this.el = opts.element;
     this.element = opts.element;

@@ -8,7 +8,14 @@ import { forceSimulation, forceCollide, forceCenter } from "d3-force";
 import { min, max } from "d3-array";
 import { scaleLinear } from "d3-scale";
 
+/**
+ * Force chart class, which extends the Chart class.
+ */
 class Force extends Chart {
+  /**
+   * Constructs a new Force instance.
+   * @param {Object} opts - Configuration object for the force chart.
+   */
   constructor(opts) {
     super(opts);
     this.data = opts.data;
@@ -26,8 +33,8 @@ class Force extends Chart {
     this.color = opts.color || "pink";
     this.collision = opts.collision || 1;
     this.radiusExtent = opts.radiusExtent || [5, 20];
-    this.roughnessExtent = opts.roughnessExtent || [0, 10];
     this.radius = opts.radius || "radius";
+    this.roughnessExtent = opts.roughnessExtent || [0, 10];
     this.responsive = true;
     this.boundRedraw = this.redraw.bind(this, opts);
     const defaultTextCallback = (d) => "";
@@ -46,16 +53,26 @@ class Force extends Chart {
     if (opts.title !== "undefined") this.setTitle(opts.title);
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
 
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
 
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -73,6 +90,10 @@ class Force extends Chart {
     }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.collision = opts.collision || this.collision;
@@ -107,6 +128,10 @@ class Force extends Chart {
     };
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -125,6 +150,9 @@ class Force extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
     const that = this;
     let thisColor;
@@ -161,6 +189,9 @@ class Force extends Chart {
       .on("mouseleave", mouseleave);
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -178,6 +209,9 @@ class Force extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
     const that = this;
     let radiusScale;
@@ -248,7 +282,8 @@ class Force extends Chart {
         .attr("class", "node-circle")
         .attr("r", nodeRadius * 0.5)
         .attr("fill", "transparent")
-        .attr("stroke", "black");
+        .attr("stroke-width", 0)
+        .attr("stroke", "none");
 
       select(this)
         .append("text")

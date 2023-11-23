@@ -8,14 +8,4 @@ import Pie from "./Pie";
 import Scatter from "./Scatter";
 import StackedBar from "./StackedBar";
 
-module.exports = {
-  Bar,
-  BarH,
-  Donut,
-  Line,
-  Network,
-  Force,
-  Pie,
-  Scatter,
-  StackedBar,
-};
+export { Bar, BarH, Donut, Line, Network, Force, Pie, Scatter, StackedBar };

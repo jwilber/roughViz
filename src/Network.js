@@ -14,7 +14,14 @@ import {
   forceLink,
 } from "d3-force";
 
+/**
+ * Network chart class, which extends the Chart class.
+ */
 class Network extends Chart {
+  /**
+   * Constructs a new Network instance.
+   * @param {Object} opts - Configuration object for the network chart.
+   */
   constructor(opts) {
     super(opts);
     // load in arguments from config object
@@ -54,16 +61,26 @@ class Network extends Chart {
     if (opts.title !== "undefined") this.setTitle(opts.title);
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
 
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
 
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -81,6 +98,10 @@ class Network extends Chart {
     }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.collision = opts.collision || this.collision;
@@ -115,6 +136,10 @@ class Network extends Chart {
     };
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -133,6 +158,9 @@ class Network extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
     const that = this;
     let thisColor;
@@ -168,6 +196,9 @@ class Network extends Chart {
       .on("mouseleave", mouseleave);
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -185,6 +216,9 @@ class Network extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
     const that = this;
     let radiusScale;
@@ -261,7 +295,8 @@ class Network extends Chart {
         .attr("class", "node-circle")
         .attr("r", nodeRadius * 0.5)
         .attr("fill", "transparent")
-        .attr("stroke", "black");
+        .attr("stroke-width", 0)
+        .attr("stroke", "none");
 
       select(this)
         .append("text")

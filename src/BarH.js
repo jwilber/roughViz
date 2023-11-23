@@ -8,7 +8,14 @@ import rough from "roughjs/bundled/rough.esm.js";
 import Chart from "./Chart";
 import { roughCeiling } from "./utils/roughCeiling";
 
+/**
+ * BarH chart class, which extends the Chart class.
+ */
 class BarH extends Chart {
+  /**
+   * Constructs a new BarH instance.
+   * @param {Object} opts - Configuration object for the horizontal bar chart.
+   */
   constructor(opts) {
     super(opts);
 
@@ -46,16 +53,26 @@ class BarH extends Chart {
     window.addEventListener("resize", this.resizeHandler.bind(this));
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
 
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
 
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -73,6 +90,10 @@ class BarH extends Chart {
     }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.stroke = opts.stroke || this.stroke;
@@ -100,7 +121,6 @@ class BarH extends Chart {
       if (data.includes(".csv")) {
         return () => {
           csv(data).then((d) => {
-            console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -141,6 +161,9 @@ class BarH extends Chart {
       );
   }
 
+  /**
+   * Create x and y labels for chart.
+   */
   addLabels() {
     // xLabel
     if (this.xLabel !== "") {
@@ -171,6 +194,9 @@ class BarH extends Chart {
     }
   }
 
+  /**
+   * Create x and y axes for chart.
+   */
   addAxes() {
     const xAxis = axisBottom(this.xScale)
       .tickSize(0)
@@ -256,6 +282,10 @@ class BarH extends Chart {
       });
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -274,6 +304,9 @@ class BarH extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
     // add highlight helper dom nodes
     selectAll(this.interactionG)
@@ -309,19 +342,18 @@ class BarH extends Chart {
       .style("pointer-events", "none");
 
     // event functions
-    var mouseover = function (d) {
+    let mouseover = function (d) {
       Tooltip.style("opacity", 1);
     };
     const that = this;
 
-    var mousemove = function (d) {
+    let mousemove = function (d) {
       const attrX = select(this).attr("attrX");
       const attrY = select(this).attr("attrY");
       const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip.html(`<b>${attrX}</b>: ${attrY}`)
         .style("opacity", 0.95)
-        .attr("class", function (d) {})
         .style(
           "transform",
           `translate(${mousePos[0] + that.margin.left}px, 
@@ -331,7 +363,7 @@ class BarH extends Chart {
               }px)`
         );
     };
-    var mouseleave = function (d) {
+    let mouseleave = function (d) {
       Tooltip.style("opacity", 0);
     };
 
@@ -355,6 +387,9 @@ class BarH extends Chart {
     selectAll(this.interactionG).on("mousemove", mousemove);
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -375,6 +410,9 @@ class BarH extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
     this.initRoughObjects();
     this.addScales();
@@ -408,6 +446,9 @@ class BarH extends Chart {
     }
   } // draw
 
+  /**
+   * Draw chart from file.
+   */
   drawFromFile() {
     this.initRoughObjects();
     this.addScales();

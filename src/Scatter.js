@@ -1,4 +1,4 @@
-import { extent } from "d3-array";
+import { extent, min, max } from "d3-array";
 import { axisBottom, axisLeft } from "d3-axis";
 import { csv, tsv } from "d3-fetch";
 import { format } from "d3-format";
@@ -14,16 +14,20 @@ const defaultColors = [
   "coral",
   "gold",
   "teal",
-  "grey",
   "darkgreen",
-  "pink",
   "brown",
   "slateblue",
-  "grey1",
   "orange",
 ];
 
+/**
+ * Scatter chart class, which extends the Chart class.
+ */
 class Scatter extends Chart {
+  /**
+   * Constructs a new Scatter instance.
+   * @param {Object} opts - Configuration object for the scatter chart.
+   */
   constructor(opts) {
     super(opts);
 
@@ -34,14 +38,16 @@ class Scatter extends Chart {
     this.roughness = roughCeiling({ roughness: opts.roughness });
     this.highlight = opts.highlight;
     this.highlightLabel = opts.highlightLabel || "xy";
-    this.radius = opts.radius || 8;
+    // this.radius = opts.radius || 8;
+    this.radiusExtent = opts.radiusExtent || [5, 20];
+    this.radius = opts.radius || 20;
     this.axisStrokeWidth = opts.axisStrokeWidth || 0.4;
     this.axisRoughness = opts.axisRoughness || 0.9;
     this.curbZero = opts.curbZero === true;
     this.innerStrokeWidth = opts.innerStrokeWidth || 1;
     this.stroke = opts.stroke || "black";
     this.fillWeight = opts.fillWeight || 0.85;
-    this.colors = opts.colors;
+    this.colors = opts.colors || defaultColors;
     this.strokeWidth = opts.strokeWidth || 1;
     this.axisFontSize = opts.axisFontSize;
     this.x = this.dataFormat === "object" ? "x" : opts.x;
@@ -53,6 +59,7 @@ class Scatter extends Chart {
     this.labelFontSize = opts.labelFontSize || "1rem";
     this.responsive = true;
     this.boundRedraw = this.redraw.bind(this, opts);
+    this.radiusScale;
     // new width
     this.initChartValues(opts);
     // resolve font
@@ -64,16 +71,26 @@ class Scatter extends Chart {
     window.addEventListener("resize", this.resizeHandler.bind(this));
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
 
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
 
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -91,6 +108,10 @@ class Scatter extends Chart {
     // }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.stroke = opts.stroke || this.stroke;
@@ -100,6 +121,7 @@ class Scatter extends Chart {
     this.innerStrokeWidth = opts.innerStrokeWidth || this.innerStrokeWidth;
     this.fillWeight = opts.fillWeight || this.fillWeight;
     this.fillStyle = opts.fillStyle || this.fillStyle;
+    this.colors = opts.colors || this.colors;
     const divDimensions = select(this.el).node().getBoundingClientRect();
     const width = divDimensions.width;
     const height = divDimensions.height;
@@ -117,7 +139,6 @@ class Scatter extends Chart {
       if (data.includes(".csv")) {
         return () => {
           csv(data).then((d) => {
-            console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -138,6 +159,49 @@ class Scatter extends Chart {
     }
   }
 
+  addScaleLine() {
+    let dataExtent;
+    if (this.dataFormat !== "file") {
+      dataExtent = allDataExtent(this.data);
+    } else {
+      const extents = this.dataSources.map((key) =>
+        extent(this.data, (d) => +d[key])
+      );
+      const dataMin = min(extents, (d) => d[0]);
+      const dataMax = max(extents, (d) => d[1]);
+      dataExtent = [dataMin, dataMax];
+    }
+    // get value domains and pad axes by 5%
+    // if this.x is undefined, use index for x
+    let xExtent;
+    if (this.x === undefined) {
+      // get length of longest array
+      const keys = Object.keys(this.data);
+      const lengths = keys.map((key) => this.data[key].length);
+      const maxLen = max(lengths);
+      // Need to make xScale, when this.x is given, ordinal.
+      xExtent =
+        this.dataFormat === "file" ? [0, this.data.length] : [0, maxLen];
+    } else {
+      xExtent = extent(this.x);
+    }
+
+    const yExtent = dataExtent;
+
+    const yRange = yExtent[1] - yExtent[0];
+
+    this.xScale =
+      this.x === undefined
+        ? scalePoint()
+            .range([0, this.width])
+            .domain([...Array(xExtent[1]).keys()])
+        : scalePoint().range([0, this.width]).domain(this.x);
+
+    this.yScale = scaleLinear()
+      .range([this.height, 0])
+      .domain([0, yExtent[1] + yRange * 0.05]);
+  }
+
   addScales() {
     // get value domains and pad axes by 5%
     const xExtent =
@@ -150,6 +214,8 @@ class Scatter extends Chart {
         ? extent(this.data, (d) => +d[this.y])
         : extent(this.data[this.y]);
     const yRange = yExtent[1] - yExtent[0];
+    // todo: why use xRange?
+    // todo: why use yRange?
 
     const colorExtent =
       this.dataFormat === "file"
@@ -162,6 +228,10 @@ class Scatter extends Chart {
       this.radiusScale = scaleLinear()
         .range([8, radiusMax])
         .domain(radiusExtent);
+    } else {
+      this.radiusScale = scaleLinear()
+        .domain([0, 20])
+        .range([this.radiusExtent[0], this.radiusExtent[1]]);
     }
 
     // force zero baseline if all data is positive
@@ -185,6 +255,9 @@ class Scatter extends Chart {
     this.colorScale = scaleOrdinal().range(this.colors).domain(colorExtent);
   }
 
+  /**
+   * Create x and y labels for chart.
+   */
   addLabels() {
     // xLabel
     if (this.xLabel !== "") {
@@ -215,6 +288,9 @@ class Scatter extends Chart {
     }
   }
 
+  /**
+   * Create x and y axes for chart.
+   */
   addAxes() {
     const xAxis = axisBottom(this.xScale)
       .tickSize(0)
@@ -300,6 +376,10 @@ class Scatter extends Chart {
       });
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -317,12 +397,17 @@ class Scatter extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
+    // const that = this;
     // add highlight helper dom nodes
     const circles = selectAll(this.interactionG)
       .data(this.dataFormat === "file" ? this.data : this.data.x)
       .append("circle")
       .attr("cx", (d, i) => {
+        // return 5;
         return this.dataFormat === "file"
           ? this.xScale(+d[this.x])
           : this.xScale(+this.data[this.x][i]);
@@ -343,11 +428,12 @@ class Scatter extends Chart {
         .attr("fill", "transparent");
     } else {
       circles
-        .attr("r", (d, i) =>
-          typeof this.radius === "number"
+        .attr("r", (d, i) => {
+          const nodeRadius = this.data[this.radius][i];
+          return typeof this.radius === "number"
             ? this.radius * 0.7
-            : this.radius[i] * 0.6
-        )
+            : this.radiusScale(nodeRadius);
+        })
         .attr("fill", "transparent");
     }
 
@@ -428,6 +514,9 @@ class Scatter extends Chart {
     selectAll(this.interactionG).on("mousemove", mousemove);
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -448,8 +537,33 @@ class Scatter extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
+    const that = this;
+    this.radiusScale = scaleLinear()
+      .domain([0, 20])
+      .range([this.radiusExtent[0], this.radiusExtent[1]]);
+
+    let radiusScale;
+    let roughnessScale;
+
+    if (typeof this.radius === "number") {
+      radiusScale = scaleLinear()
+        .domain([0, 1])
+        .range([this.radiusExtent[0], this.radiusExtent[1]]);
+    } else {
+      const dataMin = min(this.data[this.radius]);
+      const dataMax = max(this.data[this.radius]);
+      // Create a scale based on data's min and max values
+      radiusScale = scaleLinear()
+        .domain([dataMin, dataMax])
+        .range([this.radiusExtent[0], this.radiusExtent[1]]);
+    }
+
     // set default color
+    if (typeof this.colors === "string") this.colors = this.colors;
     if (this.colors === undefined) this.colors = defaultColors[0];
 
     this.initRoughObjects();
@@ -460,10 +574,14 @@ class Scatter extends Chart {
 
     // Add scatterplot
     this.data.x.forEach((d, i) => {
+      const nodeRadius =
+        typeof that.radius === "number"
+          ? that.radius
+          : radiusScale(+this.data[that.radius][i]);
       const node = this.rc.circle(
         this.xScale(+d),
         this.yScale(+this.data[this.y][i]),
-        typeof this.radius === "number" ? this.radius : this.radius[i],
+        nodeRadius,
         {
           fill:
             typeof this.colors === "string"
@@ -494,6 +612,9 @@ class Scatter extends Chart {
     }
   }
 
+  /**
+   * Draw chart from file.
+   */
   drawFromFile() {
     // set default colors
     if (this.colors === undefined) this.colors = defaultColors;

@@ -7,7 +7,14 @@ import { colors } from "./utils/colors";
 import { addLegend } from "./utils/addLegend";
 import { roughCeiling } from "./utils/roughCeiling";
 
+/**
+ * Donut chart class, which extends the Chart class.
+ */
 class Donut extends Chart {
+  /**
+   * Constructs a new Donut instance.
+   * @param {Object} opts - Configuration object for the donut chart.
+   */
   constructor(opts) {
     super(opts);
 
@@ -42,14 +49,24 @@ class Donut extends Chart {
     window.addEventListener("resize", this.resizeHandler.bind(this));
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -67,6 +84,10 @@ class Donut extends Chart {
     }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.stroke = opts.stroke || this.stroke;
@@ -94,7 +115,6 @@ class Donut extends Chart {
       if (data.includes(".csv")) {
         return () => {
           csv(data).then((d) => {
-            // console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -102,7 +122,6 @@ class Donut extends Chart {
       } else if (data.includes(".tsv")) {
         return () => {
           tsv(data).then((d) => {
-            // console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -110,7 +129,6 @@ class Donut extends Chart {
       } else if (data.includes(".json")) {
         return () => {
           json(data).then((d) => {
-            // console.log(d);
             this.data = d;
             this.drawFromFile();
           });
@@ -124,6 +142,10 @@ class Donut extends Chart {
     }
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -142,6 +164,9 @@ class Donut extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
     selectAll(this.interactionG)
       .append("g")
@@ -172,30 +197,30 @@ class Donut extends Chart {
       .style("pointer-events", "none");
 
     // event functions
-    var mouseover = function (d) {
+    let mouseover = function (d) {
       Tooltip.style("opacity", 1);
     };
 
     const that = this;
     let thisColor;
 
-    var mousemove = function (d) {
+    let mousemove = function (d) {
       const attrX = select(this).attr("attrX");
       const attrY = select(this).attr("attrY");
       const mousePos = mouse(this);
       // get size of enclosing div
       Tooltip.html(`<b>${attrX}</b>: ${attrY}`)
         .style("opacity", 0.95)
-        .attr("class", function (d) {})
         .style(
           "transform",
           `translate(${mousePos[0] + that.margin.left}px, 
-                            ${
-                              mousePos[1] - that.height - that.margin.bottom
-                            }px)`
+              ${
+                mousePos[1] -
+                (that.height + that.margin.top + that.margin.bottom / 2)
+              }px)`
         );
     };
-    var mouseleave = function (d) {
+    let mouseleave = function (d) {
       Tooltip.style("opacity", 0);
     };
 
@@ -217,6 +242,9 @@ class Donut extends Chart {
     selectAll(this.interactionG).on("mousemove", mousemove);
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -234,6 +262,9 @@ class Donut extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
     this.initRoughObjects();
 
@@ -308,6 +339,9 @@ class Donut extends Chart {
     }
   }
 
+  /**
+   * Draw chart from file.
+   */
   drawFromFile() {
     this.initRoughObjects();
 
@@ -342,8 +376,6 @@ class Donut extends Chart {
       }
       valueArr.push(d.data[this.labels]);
     });
-
-    // console.log("yeet", valueArr);
 
     const donutNode = this.rc.circle(
       this.width / 2,

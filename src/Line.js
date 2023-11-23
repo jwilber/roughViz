@@ -20,7 +20,14 @@ const allDataExtent = (data) => {
   return [dataMin, dataMax];
 };
 
+/**
+ * Line chart class, which extends the Chart class.
+ */
 class Line extends Chart {
+  /**
+   * Constructs a new Line instance.
+   * @param {Object} opts - Configuration object for the line chart.
+   */
   constructor(opts) {
     super(opts);
 
@@ -72,16 +79,26 @@ class Line extends Chart {
     window.addEventListener("resize", this.resizeHandler.bind(this));
   }
 
+  /**
+   * Handles window resize to redraw chart if responsive.
+   */
   resizeHandler() {
     if (this.responsive) {
       this.boundRedraw();
     }
   }
 
+  /**
+   * Removes SVG elements and tooltips associated with the chart.
+   */
   remove() {
     select(this.el).select("svg").remove();
   }
 
+  /**
+   * Redraws the bar chart with updated options.
+   * @param {Object} opts - Updated configuration object for the bar chart.
+   */
   redraw(opts) {
     // 1. Remove the current SVG associated with the chart.
     this.remove();
@@ -99,6 +116,10 @@ class Line extends Chart {
     }
   }
 
+  /**
+   * Initialize the chart with default attributes.
+   * @param {Object} opts - Configuration object for the chart.
+   */
   initChartValues(opts) {
     this.roughness = opts.roughness || this.roughness;
     this.stroke = opts.stroke || this.stroke;
@@ -188,6 +209,9 @@ class Line extends Chart {
       .domain([0, yExtent[1] + yRange * 0.05]);
   }
 
+  /**
+   * Create x and y labels for chart.
+   */
   addLabels() {
     // xLabel
     if (this.xLabel !== "") {
@@ -218,6 +242,9 @@ class Line extends Chart {
     }
   }
 
+  /**
+   * Create x and y axes for chart.
+   */
   addAxes() {
     const xAxis = axisBottom(this.xScale)
       .tickSize(0)
@@ -303,6 +330,10 @@ class Line extends Chart {
       });
   }
 
+  /**
+   * Set the chart title with the given title.
+   * @param {string} title - The title for the chart.
+   */
   setTitle(title) {
     this.svg
       .append("text")
@@ -320,6 +351,9 @@ class Line extends Chart {
       .text(title);
   }
 
+  /**
+   * Add interaction elements to chart.
+   */
   addInteraction() {
     const that = this;
     this.chartScreen = this.svg.append("g").attr("pointer-events", "all");
@@ -435,6 +469,9 @@ class Line extends Chart {
       });
   }
 
+  /**
+   * Draw rough SVG elements on chart.
+   */
   initRoughObjects() {
     this.roughSvg = document.getElementById(this.roughId);
     this.rcAxis = rough.svg(this.roughSvg, {
@@ -454,6 +491,9 @@ class Line extends Chart {
     });
   }
 
+  /**
+   * Draw chart from object input.
+   */
   drawFromObject() {
     const that = this;
     // set default color
@@ -471,7 +511,6 @@ class Line extends Chart {
 
       // remove undefined elements so no odd behavior
       const drawPoints = points.filter((d) => d[0] !== undefined);
-      console.log("roughness", that.roughness);
       const node = this.rc.curve(drawPoints, {
         stroke: that.colors.length === 1 ? that.colors[0] : that.colors[idx],
         roughness: that.roughness,
@@ -521,6 +560,9 @@ class Line extends Chart {
     }
   }
 
+  /**
+   * Draw chart from file.
+   */
   drawFromFile() {
     // set default colors
     if (this.colors === undefined) this.colors = colors;
