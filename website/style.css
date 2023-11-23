@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Gaegu");
 
+main {
+  margin: auto;
+  max-width: 1400px;
+}
 
 #viz0, #viz1, #viz2, #viz3, #viz4, #viz5 {
   border: 2px solid black;

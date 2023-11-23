@@ -114,154 +114,164 @@
   </head>
 
   <body>
-    <br />
-    <div class="intro">
-      <div class="logo">
-        <h1>roughViz.js</h1>
+    <main>
+      <br />
+      <div class="intro">
+        <div class="logo">
+          <h1>roughViz.js</h1>
 
-        <div id="vizLogo"></div>
-      </div>
+          <div id="vizLogo"></div>
+        </div>
 
-      <p>
-        Easy, responsive JavaScript library for creating hand-drawn looking
-        charts in the browser.<br />
-        <!-- Based on D3 and rough.js. -->
-      </p>
-      <a
-        class="github-button"
-        href="https://github.com/jwilber/roughViz"
-        data-icon="octicon-star"
-        aria-label="Star jwilber/roughViz on GitHub"
-        data-show-count="true"
-        >Star</a
-      >
-    </div>
-    <br />
-    <div class="menu-container">
-      <h3>Components:</h3>
-      <div id="menuContainer">
-        <div class="menuItem" onclick="logValue('Bar')">Bar</div>
-        <div class="menuItem" onclick="logValue('BarH')">BarH</div>
-        <div class="menuItem" onclick="logValue('Donut')">Donut</div>
-        <div class="menuItem selected" onclick="logValue('Force')">Force</div>
-        <div class="menuItem" onclick="logValue('Line')">Line</div>
-        <div class="menuItem" onclick="logValue('Network')">Network</div>
-        <div class="menuItem" onclick="logValue('Pie')">Pie</div>
-        <div class="menuItem" onclick="logValue('Scatter')">Scatter</div>
-        <div class="menuItem" onclick="logValue('StackedBar')">StackedBar</div>
-      </div>
-    </div>
-    <div class="example-container">
-      <div class="controls">
-        <label id="label-fillStyle-dropdown" for="fillStyle-dropdown"
-          >Fill Style:</label
-        >
-        <select id="fillStyle-dropdown" name="fillStyle">
-          <option value="hachure" selected>Hachure</option>
-          <option value="solid">Solid</option>
-          <option value="cross-hatch">Cross-Hatch</option>
-          <option value="dashed">Dashed</option>
-          <option value="zigzag">Zigzag</option>
-          <option value="zigzag-line">Zigzag-Line</option>
-        </select>
-        <br />
-        <!-- Color Selector -->
-        <label id="label-color-picker" for="color-picker"
-          >Color: #87ceeb
-        </label>
-        <input type="color" id="color-picker" name="color" value="#87ceeb" />
-
-        <!-- Stroke Selector -->
-        <label id="label-stroke-picker" for="stroke-picker"
-          >Stroke: #000000</label
-        >
-        <input type="color" id="stroke-picker" name="stroke" value="#000000" />
-        <br />
-        <label id="label-roughness-slider" for="roughness-slider"
-          >Roughness: 2.5</label
-        >
-        <wired-slider
-          id="roughness-slider"
-          min="0"
-          max="15"
-          step=".25"
-          value="2.5"
-        ></wired-slider>
-
-        <label id="label-strokeWidth-slider" for="strokeWidth-slider"
-          >strokeWidth: 1</label
-        >
-        <wired-slider
-          id="strokeWidth-slider"
-          min="0"
-          max="20"
-          step="1"
-          value="1"
-        ></wired-slider>
-
-        <label id="label-innerStrokeWidth-slider" for="innerStrokeWidth-slider"
-          >innerStrokeWidth: 1</label
-        >
-        <wired-slider
-          id="innerStrokeWidth-slider"
-          min="0"
-          max="10"
-          step="1"
-          value="1"
-        ></wired-slider>
-
-        <label id="label-fillWeight-slider" for="fillWeight-slider"
-          >fillWeight: 1</label
-        >
-        <wired-slider
-          id="fillWeight-slider"
-          min="0"
-          max="3"
-          step=".1"
-          value="1"
-        ></wired-slider>
-
-        <label id="label-axisRoughness-slider" for="axisRoughness-slider"
-          >axisRoughness: 0.5</label
-        >
-        <wired-slider
-          id="axisRoughness-slider"
-          min="0"
-          max="10"
-          step=".25"
-          value="0.5"
-        ></wired-slider>
-        <p id="control-text">
-          To see the full list of options for each chart, visit the
-          <a target="_blank" href="https://github.com/jwilber/roughViz"
-            >GitHub repo</a
-          >.
+        <p>
+          Easy, responsive JavaScript library for creating hand-drawn looking
+          charts in the browser.<br />
+          <!-- Based on D3 and rough.js. -->
         </p>
+        <a
+          class="github-button"
+          href="https://github.com/jwilber/roughViz"
+          data-icon="octicon-star"
+          aria-label="Star jwilber/roughViz on GitHub"
+          data-show-count="true"
+          >Star</a
+        >
       </div>
+      <br />
+      <div class="menu-container">
+        <h3>Components:</h3>
+        <div id="menuContainer">
+          <div class="menuItem" onclick="logValue('Bar')">Bar</div>
+          <div class="menuItem" onclick="logValue('BarH')">BarH</div>
+          <div class="menuItem" onclick="logValue('Donut')">Donut</div>
+          <div class="menuItem selected" onclick="logValue('Force')">Force</div>
+          <div class="menuItem" onclick="logValue('Line')">Line</div>
+          <div class="menuItem" onclick="logValue('Network')">Network</div>
+          <div class="menuItem" onclick="logValue('Pie')">Pie</div>
+          <div class="menuItem" onclick="logValue('Scatter')">Scatter</div>
+          <div class="menuItem" onclick="logValue('StackedBar')">
+            StackedBar
+          </div>
+        </div>
+      </div>
+      <div class="example-container">
+        <div class="controls">
+          <label id="label-fillStyle-dropdown" for="fillStyle-dropdown"
+            >Fill Style:</label
+          >
+          <select id="fillStyle-dropdown" name="fillStyle">
+            <option value="hachure" selected>Hachure</option>
+            <option value="solid">Solid</option>
+            <option value="cross-hatch">Cross-Hatch</option>
+            <option value="dashed">Dashed</option>
+            <option value="zigzag">Zigzag</option>
+            <option value="zigzag-line">Zigzag-Line</option>
+          </select>
+          <br />
+          <!-- Color Selector -->
+          <label id="label-color-picker" for="color-picker"
+            >Color: #87ceeb
+          </label>
+          <input type="color" id="color-picker" name="color" value="#87ceeb" />
 
-      <div id="introViz"></div>
-    </div>
-    <div class="detail">
-      <p>
-        <b>Why?</b> roughViz was built to provide an easy way to create
-        interactive, "sketchy" plots in the browser. Use these charts where the
-        communication goal is to show intent or generality, and not absolute
-        precision. Or just because they're fun and look weird!
-      </p>
-      <p>
-        Live, editable examples:
-        <a href="https://observablehq.com/@jwilber/roughviz-examples"
-          >available on observable</a
-        >.<br />
-        Documentation & API:
-        <a href="https://github.com/jwilber/roughViz">available on GitHub</a>.
-      </p>
-      <h2>Getting Started Is Simple</h2>
-      <p>
-        <strong>1. Import roughViz.js</strong>: First, import the library via a
-        script tag or via npm:
-      </p>
-      <pre>
+          <!-- Stroke Selector -->
+          <label id="label-stroke-picker" for="stroke-picker"
+            >Stroke: #000000</label
+          >
+          <input
+            type="color"
+            id="stroke-picker"
+            name="stroke"
+            value="#000000"
+          />
+          <br />
+          <label id="label-roughness-slider" for="roughness-slider"
+            >Roughness: 2.5</label
+          >
+          <wired-slider
+            id="roughness-slider"
+            min="0"
+            max="15"
+            step=".25"
+            value="2.5"
+          ></wired-slider>
+
+          <label id="label-strokeWidth-slider" for="strokeWidth-slider"
+            >strokeWidth: 1</label
+          >
+          <wired-slider
+            id="strokeWidth-slider"
+            min="0"
+            max="20"
+            step="1"
+            value="1"
+          ></wired-slider>
+
+          <label
+            id="label-innerStrokeWidth-slider"
+            for="innerStrokeWidth-slider"
+            >innerStrokeWidth: 1</label
+          >
+          <wired-slider
+            id="innerStrokeWidth-slider"
+            min="0"
+            max="10"
+            step="1"
+            value="1"
+          ></wired-slider>
+
+          <label id="label-fillWeight-slider" for="fillWeight-slider"
+            >fillWeight: 1</label
+          >
+          <wired-slider
+            id="fillWeight-slider"
+            min="0"
+            max="3"
+            step=".1"
+            value="1"
+          ></wired-slider>
+
+          <label id="label-axisRoughness-slider" for="axisRoughness-slider"
+            >axisRoughness: 0.5</label
+          >
+          <wired-slider
+            id="axisRoughness-slider"
+            min="0"
+            max="10"
+            step=".25"
+            value="0.5"
+          ></wired-slider>
+          <p id="control-text">
+            To see the full list of options for each chart, visit the
+            <a target="_blank" href="https://github.com/jwilber/roughViz"
+              >GitHub repo</a
+            >.
+          </p>
+        </div>
+
+        <div id="introViz"></div>
+      </div>
+      <div class="detail">
+        <p>
+          <b>Why?</b> roughViz was built to provide an easy way to create
+          interactive, "sketchy" plots in the browser. Use these charts where
+          the communication goal is to show intent or generality, and not
+          absolute precision. Or just because they're fun and look weird!
+        </p>
+        <p>
+          Live, editable examples:
+          <a href="https://observablehq.com/@jwilber/roughviz-examples"
+            >available on observable</a
+          >.<br />
+          Documentation & API:
+          <a href="https://github.com/jwilber/roughViz">available on GitHub</a>.
+        </p>
+        <h2>Getting Started Is Simple</h2>
+        <p>
+          <strong>1. Import roughViz.js</strong>: First, import the library via
+          a script tag or via npm:
+        </p>
+        <pre>
         <code id="codeBlock" class="language-html">
     // Install with cdn:
     &lt;script src="https://unpkg.com/rough-viz@2.0.5"&gt;&lt;/script&gt;
@@ -269,20 +279,21 @@
     # Install with npm:
     $ npm install rough-viz </code>
     </pre>
-      <p>
-        <strong>2. Create container</strong>: Simply create a container div and
-        assign some dimensions (e.g. width and height). By default, the roughViz
-        chart will be sized and responsive according to these dimensions.
-      </p>
-      <pre>
+        <p>
+          <strong>2. Create container</strong>: Simply create a container div
+          and assign some dimensions (e.g. width and height). By default, the
+          roughViz chart will be sized and responsive according to these
+          dimensions.
+        </p>
+        <pre>
         <code id="codeBlock" class="language-html">
    &lt;div id="viz0" style="width: 500px; height: 500px;" &gt;&lt;/div&gt;</code>
     </pre>
-      <p>
-        <strong>3. Call chart</strong>: Use roughViz to create the desired
-        chart, and feed in the required arguments.
-      </p>
-      <pre>
+        <p>
+          <strong>3. Call chart</strong>: Use roughViz to create the desired
+          chart, and feed in the required arguments.
+        </p>
+        <pre>
         <code id="codeBlock" class="language-html">
   // create Donut chart using defined data & customize plot options
   new roughViz.Donut(
@@ -302,22 +313,23 @@
     }
   ); </code>
     </pre>
-      <p>
-        If you're using <strong>npm</strong>, simply import the module and use
-        the roughViz namespace:
-      </p>
-      <pre>
+        <p>
+          If you're using <strong>npm</strong>, simply import the module and use
+          the roughViz namespace:
+        </p>
+        <pre>
       <code id="codeBlock" class="language-html">
       # Install with npm:
       $ npm install rough-viz 
     
       import { Bar, ... } from 'rough-viz';</code>
     </pre>
-      <br /><br />
+        <br /><br />
 
-      <p>Made by <a href="https://twitter.com/jdwlbr">Jared Wilber</a></p>
-      <br />
-    </div>
+        <p>Made by <a href="https://twitter.com/jdwlbr">Jared Wilber</a></p>
+        <br />
+      </div>
+    </main>
 
     <script type="module" src="./main.js"></script>
     <script defer type="module" src="./roughDemo.js"></script>
