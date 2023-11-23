@@ -278,12 +278,12 @@ Required
 - `element` [string]: id or class of container element.
 - `data` [object]: an array of objects all having a `radius` property key with a numeric value.
 
-```js
-new roughViz.Force({
-  element: "#viz0",
-  data: [{ radius: 10 }, { radius: 20 }, { radius: 30 }],
-});
-```
+  ```js
+  new roughViz.Force({
+    element: "#viz0",
+    data: [{ radius: 10 }, { radius: 20 }, { radius: 30 }],
+  });
+  ```
 
 Optional
 
