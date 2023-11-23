@@ -270,6 +270,47 @@ Optional
 - `tooltipFontSize` [string]: Font-size for tooltip. Default: `'0.95rem'`.
 
 
+### `roughViz.Force`
+
+Required
+
+- `element` [string]: id or class of container element.
+- `data` [object]: an array of objects all having a `radius` property key with a numeric value.
+
+```js
+new roughViz.Force({
+  element: "#viz0",
+  data: [{ radius: 10 }, { radius: 20 }, { radius: 30 }],
+});
+```
+
+Optional
+
+- `axisRoughness` [number]: roughness for the x and the y axis. Default: `0.5`.
+- `axisStrokeWidth` [number]: stroke width for x and y axis. Default: `0.5`.
+- `bowing` [number]: Chart bowing. Default: `0`.
+- `color` [string]: the color for every circle in the chart. Default: `"pink"`.
+- `collision` [number]: a number that determines how collided the circles will be. The higher the number, the less collision there is, and vice versa. Default `1`.
+- `colorCallback` [function]: a function that can be used to logically apply different colors to circles. Overrides `color`. Default: a function that returns `color`.
+- `fillStyle` [string]: the fill style for circles. Should be one of [fillStyles](#fillStyle) shown above.
+- `fillWeight` [number]: the weight of inner paths' color. Default: `0.5`.
+- `font` [string]: font family to use. For example, use `0` or `gaegu` for the `Gaegu` font, or `1` or `indie flower` for the `Indie Flower` font . Default: `Gaegu`.
+- `highlight` [string]: the color for each circle on hover. Default: `'coral'`.
+- `innerStrokeWidth` [number]: the stroke width for paths inside the circles. Default: `1`.
+- `interactive` [boolean]: whether or not the chart is interactive. Default: `true`.
+- `legend` [boolean]: whether or not to add a legend. Default: `'true'`.
+- `legendPosition` [string]: position of legend. Should be either `'left'` or `'right'`. Default: `'right'`.
+- `margin` [object]: an object for the chart's margins. Default: `{ top: 50, right: 20, bottom: 70, left: 100 }`.
+- `radius` [number]: the radius of every circle. Default: `10`.
+- `roughness` [number]: roughness level of the chart. Default: `1`.
+- `simplification` [number]: Chart simplification. Default `0.2`.
+- `strokeWidth` [number]: Size of each circle's stroke. Default: `1`.
+- `textCallback` [function]: a function that should return a string which is displayed when a circle is hovered over. Default: a function that returns an empty string.
+- `title` [string]: the title of the chart.
+- `titleFontSize` [string]: font size for the chart title. Default: `'1rem'`.
+- `tooltipFontSize` [string]: font size for the tooltip. Default: `'0.95rem'`.
+
+
 ### `roughViz.Line`
 Required
 - `element` [string]: Id or class of container element.
