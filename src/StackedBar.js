@@ -34,7 +34,7 @@ class StackedBar extends Chart {
     this.axisFontSize = opts.axisFontSize;
     this.labels = opts.labels;
     this.values = opts.values;
-    this.stackColorMapping = {};
+    this.stackColorMapping = opts.stackColorMapping || {};
     this.padding = opts.padding || 0.1;
     this.xLabel = opts.xLabel || "";
     this.yLabel = opts.yLabel || "";
@@ -392,7 +392,7 @@ class StackedBar extends Chart {
     let thisColor;
 
     let mousemove = function (d) {
-      const attrX = select(this).attr("attrX");
+      const attrX = select(this).attr("attrX") + ' ' + select(this).attr("keyY");
       const attrY = select(this).attr("attrY");
       const mousePos = mouse(this);
       // get size of enclosing div

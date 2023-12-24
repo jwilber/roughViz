@@ -446,6 +446,7 @@ Optional
 - `padding` [number]: Padding between bars. Default: `0.1`.
 - `roughness` [number]: Roughness level of chart. Default: `1`.
 - `simplification` [number]: Chart simplification. Default `0.2`.
+- `stackColorMapping` [object]: Color for each items in the stack. Optional, auto-assigned from if omitted.
 - `stroke` [string]: Color of bars' stroke. Default: `black`.
 - `strokeWidth` [number]: Size of bars' stroke. Default: `1`.
 - `title` [string]: Chart title. Optional.
