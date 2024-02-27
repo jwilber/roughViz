@@ -575,8 +575,8 @@ innerStrokeWidthSlider.addEventListener("change", updateChart);
 fillWeightSlider.addEventListener("change", updateChart);
 axisRoughnessSlider.addEventListener("change", updateChart);
 
-colorSlider.addEventListener("change", updateChart);
-strokeSlider.addEventListener("change", updateChart);
+colorSlider.addEventListener("input", updateChart);
+strokeSlider.addEventListener("input", updateChart);
 
 document.querySelectorAll(".menuItem").forEach((item) => {
   item.addEventListener("click", (event) => {
